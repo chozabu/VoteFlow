@@ -19,6 +19,7 @@ class Post(models.Model):
 	name = models.CharField(max_length=200)
 	parent = models.ForeignKey("self", null = True, blank=True)
 	author = models.ForeignKey(User)
+	topic = models.ForeignKey(Topic)
 	def __unicode__(self): 
 		return self.name
 
