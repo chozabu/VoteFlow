@@ -40,6 +40,13 @@ class Representation(models.Model):
 	def __unicode__(self): 
 		return self.author.username + " -> " + self.rep.username + " @ " + str(self.topic.name)
 
+#Topic Subscription
+class Subscription(models.Model):
+	topic = models.ForeignKey(Topic)
+	author = models.ForeignKey(User)
+	def __unicode__(self): 
+		return self.author.username + " @ " + str(self.topic.name)
+
 #post vote
 class PostVote(models.Model):
 	value = models.FloatField(default=0)

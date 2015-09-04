@@ -38,7 +38,8 @@ def posts(request, topic_id, post_id):
 	post = get_object_or_404(Post, pk=post_id)
 	return render(request, 'agora/posts.html', {'post': post})
 '''
-def vote(request, question_id):
+def add_topic(request, topic_name, parent_id=None):
+	#new_topic = Topic(
 	p = get_object_or_404(Question, pk=question_id)
 	try:
 		selected_choice = p.choice_set.get(pk=request.POST['choice'])
