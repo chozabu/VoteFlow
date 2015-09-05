@@ -8,7 +8,7 @@ from django.contrib.auth import authenticate, login, logout
 from .forms import TopicForm, PostForm, RepForm, PostVoteForm
 
 
-from .models import Topic, Post, Tag, Representation, PostVote, TagVote
+from .models import Topic, Post, Tag, Representation, PostVote, TagVote, Subscription
 
 
 def index(request):
@@ -33,9 +33,11 @@ def topics(request, topic_id=None):
 		current_topic = Topic.objects.get(id=topic_id)
 		context['current_topic'] = current_topic
 		if request.user.is_authenticated():
-			rep = Representation.objects.filter(topic=topic_id, author=request.user)
-			if len(rep): context['rep'] = rep[0]
+			rep = Representation.objects.filter(topic=topic_id, author=request.user).first()
+			if rep: context['rep'] = rep
 			print "representitive:", rep
+			sub = Subscription.objects.filter(topic=topic_id, author=request.user).first()
+			if sub: context['sub'] = sub
 		print dir(current_topic)
 		if current_topic.parent:
 			context['parent_topic'] = current_topic.parent
@@ -103,16 +105,14 @@ def new_rep(request, parent_topic_id):
 	# if this is a POST request we need to process the form data
 	if not request.user.is_authenticated():
 		return None
-	rep=None
-	reps = Representation.objects.filter(topic=parent_topic_id, author=request.user)
-	if len(reps): rep = reps[0]
+	rep=Subscription.objects.filter(topic=parent_topic_id, author=request.user).first()
 	if request.method == 'POST':
 		form = RepForm(request.POST)
 		print form
 		if form.is_valid():
 			data = form.cleaned_data
 			if rep:
-				rep.topic = data['topic_id']
+				rep.topic = data['topic_id']#unneeded? should check instead
 				rep.rep=data['representative_id']
 				rep.save()
 			else:
@@ -130,6 +130,17 @@ def new_rep(request, parent_topic_id):
 
 	return render(request, 'agora/basic_form.html', {'form': form, "parent_topic":parent_topic, "action":"/agora/topics/"+str(parent_topic_id)+"/newrep", "title":"Select Representative"})
 
+def subscribe_topic(request, parent_topic_id):
+	if not request.user.is_authenticated():
+		return None
+	sub = Subscription.objects.filter(topic=parent_topic_id, author=request.user).first()
+	if sub:
+		Subscription.objects.filter(topic=parent_topic_id, author=request.user).delete()
+	else:
+		parent_topic=Topic.objects.get(id=parent_topic_id)
+		newrep = Subscription(topic=parent_topic, author=request.user)
+		newrep.save()
+	return HttpResponseRedirect('/agora/topics/'+str(parent_topic_id)+"/")
 
 
 def login_user(request):
