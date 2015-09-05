@@ -3,7 +3,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.template import RequestContext, loader
 from django.core.urlresolvers import reverse
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 
 
 from .models import Topic, Post, Tag, Representation, PostVote, TagVote
@@ -98,9 +98,11 @@ def new_user(request):
 			u = form.save()
 			u.save()
 			#return render(request, 'agora/index.html', {"user":u})
-			return HttpResponseRedirect("/agora/", {"user":u})
+			return HttpResponseRedirect("/agora/")#, {"user":u})
 			#redirect('edit_user', user_id = u.id)
 	else:
 		form = UserCreationForm()
 	return render	(request, 'agora/newuser.html', {'form': form})
-
+def logout_user(request):
+	logout(request)
+	return HttpResponseRedirect("/agora/")

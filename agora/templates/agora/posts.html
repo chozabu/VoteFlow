@@ -1,3 +1,6 @@
+
+{% include "agora/inc_user.html" %}
+
 {% if post %}
 <h4><a href="/agora/topics/{{ post.topic.id }}/posts/{{ post.id }}">{{ post.name }}</a></h4>
 <p> in <a href="/agora/topics/{{ post.topic.id }}/">{{ post.topic.name }}</a> </p>
