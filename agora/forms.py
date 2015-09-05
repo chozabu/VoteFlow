@@ -17,8 +17,8 @@ class PostVoteForm(forms.Form):
 	post_id = forms.ModelChoiceField(label='Parent',queryset = Post.objects.all())
 	vote_value = forms.FloatField(label='Vote (between 0 and 1, eg: .5)', max_value=1, min_value=0)
 	
-class RepresentationForm(forms.Form):
+class RepForm(forms.Form):
 	topic_id = forms.ModelChoiceField(label='Topic', queryset = Topic.objects.all())
-	representitive_id = forms.ModelChoiceField(label='Representitive', queryset = User.objects.all())
+	representative_id = forms.ModelChoiceField(label='Representitive', queryset = User.objects.all())
 	
 	

@@ -5,7 +5,7 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import authenticate, login, logout
 
-from .forms import TopicForm, PostForm
+from .forms import TopicForm, PostForm, RepForm, PostVoteForm
 
 
 from .models import Topic, Post, Tag, Representation, PostVote, TagVote
@@ -17,7 +17,7 @@ def index(request):
 	#topic_list = Topic.objects
 	#context = {'topic_list': topic_list}
 	#return render(request, 'agora/index.html', context)
-	return render(request, 'agora/index.html', {"user":user})
+	return render(request, 'agora/index.html')
 
 
 def topics(request, topic_id=None):
@@ -31,8 +31,12 @@ def topics(request, topic_id=None):
 	context = {'topic_list': topic_list}
 	if topic_id:
 		current_topic = Topic.objects.get(id=topic_id)
-		print dir(current_topic)
 		context['current_topic'] = current_topic
+		if request.user.is_authenticated():
+			rep = Representation.objects.filter(topic=topic_id, author=request.user)
+			if len(rep): context['rep'] = rep[0]
+			print "representitive:", rep
+		print dir(current_topic)
 		if current_topic.parent:
 			context['parent_topic'] = current_topic.parent
 		
@@ -94,6 +98,37 @@ def new_post(request, parent_topic_id, parent_post_id=None):
 		parent_topic = Topic.objects.get(id=parent_topic_id)
 
 	return render(request, 'agora/basic_form.html', {'form': form, "parent_topic":parent_topic, "action":"/agora/topics/"+str(parent_topic_id)+"/newpost/", "title":"Create Post"})
+
+def new_rep(request, parent_topic_id):
+	# if this is a POST request we need to process the form data
+	if not request.user.is_authenticated():
+		return None
+	rep=None
+	reps = Representation.objects.filter(topic=parent_topic_id, author=request.user)
+	if len(reps): rep = reps[0]
+	if request.method == 'POST':
+		form = RepForm(request.POST)
+		print form
+		if form.is_valid():
+			data = form.cleaned_data
+			if rep:
+				rep.topic = data['topic_id']
+				rep.rep=data['representative_id']
+				rep.save()
+			else:
+				newrep = Representation(topic=data['topic_id'], rep=data['representative_id'], author=request.user)
+				newrep.save()
+			return HttpResponseRedirect('/agora/topics/'+str(parent_topic_id)+"/")
+
+	# if a GET (or any other method) we'll create a blank form
+	else:
+		form = RepForm(initial={"topic_id":parent_topic_id})
+
+	parent_topic = None
+	if parent_topic_id:
+		parent_topic = Topic.objects.get(id=parent_topic_id)
+
+	return render(request, 'agora/basic_form.html', {'form': form, "parent_topic":parent_topic, "action":"/agora/topics/"+str(parent_topic_id)+"/newrep", "title":"Select Representative"})
 
 
 

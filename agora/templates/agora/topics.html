@@ -12,6 +12,12 @@
 {% endif %}
 
 {% if current_topic %}
+    {% if rep %}
+        Representitive: {{ rep.rep }}
+    {% else %}
+        No rep - pick one?
+    {% endif %}
+    <a href="/agora/topics/{{ current_topic.id }}/newrep">Pick Representative</a>
     <h3>Sub Topics</h3>
 {% else %}
     <h3>Topics</h3>
