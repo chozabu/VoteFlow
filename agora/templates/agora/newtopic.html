@@ -1,0 +1,13 @@
+{% block content %}
+    {% if form.errors %}
+        <p class="error">FORM ERROR!!</p>
+    {% endif %}
+    <form action="/agora/topics/new/" method="post">
+		{% csrf_token %}
+		<!--{% if parent_topic %}
+			Parent Topic: <input type="text" value="{{ parent_topic.name }}" readonly />
+		{% endif %}-->
+        {{ form.as_p }}
+        <input type="submit" value="Create Topic" />
+    </form>
+{% endblock %}
