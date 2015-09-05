@@ -2,18 +2,22 @@ from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import RequestContext, loader
 from django.core.urlresolvers import reverse
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth import authenticate, login
 
 
 from .models import Topic, Post, Tag, Representation, PostVote, TagVote
 
 
-def index(request):
+def index(request, user=None):
 	#return HttpResponse("Hello, world. You're at the agora index.")
 	#'''
 	#topic_list = Topic.objects
 	#context = {'topic_list': topic_list}
 	#return render(request, 'agora/index.html', context)
-	return render(request, 'agora/index.html')
+	if request.user.is_authenticated():
+		user = request.user
+	return render(request, 'agora/index.html', {"user":user})
 
 
 def topics(request, topic_id=None):
@@ -57,3 +61,46 @@ def add_topic(request, topic_name, parent_id=None):
 		# user hits the Back button.
 		return HttpResponseRedirect(reverse('agora:results', args=(p.id,)))
 '''
+
+def login_user(request):
+	if request.method == "POST":
+		form = AuthenticationForm(data = request.POST)
+		if form.is_valid():
+			username = request.POST['username']
+			password = request.POST['password']
+			user = authenticate(username=username, password=password)
+			print "user:", user
+			if user is not None:
+				if user.is_active:
+					login(request, user)
+					# Redirect to a success page.
+				else:
+					# Return a 'disabled account' error message
+					#...
+					pass
+			else:
+				# Return an 'invalid login' error message.
+				#...
+				pass
+			#u = form.save()
+			#u.save()
+			#return render(request, 'agora/index.html', {"user":u})
+			return HttpResponseRedirect("/agora/")#, {"user":user})
+			#redirect('edit_user', user_id = u.id)
+	else:
+		form = AuthenticationForm()
+	return render	(request, 'agora/login.html', {'form': form})
+
+def new_user(request):
+	if request.method == "POST":
+		form = UserCreationForm(data = request.POST)
+		if form.is_valid():
+			u = form.save()
+			u.save()
+			#return render(request, 'agora/index.html', {"user":u})
+			return HttpResponseRedirect("/agora/", {"user":u})
+			#redirect('edit_user', user_id = u.id)
+	else:
+		form = UserCreationForm()
+	return render	(request, 'agora/newuser.html', {'form': form})
+

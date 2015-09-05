@@ -18,7 +18,7 @@
 {% if topic_list %}
     <ul>
     {% for topic in topic_list %}
-        <li><a href="/agora/topics/{{ topic.id }}/">{{ topic.name }}</a></li>
+        <li><a href="/agora/topics/{{ topic.id }}/">{{ topic.name }}</a> {{ topic.subscription_set|length }}</li>
     {% endfor %}
     </ul>
 {% else %}
