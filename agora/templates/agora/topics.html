@@ -29,6 +29,12 @@
 {% endif %}
 
 {% if current_topic %}
+	<a href="/agora/topics/new/{{ current_topic.id }}/">New Topic</a>
+{% else %}
+	<a href="/agora/topics/new/">New Topic</a>
+{% endif %}
+
+{% if current_topic %}
 <h3>Posts</h3>
     {% if current_topic.post_set.all %}
     <ul>

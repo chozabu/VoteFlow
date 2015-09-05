@@ -5,18 +5,18 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import authenticate, login, logout
 
+from .forms import TopicForm
+
 
 from .models import Topic, Post, Tag, Representation, PostVote, TagVote
 
 
-def index(request, user=None):
+def index(request):
 	#return HttpResponse("Hello, world. You're at the agora index.")
 	#'''
 	#topic_list = Topic.objects
 	#context = {'topic_list': topic_list}
 	#return render(request, 'agora/index.html', context)
-	if request.user.is_authenticated():
-		user = request.user
 	return render(request, 'agora/index.html', {"user":user})
 
 
@@ -41,26 +41,36 @@ def topics(request, topic_id=None):
 def posts(request, topic_id, post_id):
 	post = get_object_or_404(Post, pk=post_id)
 	return render(request, 'agora/posts.html', {'post': post})
-'''
-def add_topic(request, topic_name, parent_id=None):
-	#new_topic = Topic(
-	p = get_object_or_404(Question, pk=question_id)
-	try:
-		selected_choice = p.choice_set.get(pk=request.POST['choice'])
-	except (KeyError, Choice.DoesNotExist):
-		# Redisplay the question voting form.
-		return render(request, 'agora/detail.html', {
-			'question': p,
-			'error_message': "You didn't select a choice.",
-		})
+
+def new_topic(request, parent_topic_id=None):
+	# if this is a POST request we need to process the form data
+	if request.method == 'POST':
+		# create a form instance and populate it with data from the request:
+		form = TopicForm(request.POST)
+		# check whether it's valid:
+		print form
+		if form.is_valid():
+			data = form.cleaned_data
+			newtopic = Topic(name=data['topic_name'],parent=data['topic_parent_id'],author=request.user)
+			newtopic.save()
+			# process the data in form.cleaned_data as required
+			# ...
+			# redirect to a new URL:
+			print newtopic
+			print newtopic.id
+			print '/agora/topics/'+str(newtopic.id)
+			return HttpResponseRedirect('/agora/topics/'+str(newtopic.id))
+
+	# if a GET (or any other method) we'll create a blank form
 	else:
-		selected_choice.votes += 1
-		selected_choice.save()
-		# Always return an HttpResponseRedirect after successfully dealing
-		# with POST data. This prevents data from being posted twice if a
-		# user hits the Back button.
-		return HttpResponseRedirect(reverse('agora:results', args=(p.id,)))
-'''
+		form = TopicForm(initial={"topic_name":"topic name",  "topic_parent_id":parent_topic_id})
+		
+	parent_topic = None
+	if parent_topic_id:
+		parent_topic = Topic.objects.get(id=parent_topic_id)
+
+	return render(request, 'agora/newtopic.html', {'form': form, "parent_topic":parent_topic})
+
 
 def login_user(request):
 	if request.method == "POST":
