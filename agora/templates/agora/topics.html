@@ -1,51 +1,51 @@
-
 {% include "agora/inc_user.html" %}
 
 {% if parent_topic %}
-<h4><a href="/agora/topics/{{ parent_topic.id }}/">{{ parent_topic.name }}</a></h4>
+    <h4><a href="/agora/topics/{{ parent_topic.id }}/">{{ parent_topic.name }}</a></h4>
 {% else %}
-	{% if current_topic %}
-	<a href="/agora/topics/">Root Topics</a>
-	{% endif %}
+    {% if current_topic %}
+        <a href="/agora/topics/">Root Topics</a>
+    {% endif %}
 {% endif %}
 {% if current_topic %}
-<h1>{{ current_topic.name }}</h1>
+    <h1>{{ current_topic.name }}</h1>
 {% endif %}
 
 {% if current_topic %}
-<h3>Sub Topics</h3>
+    <h3>Sub Topics</h3>
 {% else %}
-<h2>Topics</h3>
+    <h3>Topics</h3>
 {% endif %}
 
 {% if topic_list %}
     <ul>
-    {% for topic in topic_list %}
-        <li><a href="/agora/topics/{{ topic.id }}/">{{ topic.name }}</a> {{ topic.subscription_set.all|length }}</li>
-    {% endfor %}
+        {% for topic in topic_list %}
+            <li><a href="/agora/topics/{{ topic.id }}/">{{ topic.name }}</a> {{ topic.subscription_set.all|length }}
+            </li>
+        {% endfor %}
     </ul>
 {% else %}
     <p>No sub-topics found...</p>
 {% endif %}
 
 {% if current_topic %}
-	<a href="/agora/topics/new/{{ current_topic.id }}/">New Topic</a>
+    <a href="/agora/topics/new/{{ current_topic.id }}/">New Topic</a>
 {% else %}
-	<a href="/agora/topics/new/">New Topic</a>
+    <a href="/agora/topics/new/">New Topic</a>
 {% endif %}
 
 {% if current_topic %}
-<h3>Posts</h3>
+    <h3>Posts</h3>
     {% if current_topic.post_set.all %}
-    <ul>
-    {% for post in current_topic.post_set.all %}
-        <li><a href="/agora/topics/{{ current_topic.id }}/posts/{{ post.id }}">{{ post.name }}</a></li>
-    {% endfor %}
-    </ul>
+        <ul>
+            {% for post in current_topic.post_set.all %}
+                <li><a href="/agora/topics/{{ current_topic.id }}/posts/{{ post.id }}">{{ post.name }}</a></li>
+            {% endfor %}
+        </ul>
     {% else %}
-    <p> no Posts Found </p>
+        <p> no Posts Found </p>
     {% endif %}
     {% if current_topic %}
-		<a href="/agora/topics/{{ current_topic.id }}/newpost/">New Post</a>
-	{% endif %}
+        <a href="/agora/topics/{{ current_topic.id }}/newpost/">New Post</a>
+    {% endif %}
 {% endif %}

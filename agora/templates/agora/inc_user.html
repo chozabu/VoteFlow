@@ -1,12 +1,12 @@
 {% if user %}
-<ul>
-<li> {{ user.username }} </li>
-<li><a href="logout/">logout</a></li>
-</ul>
+    <ul>
+        <li> {{ user.username }} </li>
+        <li><a href="logout/">logout</a></li>
+    </ul>
 {% else %}
-<ul>
-<li><a href="new_user/">new user</a></li>
-<li><a href="login/">login</a></li>
-</ul>
+    <ul>
+        <li><a href="new_user/">new user</a></li>
+        <li><a href="login/">login</a></li>
+    </ul>
 {% endif %}
 
