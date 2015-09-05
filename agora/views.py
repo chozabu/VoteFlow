@@ -41,7 +41,9 @@ def topics(request, topic_id=None):
 def posts(request, topic_id, post_id):
 	post = get_object_or_404(Post, pk=post_id)
 	topic = get_object_or_404(Topic, pk=topic_id)
-	return render(request, 'agora/posts.html', {'post': post, "current_topic":topic})
+	#replies = Post.objects.filter(parent=post_id)
+	#print dir(post)
+	return render(request, 'agora/posts.html', {'post': post, "current_topic":topic})#, "replies":replies})
 
 def new_topic(request, parent_topic_id=None):
 	# if this is a POST request we need to process the form data

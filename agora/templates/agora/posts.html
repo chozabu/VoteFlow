@@ -2,10 +2,19 @@
 {% include "agora/inc_user.html" %}
 
 {% if post %}
-<h4><a href="/agora/topics/{{ post.topic.id }}/posts/{{ post.id }}">{{ post.name }}</a></h4>
-<p> in <a href="/agora/topics/{{ post.topic.id }}/">{{ post.topic.name }}</a> </p>
+    {% if post.parent %}
+        <h4><a href="/agora/topics/{{ post.topic.id }}/posts/{{ post.parent.id }}">{{ post.parent.name }}</a></h4>
+    {% endif %}
+    <h2><a href="/agora/topics/{{ post.topic.id }}/posts/{{ post.id }}">{{ post.name }}</a></h2>
+    <p> in <a href="/agora/topics/{{ post.topic.id }}/">{{ post.topic.name }}</a> </p>
+    <a href="/agora/topics/{{ current_topic.id }}/newpost/{{ post.id }}">Reply to Post</a>
+    <h4>replies</h4>
+    <ul>
+    {% for child_post in post.post_set.all %}
+        <li><a href="/agora/topics/{{ post.topic.id }}/posts/{{ child_post.id }}">{{ child_post.name }}</a></li>
+    {% endfor %}
+    </ul>
 
-		<!--<a href="/agora/topics/{{ current_topic.id }}/newpost/{{ post.topic.id }}">Reply to Post</a>-->
 {% else %}
 	<p> post not found </p>
 {% endif %}
