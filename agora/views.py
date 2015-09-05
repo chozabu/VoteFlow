@@ -5,7 +5,7 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import authenticate, login, logout
 
-from .forms import TopicForm
+from .forms import TopicForm, PostForm
 
 
 from .models import Topic, Post, Tag, Representation, PostVote, TagVote
@@ -40,7 +40,8 @@ def topics(request, topic_id=None):
 
 def posts(request, topic_id, post_id):
 	post = get_object_or_404(Post, pk=post_id)
-	return render(request, 'agora/posts.html', {'post': post})
+	topic = get_object_or_404(Topic, pk=topic_id)
+	return render(request, 'agora/posts.html', {'post': post, "current_topic":topic})
 
 def new_topic(request, parent_topic_id=None):
 	# if this is a POST request we need to process the form data
@@ -70,6 +71,28 @@ def new_topic(request, parent_topic_id=None):
 		parent_topic = Topic.objects.get(id=parent_topic_id)
 
 	return render(request, 'agora/newtopic.html', {'form': form, "parent_topic":parent_topic})
+
+def new_post(request, parent_topic_id, parent_post_id=None):
+	# if this is a POST request we need to process the form data
+	if request.method == 'POST':
+		form = PostForm(request.POST)
+		print form
+		if form.is_valid():
+			data = form.cleaned_data
+			newpost = Post(name=data['post_name'],topic=data['topic_id'], parent=data['post_parent_id'], author=request.user)
+			newpost.save()
+			return HttpResponseRedirect('/agora/topics/'+str(parent_topic_id)+"/posts/"+str(newpost.id))
+
+	# if a GET (or any other method) we'll create a blank form
+	else:
+		form = PostForm(initial={"post_name":"post name", "post_parent_id":parent_post_id, "topic_id":parent_topic_id})
+		
+	parent_topic = None
+	if parent_topic_id:
+		parent_topic = Topic.objects.get(id=parent_topic_id)
+
+	return render(request, 'agora/basic_form.html', {'form': form, "parent_topic":parent_topic, "action":"/agora/topics/"+str(parent_topic_id)+"/newpost/", "title":"Create Post"})
+
 
 
 def login_user(request):

@@ -20,6 +20,10 @@ urlpatterns = [
     url(r'^topics/new/$', views.new_topic, name='newtopic'),
     # ex: /agora/topics/new/
     url(r'^topics/new/(?P<parent_topic_id>[0-9]+)/$', views.new_topic, name='newtopic'),
+    # ex: /agora/topics/new/
+    url(r'^topics/(?P<parent_topic_id>[0-9]+)/newpost/$', views.new_post, name='newpost'),
+    # ex: /agora/topics/new/
+    url(r'^topics/(?P<parent_topic_id>[0-9]+)/newpost/(?P<parent_post_id>[0-9]+)$', views.new_post, name='newpost'),
     # ex: /agora/topics/5/posts/5/
     url(r'^topics/(?P<topic_id>[0-9]+)/posts/(?P<post_id>[0-9]+)$', views.posts, name='posts'),
     # ex: /agora/5/vote/

@@ -45,4 +45,7 @@
     {% else %}
     <p> no Posts Found </p>
     {% endif %}
+    {% if current_topic %}
+		<a href="/agora/topics/{{ current_topic.id }}/newpost/">New Post</a>
+	{% endif %}
 {% endif %}
