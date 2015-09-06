@@ -1,0 +1,33 @@
+{% extends 'agora/base_template.html' %}
+
+{% block title %}
+    Topics
+{% endblock %}
+
+
+{% block body_block %}
+<!--
+<p>sort method: {{ sort_method }} (
+    <a href="/agora/topics/sort/liquid_value/">liquid_value</a>
+    <a href="/agora/topics/sort/direct_value/">direct_value</a>
+    <a href="/agora/topics/sort/created_at/">created_at</a>
+    )</p>
+    -->
+
+
+    <h3>Topics</h3>
+
+{% if topic_list %}
+    <ul>
+        {% for topic in topic_list %}
+            <li><a href="/agora/topics/{{ topic.id }}/">{{ topic.name }}</a> {{ topic.subscription_set.all|length }}
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No sub-topics found...</p>
+{% endif %}
+
+    <a href="/agora/topics/new/">New Topic</a>
+
+{% endblock %}

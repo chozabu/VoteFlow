@@ -1,19 +1,13 @@
 {% extends 'agora/base_template.html' %}
 
 {% block title %}
-{% if current_topic %}
     {{ current_topic.name }}
-{% else %}
-    Topics
-{% endif %}
 {% endblock %}
 
 
 {% block body_block %}
 
-{% if current_topic %}
     <h1>{{ current_topic.name }}</h1>
-{% endif %}
 
 <p>sort method: {{ sort_method }} (
     <a href="/agora/topics/{{ current_topic.id }}/sort/liquid_value/">liquid_value</a>
@@ -21,7 +15,6 @@
     <a href="/agora/topics/{{ current_topic.id }}/sort/created_at/">created_at</a>
     )</p>
 
-{% if current_topic %}
     {% if user.is_authenticated %}
         {% if sub %}
             <p>Subscribed! (<a href="/agora/topics/{{ current_topic.id }}/subs/">unsub</a>)  </p>
@@ -36,9 +29,6 @@
     {% endif %}
     <a href="/agora/topics/{{ current_topic.id }}/newrep">Pick Representative</a>
     <h3>Sub Topics</h3>
-{% else %}
-    <h3>Topics</h3>
-{% endif %}
 
 {% if topic_list %}
     <ul>
@@ -51,13 +41,8 @@
     <p>No sub-topics found...</p>
 {% endif %}
 
-{% if current_topic %}
     <a href="/agora/topics/new/{{ current_topic.id }}/">New Topic</a>
-{% else %}
-    <a href="/agora/topics/new/">New Topic</a>
-{% endif %}
 
-{% if current_topic %}
     <h3>Posts</h3>
     {% if current_topic.post_set.all %}
         <ul>
@@ -74,5 +59,4 @@
     {% if current_topic %}
         <a href="/agora/topics/{{ current_topic.id }}/newpost/">New Post</a>
     {% endif %}
-{% endif %}
 {% endblock %}

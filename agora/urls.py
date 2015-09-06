@@ -13,7 +13,7 @@ urlpatterns = [
     # ex: /agora/logout/
     url(r'^logout/$', views.logout_user, name='logout'),
     # ex: /agora/topics/
-    url(r'^topics/$', views.topics, name='topics'),
+    url(r'^all_topics/$', views.all_topics, name='all_topics'),
     # ex: /agora/topics/5/
     url(r'^topics/(?P<topic_id>[0-9]+)/$', views.topics, name='topics'),
     # ex: /agora/topics/5/sort/sort-method
