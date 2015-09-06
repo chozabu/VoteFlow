@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load staticfiles %}
+    <meta charset="UTF-8">
+    <title>MeshDemoc: {% block title %}Agora{% endblock %}</title>
+    {% block head_block %}{% endblock %}
+    <link rel="stylesheet" type="text/css" href="{% static 'agora/style.css' %}" /><link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'agora/ct.css' %}" /><link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+
+</head>
+<body>
+<div class="topBar">
+{% include "agora/inc_user.html" %}
+    <h4>MD: Agora<h4>
+</div>
+<br><br><br>
+<ul id="topic_path">
+<li><a href="/agora/topics/">Root Topics</a> </li> >
+{% if current_topic %}
+    {% for p_topic in current_topic.path %}
+            <li>
+                <a href="/agora/topics/{{ p_topic.id }}/">{{ p_topic.name }}</a>
+            </li> >
+    {% endfor %}
+{% endif %}
+</ul>
+    <div id="mainContentPanel">
+        {% block body_block %}{% endblock %}
+    </div>
+
+    <hr />
+
+    <div>
+        <!--<ul>
+        {% if user.is_authenticated %}
+            <li><a href="/rango/restricted/">Restricted Page</a></li>
+            <li><a href="/rango/logout/">Logout</a></li>
+            <li><a href="/rango/add_category/">Add a New Category</a></li>
+        {% else %}
+            <li><a href="/rango/register/">Register Here</a></li>
+            <li><a href="/rango/login/">Login</a></li>
+        {% endif %}
+
+            <li><a href="/rango/about/">About</a></li>
+        </ul>-->
+    </div>
+</body>
+</html>

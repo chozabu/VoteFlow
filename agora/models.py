@@ -12,6 +12,14 @@ class Topic(models.Model):
 		#liquid votes
 		#for each vote author
 			#get list of reps in topics to root
+	def path(self):
+		list = []
+		cur_top = self
+		while cur_top:
+			list.append(cur_top)
+			cur_top=cur_top.parent
+		list.reverse()
+		return list
 	def getRepVotes(self, voter, liquidVoted={}):
 		topic=self
 		print "getRepVotes(", voter, ",", topic, ")"

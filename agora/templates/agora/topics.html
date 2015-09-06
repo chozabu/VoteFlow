@@ -1,16 +1,16 @@
-{% load staticfiles %}
+{% extends 'agora/base_template.html' %}
 
-<link rel="stylesheet" type="text/css" href="{% static 'agora/style.css' %}" />
-
-{% include "agora/inc_user.html" %}
-
-{% if parent_topic %}
-    <h4><a href="/agora/topics/{{ parent_topic.id }}/">{{ parent_topic.name }}</a></h4>
+{% block title %}
+{% if current_topic %}
+    {{ current_topic.name }}
 {% else %}
-    {% if current_topic %}
-        <a href="/agora/topics/">Root Topics</a>
-    {% endif %}
+    Topics
 {% endif %}
+{% endblock %}
+
+
+{% block body_block %}
+
 {% if current_topic %}
     <h1>{{ current_topic.name }}</h1>
 {% endif %}
@@ -66,3 +66,4 @@
         <a href="/agora/topics/{{ current_topic.id }}/newpost/">New Post</a>
     {% endif %}
 {% endif %}
+{% endblock %}

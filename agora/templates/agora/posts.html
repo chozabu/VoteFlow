@@ -1,11 +1,19 @@
-<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+{% extends 'agora/base_template.html' %}
 
-{% load staticfiles %}
-<link rel="stylesheet" type="text/css" href="{% static 'agora/style.css' %}"/>
-<link rel="stylesheet" type="text/css" href="{% static 'agora/sticky.css' %}"/>
-<body>
-{% include "agora/inc_user.html" %}
+{% block title %}
+{% if current_topic %}
+    {{ current_topic.name }} : {{ post.name }}
+{% else %}
+    Post
+{% endif %}
+{% endblock %}
+
+{% block head_block %}
+
+{% endblock %}
+
+
+{% block body_block %}
 
 {% if post %}
     <p> in <a href="/agora/topics/{{ post.topic.id }}/">{{ post.topic.name }}</a></p>
@@ -33,4 +41,4 @@
 {% else %}
     <p> post not found </p>
 {% endif %}
-</body>
+{% endblock %}
