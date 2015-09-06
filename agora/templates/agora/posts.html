@@ -15,6 +15,9 @@
     <h2><a href="/agora/topics/{{ post.topic.id }}/posts/{{ post.id }}">{{ post.name }}</a></h2>
     - {{ post.author.username }}: {{ post.created_at }} <br>
     current vote average: {{ post.direct_value }} <br>
+    current liquid average: {{ post.liquid_value }} <br>
+    current vote heat: {{ post.direct_heat }} <br>
+    current liquid heat: {{ post.liquid_heat }} <br>
     current vote count: {{ post.postvote_set.all|length }} <br>
     your vote: <br>
     <a href="/agora/topics/{{ post.topic.id }}/posts/{{ post.id }}/vote/">vote!</a><br>

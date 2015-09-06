@@ -8,6 +8,28 @@ class Topic(models.Model):
 	name = models.CharField(max_length=200)
 	parent = models.ForeignKey("self", null = True, blank=True)
 	author = models.ForeignKey(User)
+
+		#liquid votes
+		#for each vote author
+			#get list of reps in topics to root
+	def getRepVotes(self, voter, liquidVoted={}):
+		topic=self
+		print "getRepVotes(", voter, ",", topic, ")"
+		topicScore = 0
+
+		if self.parent:
+			topicScore += self.parent.getRepVotes(voter, liquidVoted)
+		# print topicDict[topic]
+		topicReps = Representation.objects.filter(topic=self).all()
+		for representee in topicReps:
+			if representee.author not in liquidVoted:
+				representer = representee.rep# topicReps[representee]["representer"]
+				if representer == voter:
+					topicScore += 1
+					liquidVoted[representee.author] = True
+					if self.parent:
+						topicScore += self.parent.getRepVotes(representee.author, liquidVoted)
+		return topicScore
 	def __unicode__(self):
 		if self.parent:
 			return self.name + " @ " + str(self.parent.name)
@@ -21,15 +43,27 @@ class Voteable(models.Model):
 	direct_heat = models.FloatField(default=0)
 	created_at = models.DateField(auto_now_add=True)
 	modified_at = models.DateField(auto_now=True)
+	topic = models.ForeignKey(Topic)
 
 	def count_votes(self):
+		print "======counting votes======"
+		#direct votes
 		votes = PostVote.objects.filter(parent=self.id).all()
 		total = 0.0
+		voted={}
 		for v in votes:
 			total+=v.value
-		total/=len(votes)
-		self.direct_value = total
+			voted[v.author]=True
+		votelen=len(votes)
+		self.direct_value = total/votelen
+		liquid_value=total
+		for v in votes:
+			print self
+			lv=self.topic.getRepVotes(v.author, voted)
+			liquid_value += lv*v.value
+		self.liquid_value = liquid_value
 		self.save()
+
 
 	class Meta:
 		abstract = True
@@ -39,7 +73,6 @@ class Post(Voteable):
 	name = models.CharField(max_length=200)
 	parent = models.ForeignKey("self", null = True, blank=True)
 	author = models.ForeignKey(User)
-	topic = models.ForeignKey(Topic)
 	def __unicode__(self):
 		return self.name
 
