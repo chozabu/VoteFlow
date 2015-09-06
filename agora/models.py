@@ -13,9 +13,29 @@ class Topic(models.Model):
 			return self.name + " @ " + str(self.parent.name)
 		else:
 			return self.name
+#ABSTRACT - voteable
+class Voteable(models.Model):
+	liquid_value = models.FloatField(default=0)
+	direct_value = models.FloatField(default=0)
+	liquid_heat = models.FloatField(default=0)
+	direct_heat = models.FloatField(default=0)
+	created_at = models.DateField(auto_now_add=True)
+	modified_at = models.DateField(auto_now=True)
+
+	def count_votes(self):
+		votes = PostVote.objects.filter(parent=self.id).all()
+		total = 0.0
+		for v in votes:
+			total+=v.value
+		total/=len(votes)
+		self.direct_value = total
+		self.save()
+
+	class Meta:
+		abstract = True
 
 #post
-class Post(models.Model):
+class Post(Voteable):
 	name = models.CharField(max_length=200)
 	parent = models.ForeignKey("self", null = True, blank=True)
 	author = models.ForeignKey(User)
@@ -47,17 +67,20 @@ class Subscription(models.Model):
 		return self.author.username + " @ " + str(self.topic.name)
 
 #post vote
-class PostVote(models.Model):
+class MetaVote(models.Model):
 	value = models.FloatField(default=0)
+	author = models.ForeignKey(User)
+	created_at = models.DateField(auto_now_add=True)
+	modified_at = models.DateField(auto_now=True)
+	def __unicode__(self):
+		return self.author.username + " : " + str(self.value) + "@" + self.parent.name[0:20]
+
+	class Meta:
+		abstract = True
+#post vote
+class PostVote(MetaVote):
 	parent = models.ForeignKey(Post)
-	author = models.ForeignKey(User)
-	def __unicode__(self):
-		return self.author.username + " : " + str(self.value) + "@" + self.parent.name[0:20]
 #tag vote
-class TagVote(models.Model):
-	value = models.FloatField(default=0)
+class TagVote(MetaVote):
 	parent = models.ForeignKey(Tag)
-	author = models.ForeignKey(User)
-	def __unicode__(self):
-		return self.author.username + " : " + str(self.value) + "@" + self.parent.name[0:20]
 

@@ -47,12 +47,17 @@ def topics(request, topic_id=None):
 def posts(request, topic_id, post_id):
 	post = get_object_or_404(Post, pk=post_id)
 	topic = get_object_or_404(Topic, pk=topic_id)
+	user_vote=PostVote.objects.filter(parent=post_id, author=request.user).first()
+	print(post)
+	print(dir(post))
 	#replies = Post.objects.filter(parent=post_id)
 	#print dir(post)
-	return render(request, 'agora/posts.html', {'post': post, "current_topic":topic})#, "replies":replies})
+	return render(request, 'agora/posts.html', {'post': post, "current_topic":topic, "user_vote":user_vote})#, "replies":replies})
 
 def new_topic(request, parent_topic_id=None):
 	# if this is a POST request we need to process the form data
+	if not request.user.is_authenticated():
+		return HttpResponseRedirect('/agora/topics/'+str(parent_topic_id))
 	if request.method == 'POST':
 		# create a form instance and populate it with data from the request:
 		form = TopicForm(request.POST)
@@ -80,7 +85,36 @@ def new_topic(request, parent_topic_id=None):
 
 	return render(request, 'agora/newtopic.html', {'form': form, "parent_topic":parent_topic})
 
+def vote_post(request, topic_id, post_id):
+	# if this is a POST request we need to process the form data
+	if not request.user.is_authenticated():
+		return None
+	vote=PostVote.objects.filter(parent=post_id, author=request.user).first()
+	if request.method == 'POST':
+		form = PostVoteForm(request.POST)
+		print form
+		if form.is_valid():
+			data = form.cleaned_data
+			prnt = Post.objects.get(id=post_id)
+			if vote:
+				vote.value = data['value']
+				vote.save()
+			else:
+
+				newrep = PostVote(value=data['value'], author=request.user, parent=prnt)
+				newrep.save()
+			prnt.count_votes()
+			return HttpResponseRedirect('/agora/topics/'+str(topic_id)+"/posts/"+str(post_id))
+
+	# if a GET (or any other method) we'll create a blank form
+	else:
+		form = PostVoteForm(initial={"post_id":post_id})
+
+	return render(request, 'agora/basic_form.html', {'form': form, "action":'/agora/topics/'+str(topic_id)+"/posts/"+str(post_id)+"/vote/", "title":"vote"})
+
 def new_post(request, parent_topic_id, parent_post_id=None):
+	if not request.user.is_authenticated():
+		return None
 	# if this is a POST request we need to process the form data
 	if request.method == 'POST':
 		form = PostForm(request.POST)
@@ -105,7 +139,7 @@ def new_rep(request, parent_topic_id):
 	# if this is a POST request we need to process the form data
 	if not request.user.is_authenticated():
 		return None
-	rep=Subscription.objects.filter(topic=parent_topic_id, author=request.user).first()
+	rep=Representation.objects.filter(topic=parent_topic_id, author=request.user).first()
 	if request.method == 'POST':
 		form = RepForm(request.POST)
 		print form

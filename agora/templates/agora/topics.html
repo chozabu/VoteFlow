@@ -1,3 +1,7 @@
+{% load staticfiles %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'agora/style.css' %}" />
+
 {% include "agora/inc_user.html" %}
 
 {% if parent_topic %}

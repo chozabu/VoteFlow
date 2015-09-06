@@ -23,13 +23,15 @@ urlpatterns = [
     # ex: /agora/topics/5/newrep/
     url(r'^topics/(?P<parent_topic_id>[0-9]+)/newrep$', views.new_rep, name='newrep'),
     # ex: /agora/topics/5/subs/
-    url(r'^topics/(?P<parent_topic_id>[0-9]+)/subs', views.subscribe_topic, name='subs'),
+    url(r'^topics/(?P<parent_topic_id>[0-9]+)/subs/', views.subscribe_topic, name='subs'),
     # ex: /agora/topics/new/
     url(r'^topics/(?P<parent_topic_id>[0-9]+)/newpost/$', views.new_post, name='newpost'),
     # ex: /agora/topics/new/
     url(r'^topics/(?P<parent_topic_id>[0-9]+)/newpost/(?P<parent_post_id>[0-9]+)$', views.new_post, name='newpost'),
     # ex: /agora/topics/5/posts/5/
-    url(r'^topics/(?P<topic_id>[0-9]+)/posts/(?P<post_id>[0-9]+)$', views.posts, name='posts'),
+    url(r'^topics/(?P<topic_id>[0-9]+)/posts/(?P<post_id>[0-9]+)/$', views.posts, name='posts'),
+    # ex: /agora/topics/5/posts/5/
+    url(r'^topics/(?P<topic_id>[0-9]+)/posts/(?P<post_id>[0-9]+)/vote/$', views.vote_post, name='vote_post'),
     # ex: /agora/5/vote/
     #url(r'^(?P<question_id>[0-9]+)/vote/$', views.vote, name='vote'),
 ]

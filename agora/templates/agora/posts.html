@@ -1,11 +1,24 @@
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+
+{% load staticfiles %}
+<link rel="stylesheet" type="text/css" href="{% static 'agora/style.css' %}"/>
+<link rel="stylesheet" type="text/css" href="{% static 'agora/sticky.css' %}"/>
+<body>
 {% include "agora/inc_user.html" %}
 
 {% if post %}
+    <p> in <a href="/agora/topics/{{ post.topic.id }}/">{{ post.topic.name }}</a></p>
     {% if post.parent %}
         <h4><a href="/agora/topics/{{ post.topic.id }}/posts/{{ post.parent.id }}">{{ post.parent.name }}</a></h4>
     {% endif %}
     <h2><a href="/agora/topics/{{ post.topic.id }}/posts/{{ post.id }}">{{ post.name }}</a></h2>
-    <p> in <a href="/agora/topics/{{ post.topic.id }}/">{{ post.topic.name }}</a></p>
+    - {{ post.author.username }}: {{ post.created_at }} <br>
+    current vote average: {{ post.direct_value }} <br>
+    current vote count: {{ post.postvote_set.all|length }} <br>
+    your vote: <br>
+    <a href="/agora/topics/{{ post.topic.id }}/posts/{{ post.id }}/vote/">vote!</a><br>
+
     <a href="/agora/topics/{{ current_topic.id }}/newpost/{{ post.id }}">Reply to Post</a>
     <h4>replies</h4>
     <ul>
@@ -17,3 +30,4 @@
 {% else %}
     <p> post not found </p>
 {% endif %}
+</body>
