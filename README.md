@@ -42,10 +42,12 @@ Any user may vote on any Posting/Message.
 ##Running MD: Agora
 ###Linux
 
-1. Clone the project ```$git clone https://github.com/chozabu/MeshDemocAgora.git```
-1. Install Dependencies ```$pip install django```
-1. Run Server ```$cd MeshDemocAgora; python manage.py runserver```
-1. Browse to URL ```http://127.0.0.1:8000/agora/```
+    pip install django #Install Dependencies
+    git clone https://github.com/chozabu/MeshDemocAgora.git #Clone the project
+    cd MeshDemocAgora #enter project
+    python manage.py migrate #create DB
+    python manage.py runserver #Run Server
+    firefox http://127.0.0.1:8000/agora/ #Try it out!
 
 ###Other OS
 
