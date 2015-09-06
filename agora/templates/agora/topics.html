@@ -56,7 +56,10 @@
     {% if current_topic.post_set.all %}
         <ul>
             {% for post in current_topic.post_set.all %}
-                <li><a href="/agora/topics/{{ current_topic.id }}/posts/{{ post.id }}">{{ post.name }}</a></li>
+                <li><a href="/agora/topics/{{ current_topic.id }}/posts/{{ post.id }}">{{ post.name }}</a>
+                <br><span> total: {{ post.liquid_value }}, direct: {{ post.direct_value }}, vote count: {{ post.postvote_set.all|length }} </span>
+                <br><span> by: {{ post.author.username }} @ {{ post.created_at }}, with: {{ post.post_set.all|length }} comments </span>
+                </li>
             {% endfor %}
         </ul>
     {% else %}
