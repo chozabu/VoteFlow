@@ -20,7 +20,7 @@ def index(request):
 	return render(request, 'agora/index.html')
 
 
-def topics(request, topic_id=None):
+def topics(request, topic_id=None, sort_method="direct_value"):
 	#try:
 	#	question = Question.objects.get(pk=question_id)
 	#except Question.DoesNotExist:
@@ -28,7 +28,7 @@ def topics(request, topic_id=None):
 	#return render(request, 'agora/detail.html', {'question': question})#
 	#question = get_object_or_404(Question, pk=question_id)
 	topic_list = Topic.objects.filter(parent=topic_id)
-	context = {'topic_list': topic_list}
+	context = {'topic_list': topic_list, "sort_method":sort_method}
 	if topic_id:
 		current_topic = Topic.objects.get(id=topic_id)
 		context['current_topic'] = current_topic
