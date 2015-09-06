@@ -15,6 +15,12 @@
     <h1>{{ current_topic.name }}</h1>
 {% endif %}
 
+<p>sort method: {{ sort_method }} (
+    <a href="/agora/topics/{{ current_topic.id }}/sort/liquid_value/">liquid_value</a>
+    <a href="/agora/topics/{{ current_topic.id }}/sort/direct_value/">direct_value</a>
+    <a href="/agora/topics/{{ current_topic.id }}/sort/created_at/">created_at</a>
+    )</p>
+
 {% if current_topic %}
     {% if user.is_authenticated %}
         {% if sub %}
