@@ -12,8 +12,10 @@ urlpatterns = [
     url(r'^login/$', views.login_user, name='login'),
     # ex: /agora/logout/
     url(r'^logout/$', views.logout_user, name='logout'),
-    # ex: /agora/topics/
+    # ex: /agora/all_topics/
     url(r'^all_topics/$', views.all_topics, name='all_topics'),
+    # ex: /agora/topics/
+    url(r'^topics/$', views.all_topics, name='all_topics'),
     # ex: /agora/topics/5/
     url(r'^topics/(?P<topic_id>[0-9]+)/$', views.topics, name='topics'),
     # ex: /agora/topics/5/sort/sort-method
@@ -28,7 +30,7 @@ urlpatterns = [
     # ex: /agora/topics/5/subs/
     url(r'^topics/(?P<parent_topic_id>[0-9]+)/subs/', views.subscribe_topic, name='subs'),
     # ex: /agora/topics/forcearrows/
-    url(r'^topics/forcearrows/', views.topic_forcearrows, name='topic_forcearrows'),
+    url(r'^all_topics/forcearrows/', views.topic_forcearrows, name='topic_forcearrows'),
     # ex: /agora/topics/5/forcearrows/
     url(r'^topics/(?P<topic_id>[0-9]+)/forcearrows/', views.topic_forcearrows, name='topic_forcearrows'),
     # ex: /agora/topics/new/
