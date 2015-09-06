@@ -18,5 +18,6 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^agora/', include('agora.urls', namespace="agora")),
+    url(r'^', include('agora.urls', namespace="agora")),
     url(r'^admin/', include(admin.site.urls)),
 ]
