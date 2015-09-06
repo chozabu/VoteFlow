@@ -50,3 +50,7 @@ Any user may vote on any Posting/Message.
 ###Other OS
 
 add me
+
+##Licence
+Agora is published under the GNU AGPL  
+https://gnu.org/licenses/agpl.html  
