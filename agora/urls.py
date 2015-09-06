@@ -27,6 +27,10 @@ urlpatterns = [
     url(r'^topics/(?P<parent_topic_id>[0-9]+)/newrep$', views.new_rep, name='newrep'),
     # ex: /agora/topics/5/subs/
     url(r'^topics/(?P<parent_topic_id>[0-9]+)/subs/', views.subscribe_topic, name='subs'),
+    # ex: /agora/topics/forcearrows/
+    url(r'^topics/forcearrows/', views.topic_forcearrows, name='topic_forcearrows'),
+    # ex: /agora/topics/5/forcearrows/
+    url(r'^topics/(?P<topic_id>[0-9]+)/forcearrows/', views.topic_forcearrows, name='topic_forcearrows'),
     # ex: /agora/topics/new/
     url(r'^topics/(?P<parent_topic_id>[0-9]+)/newpost/$', views.new_post, name='newpost'),
     # ex: /agora/topics/new/

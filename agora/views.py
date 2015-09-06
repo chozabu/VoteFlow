@@ -5,6 +5,8 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import authenticate, login, logout
 
+from django.core import serializers
+
 from .forms import TopicForm, PostForm, RepForm, PostVoteForm
 
 
@@ -18,6 +20,29 @@ def index(request):
 	#context = {'topic_list': topic_list}
 	#return render(request, 'agora/index.html', context)
 	return render(request, 'agora/index.html')
+
+
+def topic_forcearrows(request, topic_id=None):
+	#foos = Foo.objects.all()
+	#data = serializers.serialize('json', foos)
+	#raw_topic_list = Topic.objects.all()#filter(parent=topic_id)
+	raw_rep_list = Representation.objects.all()
+	rep_list = []
+	ltypes = ["suit", "licensing", "resolved"]
+	for r in raw_rep_list:
+		rep_list.append({
+			"source": r.author.username,
+			"target": r.rep.username,
+			"type": ltypes[len(r.topic.name)%3]
+		})
+	import json
+	links=json.dumps(rep_list)
+
+	if topic_id:
+		reps = Representation.objects.filter(topic=topic_id)
+		#for r in reps
+
+	return render(request, 'agora/forcearrows.html', {"linksin":links})
 
 
 def topics(request, topic_id=None, sort_method="direct_value"):
