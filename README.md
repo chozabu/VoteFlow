@@ -48,6 +48,17 @@ Any user may vote on any Posting/Message.
     python manage.py migrate #create DB
     python manage.py runserver #Run Server
     firefox http://127.0.0.1:8000/agora/ #Try it out!
+    
+or in a virtualenv
+
+    git clone https://github.com/chozabu/MeshDemocAgora
+    cd MeshDemocAgora/
+    virtualenv .
+    source bin/activate
+    pip install django
+    cat README.md 
+    python manage.py migrate
+    python manage.py runserver
 
 ###Other OS
 
