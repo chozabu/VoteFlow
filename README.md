@@ -51,6 +51,16 @@ Any user may vote on any Posting/Message.
 
 add me
 
+
+##Project Structure
+Project setup should be fairly standard for django.
+Important files are in agora/:  
+- urls.py - based on browser URL, directs you to a view
+- views.py - Pulls data from models, returns through a template
+- models.py - Database models
+- templates/agora/* - HTML templates
+- static/agora/* - CSS and other files
+
 ##Licence
 Agora is published under the GNU AGPL  
 https://gnu.org/licenses/agpl.html  
