@@ -1,4 +1,9 @@
-{% block content %}
+{% extends 'agora/base_template.html' %}
+{% block title %}
+Create Topic
+{% endblock %}
+
+{% block body_block %}
     {% if form.errors %}
         <p class="error">FORM ERROR!!</p>
     {% endif %}

@@ -213,7 +213,7 @@ def new_user(request):
 			u = form.save()
 			u.save()
 			#return render(request, 'agora/index.html', {"user":u})
-			return HttpResponseRedirect("/agora/")#, {"user":u})
+			return HttpResponseRedirect("/agora/login/")#, {"user":u})
 			#redirect('edit_user', user_id = u.id)
 	else:
 		form = UserCreationForm()

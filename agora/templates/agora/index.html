@@ -1,14 +1,15 @@
-{% load staticfiles %}
-<link rel="stylesheet" type="text/css" href="{% static 'agora/style.css' %}" />
-<link href="http://www.cssscript.com/wp-includes/css/sticky.css" rel="stylesheet" type="text/css">
+{% extends 'agora/base_template.html' %}
+{% block title %}
+Agora
+{% endblock %}
 
+{% block body_block %}
         <div class="title">
             <h1>Mesh Democracy: <span>Agora</span></h1>
         </div>
-
-{% include "agora/inc_user.html" %}
 
 <ul>
     <li><a href="topics/">topics</a></li>
 </ul>
 
+{% endblock %}
