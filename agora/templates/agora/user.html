@@ -1,0 +1,31 @@
+{% extends 'agora/base_template.html' %}
+
+{% block title %}
+    {{ selected_user.name }}
+{% endblock %}
+
+{% block head_block %}
+
+{% endblock %}
+
+
+{% block body_block %}
+{{ selected_user }}
+        <h4>
+    {{ selected_user }}</h4>
+
+    Posts:
+        <ul>
+        {% for child_post in selected_user.post_set.all %}
+            <li>{% include "agora/inc_post_mini.html" with  post=child_post %}</li>
+        {% endfor %}
+    </ul>
+    {{ selected_user.post_set.all }}<br><br>
+    Votes:
+    {{ selected_user.postvote_set.all }}<br><br>
+    Subscriptions:
+    {{ selected_user.subscription_set.all }}<br><br>
+    Topics Created:
+    {{ selected_user.topic_set.all }}<br><br>
+
+{% endblock %}

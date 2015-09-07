@@ -49,7 +49,7 @@
     )</p>
     <ul>
         {% for child_post in post.post_set.all|dictsortreversed:sort_method %}
-            <li><a href="/agora/topics/{{ post.topic.id }}/posts/{{ child_post.id }}">{{ child_post.name }}</a></li>
+            <li>{% include "agora/inc_post_mini.html" with  child_post=post %}</li>
         {% endfor %}
     </ul>
 

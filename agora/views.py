@@ -11,6 +11,7 @@ from django.core import serializers
 from .forms import TopicForm, PostForm, RepForm, PostVoteForm
 
 
+from django.contrib.auth.models import User
 from .models import Topic, Post, Tag, Representation, PostVote, TagVote, Subscription
 
 
@@ -97,6 +98,11 @@ def posts(request, topic_id, post_id, sort_method="direct_value"):
 	context={'post': post, "current_topic":topic, "user_vote":user_vote}
 	context['sort_method']=sort_method
 	return render(request, 'agora/posts.html', context)#, "replies":replies})
+
+def view_user(request, user_id):
+	user = get_object_or_404(User, pk=user_id)
+	context={'selected_user': user}
+	return render(request, 'agora/user.html', context)#, "replies":replies})
 
 def new_topic(request, parent_topic_id=None):
 	# if this is a POST request we need to process the form data
