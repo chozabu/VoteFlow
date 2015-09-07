@@ -92,6 +92,13 @@ class Voteable(models.Model):
 	modified_at = models.DateField(auto_now=True)
 	topic = models.ForeignKey(Topic)
 
+	@property
+	def liquid_value_percent(self):
+		return self.liquid_value * 100.
+	@property
+	def direct_value_percent(self):
+		return self.direct_value * 100.
+
 	def count_votes(self):
 		print "======counting votes======"
 		#direct votes

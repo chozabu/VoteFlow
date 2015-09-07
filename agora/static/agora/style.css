@@ -26,3 +26,28 @@ h1 span {
   font-weight: 300;
   color: #Fd4;
 }
+
+
+
+
+#container {
+  width: 100px;
+  height: 20px;
+  position: relative;
+  display: inline-block;
+}
+#navi,
+#infoi {
+  width: 100px;
+  height: 20px;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+#infoi {
+  z-index: 10;
+  background-image: url("/static/agora/img/emptystars.png");
+}
+#navi {
+  background-image: url("/static/agora/img/stars.png");
+}
