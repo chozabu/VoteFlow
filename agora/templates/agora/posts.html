@@ -32,8 +32,13 @@
 
     <a href="/agora/topics/{{ current_topic.id }}/newpost/{{ post.id }}">Reply to Post</a>
     <h4>replies</h4>
+    <p>sort method: {{ sort_method }} (
+    <a href="/agora/topics/{{ current_topic.id }}/posts/{{ post.parent.id }}/sort/liquid_value/">liquid_value</a>
+    <a href="/agora/topics/{{ current_topic.id }}/posts/{{ post.parent.id }}/sort/direct_value/">direct_value</a>
+    <a href="/agora/topics/{{ current_topic.id }}/posts/{{ post.parent.id }}/sort/created_at/">created_at</a>
+    )</p>
     <ul>
-        {% for child_post in post.post_set.all %}
+        {% for child_post in post.post_set.all|dictsortreversed:sort_method %}
             <li><a href="/agora/topics/{{ post.topic.id }}/posts/{{ child_post.id }}">{{ child_post.name }}</a></li>
         {% endfor %}
     </ul>

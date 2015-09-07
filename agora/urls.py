@@ -14,6 +14,9 @@ urlpatterns = [
     url(r'^logout/$', views.logout_user, name='logout'),
     # ex: /agora/all_topics/
     url(r'^all_topics/$', views.all_topics, name='all_topics'),
+    # ex: /agora/topics/5/sort/sort-method
+    #(?P<page_slug>[\w-]+)
+    url(r'^all_topics/sort/(?P<sort_method>[\w-]+)/$', views.all_topics, name='all_topics'),
     # ex: /agora/topics/
     url(r'^topics/$', views.all_topics, name='all_topics'),
     # ex: /agora/topics/5/

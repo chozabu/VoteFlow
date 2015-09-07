@@ -4,6 +4,7 @@ from django.template import RequestContext, loader
 from django.core.urlresolvers import reverse
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import authenticate, login, logout
+from django.db.models import Count
 
 from django.core import serializers
 
@@ -69,13 +70,23 @@ def topics(request, topic_id=None, sort_method="direct_value"):
 		
 	return render(request, 'agora/topics.html', context)
 
-def all_topics(request, sort_method="direct_value"):
-	topic_list = Topic.objects.filter(parent=None)
+def all_topics(request, sort_method="subscription_set"):
+	topic_list = []
+	if sort_method == "subscription_set":
+		topic_list = Topic.objects.filter(parent=None) \
+	            .annotate(num_subscription=Count('subscription')) \
+	            .order_by('-num_subscription')
+	elif sort_method == "post_set":
+		topic_list = Topic.objects.filter(parent=None) \
+	            .annotate(num_post=Count('post')) \
+	            .order_by('-num_post')
+	else:
+		topic_list = Topic.objects.filter(parent=None)
 	context = {'topic_list': topic_list, "sort_method":sort_method}
 
 	return render(request, 'agora/all_topics.html', context)
 
-def posts(request, topic_id, post_id):
+def posts(request, topic_id, post_id, sort_method="direct_value"):
 	post = get_object_or_404(Post, pk=post_id)
 	topic = get_object_or_404(Topic, pk=topic_id)
 	user_vote=PostVote.objects.filter(parent=post_id, author=request.user).first()
@@ -83,7 +94,9 @@ def posts(request, topic_id, post_id):
 	print(dir(post))
 	#replies = Post.objects.filter(parent=post_id)
 	#print dir(post)
-	return render(request, 'agora/posts.html', {'post': post, "current_topic":topic, "user_vote":user_vote})#, "replies":replies})
+	context={'post': post, "current_topic":topic, "user_vote":user_vote}
+	context['sort_method']=sort_method
+	return render(request, 'agora/posts.html', context)#, "replies":replies})
 
 def new_topic(request, parent_topic_id=None):
 	# if this is a POST request we need to process the form data

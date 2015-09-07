@@ -6,13 +6,13 @@
 
 
 {% block body_block %}
-<!--
+
 <p>sort method: {{ sort_method }} (
-    <a href="/agora/topics/sort/liquid_value/">liquid_value</a>
-    <a href="/agora/topics/sort/direct_value/">direct_value</a>
-    <a href="/agora/topics/sort/created_at/">created_at</a>
+    <a href="/agora/all_topics/sort/created_at/">created_at</a>
+    <a href="/agora/all_topics/sort/subscription_set/">subscription_set</a>
+    <a href="/agora/all_topics/sort/post_set/">post_set</a>
     )</p>
-    -->
+
 
 
 <a href="forcearrows">Representation Map</a>
@@ -20,7 +20,9 @@
 {% if topic_list %}
     <ul>
         {% for topic in topic_list %}
-            <li><a href="/agora/topics/{{ topic.id }}/">{{ topic.name }}</a> {{ topic.subscription_set.all|length }}
+            <li><a href="/agora/topics/{{ topic.id }}/">{{ topic.name }}</a> ({{ topic.subscription_set.all|length }})
+            <br> author: {{ topic.author }} @ {{ topic.created_at }}
+            <br> sub-topics: {{ topic.topic_set.all|length }} Posts {{ topic.post_set.all|length }}
             </li>
         {% endfor %}
     </ul>
