@@ -24,9 +24,10 @@
     - {{ post.author.username }}: {{ post.created_at }} <br>
     current vote average: {{ post.direct_value }} <br>
     current liquid average: {{ post.liquid_value }} <br>
-    current vote heat: {{ post.direct_heat }} <br>
-    current liquid heat: {{ post.liquid_heat }} <br>
-    current vote count: {{ post.postvote_set.all|length }} <br>
+    current vote sum: {{ post.direct_sum }} <br>
+    current liquid sum: {{ post.liquid_sum }} <br>
+    current direct vote count: {{ post.postvote_set.all|length }} <br>
+    current liquid vote count: {{ post.liquid_vote_count }} <br>
     your vote: <br>
     <a href="/agora/topics/{{ post.topic.id }}/posts/{{ post.id }}/vote/">vote!</a><br>
 

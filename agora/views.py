@@ -138,14 +138,13 @@ def vote_post_quick(request, topic_id, post_id):
 		voteval = int(request.POST['voteslider'])*.01
 		print "QUICKVOTE", voteval
 		vote=PostVote.objects.filter(parent=post_id, author=request.user).first()
+		prnt = Post.objects.get(id=post_id)
 		if vote:
 			vote.value = voteval
 			vote.save()
 		else:
-
 			newrep = PostVote(value=voteval, author=request.user, parent=prnt)
 			newrep.save()
-		prnt = Post.objects.get(id=post_id)
 		prnt.count_votes()
 	return HttpResponseRedirect('/agora/topics/'+str(topic_id)+"/posts/"+str(post_id))
 

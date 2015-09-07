@@ -22,6 +22,40 @@ class Topic(models.Model):
 			cur_top=cur_top.parent
 		list.reverse()
 		return list
+	def getRepresentee_links(self, voter, liquidVoted={}, results=[]):
+		topic=self
+		print "getRepresentee_links(", voter, ",", topic, ")"
+		topicScore = 0
+
+		if self.parent:
+			topicScore += self.parent.getRepresentee_links(voter, liquidVoted, results)
+		# print topicDict[topic]
+		topicReps = Representation.objects.filter(topic=self).all()
+		for links in topicReps:
+			if links.author not in liquidVoted:
+				if links.rep == voter:
+					results.append(links)
+					liquidVoted[links.author] = True
+					if self.parent:
+						self.parent.getRepresentee_links(links.author, liquidVoted, results)
+		return results
+	def getRepresentees(self, voter, liquidVoted={}, people=[]):
+		topic=self
+		print "getRepresentees(", voter, ",", topic, ")"
+		topicScore = 0
+
+		if self.parent:
+			topicScore += self.parent.getRepresentees(voter, liquidVoted, people)
+		# print topicDict[topic]
+		topicReps = Representation.objects.filter(topic=self).all()
+		for links in topicReps:
+			if links.author not in liquidVoted:
+				if links.rep == voter:
+					people.append(links.rep)
+					liquidVoted[links.author] = True
+					if self.parent:
+						self.parent.getRepresentees(links.author, liquidVoted, people)
+		return people
 	def getRepVotes(self, voter, liquidVoted={}):
 		topic=self
 		print "getRepVotes(", voter, ",", topic, ")"
@@ -31,14 +65,14 @@ class Topic(models.Model):
 			topicScore += self.parent.getRepVotes(voter, liquidVoted)
 		# print topicDict[topic]
 		topicReps = Representation.objects.filter(topic=self).all()
-		for representee in topicReps:
-			if representee.author not in liquidVoted:
-				representer = representee.rep# topicReps[representee]["representer"]
+		for links in topicReps:
+			if links.author not in liquidVoted:
+				representer = links.rep# topicReps[representee]["representer"]
 				if representer == voter:
 					topicScore += 1
-					liquidVoted[representee.author] = True
+					liquidVoted[links.author] = True
 					if self.parent:
-						topicScore += self.parent.getRepVotes(representee.author, liquidVoted)
+						topicScore += self.parent.getRepVotes(links.author, liquidVoted)
 		return topicScore
 	def __unicode__(self):
 		if self.parent:
@@ -47,8 +81,11 @@ class Topic(models.Model):
 			return self.name
 #ABSTRACT - voteable
 class Voteable(models.Model):
+	liquid_vote_count = models.FloatField(default=0)
 	liquid_value = models.FloatField(default=0)
 	direct_value = models.FloatField(default=0)
+	liquid_sum = models.FloatField(default=0)
+	direct_sum = models.FloatField(default=0)
 	liquid_heat = models.FloatField(default=0)
 	direct_heat = models.FloatField(default=0)
 	created_at = models.DateField(auto_now_add=True)
@@ -65,13 +102,23 @@ class Voteable(models.Model):
 			total+=v.value
 			voted[v.author]=True
 		votelen=len(votes)
+		self.direct_sum = total
 		self.direct_value = total/votelen
-		liquid_value=total
+		liquid_value=0.0
+		liquid_sum=0
+		liquid_v_count = 0
 		for v in votes:
 			print self
 			lv=self.topic.getRepVotes(v.author, voted)
-			liquid_value += lv*v.value
-		self.liquid_value = liquid_value
+			liquid_v_count+=lv
+			liquid_sum += lv*v.value
+		if liquid_v_count<=0:
+			self.liquid_value = liquid_sum
+			self.liquid_vote_count = votelen
+		else:
+			self.liquid_value = liquid_sum/float(liquid_v_count)
+			self.liquid_vote_count = int(liquid_v_count)+votelen
+		self.liquid_sum = liquid_sum+total
 		self.save()
 
 
