@@ -115,15 +115,14 @@ class Voteable(models.Model):
 		liquid_sum=0
 		liquid_v_count = 0
 		for v in votes:
-			print self
 			lv=self.topic.getRepVotes(v.author, voted)
 			liquid_v_count+=lv
 			liquid_sum += lv*v.value
 		if liquid_v_count<=0:
-			self.liquid_value = liquid_sum
-			self.liquid_vote_count = votelen
+			self.liquid_value = self.direct_value
+			self.liquid_vote_count = int(votelen)
 		else:
-			self.liquid_value = liquid_sum/float(liquid_v_count)
+			self.liquid_value = (liquid_sum+total)/float(liquid_v_count+votelen)
 			self.liquid_vote_count = int(liquid_v_count)+votelen
 		self.liquid_sum = liquid_sum+total
 		self.save()
