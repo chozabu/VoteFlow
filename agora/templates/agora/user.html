@@ -20,12 +20,16 @@
             <li>{% include "agora/inc_post_mini.html" with  post=child_post %}</li>
         {% endfor %}
     </ul>
-    {{ selected_user.post_set.all }}<br><br>
+    <br><br>
     Votes:
     {{ selected_user.postvote_set.all }}<br><br>
     Subscriptions:
     {{ selected_user.subscription_set.all }}<br><br>
     Topics Created:
     {{ selected_user.topic_set.all }}<br><br>
+    Representees:
+    {{ selected_user.rep_from.all }}<br><br>
+    Representitives:
+    {{ selected_user.rep_to.all }}<br><br>
 
 {% endblock %}

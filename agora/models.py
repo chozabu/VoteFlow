@@ -151,8 +151,8 @@ class Tag(models.Model):
 #representation
 class Representation(models.Model):
 	topic = models.ForeignKey(Topic)
-	author = models.ForeignKey(User, related_name='author')
-	rep = models.ForeignKey(User, related_name='rep')
+	author = models.ForeignKey(User, related_name='rep_to')
+	rep = models.ForeignKey(User, related_name='rep_from')
 	def __unicode__(self):
 		return self.author.username + " -> " + self.rep.username + " @ " + str(self.topic.name)
 
