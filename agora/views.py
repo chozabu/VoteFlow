@@ -69,6 +69,12 @@ def post_sankey(request, post_id, topic_id=None):
 	print(raw_direct_votes)
 	print(vals)
 	for v in raw_direct_votes:
+		if v.author.pk not in ulookup:
+			ulookup[v.author.pk]= uindex
+			user_list.append({
+				"name": v.author.username
+			})
+			uindex+=1
 		liquidvoted[v.author] = True
 	for v in raw_direct_votes:
 		rep_list.append({
