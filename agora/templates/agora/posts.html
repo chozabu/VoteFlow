@@ -30,12 +30,12 @@
     direct average: {% include "agora/inc_stars.html" with percent=post.direct_value_percent %} {{ post.direct_value }} <br>
     direct sum: {{ post.direct_sum }} <br>
     direct vote count: {{ post.postvote_set.all|length }} <br>
-    your vote: <br>
+    your vote: {{ user_vote.value }} <br>
     <a href="/agora/topics/{{ post.topic.id }}/posts/{{ post.id }}/vote/">vote!</a><br>
 
     <form action="/agora/topics/{{ post.topic.id }}/posts/{{ post.id }}/quickvote/" method="post">
         {% csrf_token %}
-    <input name="voteslider" id="slider1" type="range" min="0" max="100" step="10" style="position:relative; width:300px; height:20px; border:1px solid #cccccc;" />
+    <input name="voteslider" value={{ user_vote.value_percent }} id="slider1" type="range" min="0" max="100" step="10" style="position:relative; width:300px; height:20px; border:1px solid #cccccc;" />
 
         <input type="submit" value="Vote"/>
     </form>
@@ -46,7 +46,7 @@
             <span>{{ tag.name }}</span>,
         {% endfor %}
     </div>
-    <a href="/agora/topics/{{ post.topic.id }}/posts/{{ post.id }}/addtag/">Add Tag!</a><br>
+    <a href="/agora/topics/{{ post.topic.id }}/posts/{{ post.id }}/newtag/">Add Tag!</a><br>
 
     <a href="/agora/topics/{{ current_topic.id }}/newpost/{{ post.id }}">Reply to Post</a>
     <h4>replies</h4>

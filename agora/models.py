@@ -179,6 +179,9 @@ class MetaVote(models.Model):
 	author = models.ForeignKey(User)
 	created_at = models.DateField(auto_now_add=True)
 	modified_at = models.DateField(auto_now=True)
+	@property
+	def value_percent(self):
+		return self.value * 100.
 	def __unicode__(self):
 		return self.author.username + " : " + str(self.value) + "@" + self.parent.name[0:20]
 
