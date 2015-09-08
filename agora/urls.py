@@ -50,6 +50,8 @@ urlpatterns = [
     url(r'^topics/(?P<topic_id>[0-9]+)/posts/(?P<post_id>[0-9]+)/$', views.posts, name='posts'),
     # ex: /agora/topics/5/posts/5/vote/
     url(r'^topics/(?P<topic_id>[0-9]+)/posts/(?P<post_id>[0-9]+)/vote/$', views.vote_post, name='vote_post'),
+    # ex: /agora/topics/5/posts/5/newtag/
+    url(r'^topics/(?P<topic_id>[0-9]+)/posts/(?P<post_id>[0-9]+)/newtag/$', views.new_tag, name='newtag'),
     # ex: /agora/topics/5/posts/5/sankey/
     url(r'^topics/(?P<topic_id>[0-9]+)/posts/(?P<post_id>[0-9]+)/sankey/$', views.post_sankey, name='post_sankey'),
     # ex: /agora/topics/5/posts/5/quickvote/

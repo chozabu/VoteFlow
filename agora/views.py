@@ -8,7 +8,7 @@ from django.db.models import Count
 
 from django.core import serializers
 
-from .forms import TopicForm, PostForm, RepForm, PostVoteForm
+from .forms import TopicForm, PostForm, RepForm, PostVoteForm, TagForm, TagVoteForm
 
 
 from django.contrib.auth.models import User
@@ -290,6 +290,42 @@ def new_post(request, parent_topic_id, parent_post_id=None):
 		parent_topic = Topic.objects.get(id=parent_topic_id)
 
 	return render(request, 'agora/basic_form.html', {'form': form, "parent_topic":parent_topic, "action":"/agora/topics/"+str(parent_topic_id)+"/newpost/", "title":"Create Post"})
+
+def new_tag(request, post_id, topic_id=None):
+	if not request.user.is_authenticated():
+		return None
+	# if this is a POST request we need to process the form data
+	if request.method == 'POST':
+		form = TagForm(request.POST)
+		#print "---"
+		#print request.POST
+		#print form.cleaned_data
+		print "---"
+		if form.is_valid():
+			data = form.cleaned_data
+			post = get_object_or_404(Post, pk=data['post_parent_id'].id)
+			print data['tag_name'], post.pk, request.user, post.topic.pk
+			existing_tag = Tag.objects.filter(name=data['tag_name'],parent=post)
+			if existing_tag:
+				print "tag already found, should auto-vote on it?"#TODO
+			else:
+				newtag = Tag(name=data['tag_name'], parent=post, author=request.user, topic=post.topic)
+				newtag.save()
+			return HttpResponseRedirect('/agora/topics/'+str(topic_id)+"/posts/"+str(post.id))
+
+	# if a GET (or any other method) we'll create a blank form
+	else:
+		form = TagForm(initial={"tag_name":"tag name", "post_parent_id":post_id})
+
+	parent_topic = None
+	if topic_id:
+		parent_topic = Topic.objects.get(id=topic_id)
+
+	return render(request, 'agora/basic_form.html', {
+		'form': form,
+		"parent_topic":parent_topic,
+		"action":"/agora/topics/"+str(topic_id)+"/posts/"+str(post_id)+"/newtag/",
+		"title":"Create Tag"})
 
 def new_rep(request, parent_topic_id):
 	# if this is a POST request we need to process the form data

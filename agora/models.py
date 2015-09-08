@@ -151,7 +151,7 @@ class Post(Voteable):
 		return self.name
 
 #tag
-class Tag(models.Model):
+class Tag(Voteable):
 	name = models.CharField(max_length=200)
 	parent = models.ForeignKey(Post)
 	author = models.ForeignKey(User)

@@ -40,6 +40,13 @@
         <input type="submit" value="Vote"/>
     </form>
     <br>
+    <h4>Tags:</h4>
+    <div id="tagcontainer">
+        {% for tag in post.tag_set.all %}
+            <span>{{ tag.name }}</span>,
+        {% endfor %}
+    </div>
+    <a href="/agora/topics/{{ post.topic.id }}/posts/{{ post.id }}/addtag/">Add Tag!</a><br>
 
     <a href="/agora/topics/{{ current_topic.id }}/newpost/{{ post.id }}">Reply to Post</a>
     <h4>replies</h4>
