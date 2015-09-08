@@ -185,6 +185,11 @@ def view_user(request, user_id):
 	context={'selected_user': user}
 	return render(request, 'agora/user.html', context)#, "replies":replies})
 
+def view_users(request):
+	users = User.objects.filter(is_active=True)
+	context={'users': users}
+	return render(request, 'agora/users.html', context)#, "replies":replies})
+
 def new_topic(request, parent_topic_id=None):
 	# if this is a POST request we need to process the form data
 	if not request.user.is_authenticated():

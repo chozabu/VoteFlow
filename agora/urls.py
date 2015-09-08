@@ -21,6 +21,8 @@ urlpatterns = [
     url(r'^topics/$', views.all_topics, name='all_topics'),
     # ex: /agora/topics/5/
     url(r'^topics/(?P<topic_id>[0-9]+)/$', views.topics, name='topics'),
+    # ex: /agora/users/
+    url(r'^users/$', views.view_users, name='users'),
     # ex: /agora/user/5/
     url(r'^user/(?P<user_id>[0-9]+)/$', views.view_user, name='user'),
     # ex: /agora/topics/5/sort/sort-method

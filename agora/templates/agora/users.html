@@ -1,0 +1,24 @@
+{% extends 'agora/base_template.html' %}
+
+{% block title %}
+    All Users
+{% endblock %}
+
+{% block head_block %}
+
+{% endblock %}
+
+
+{% block body_block %}
+{{ selected_user }}
+        <h4>All Users</h4>
+
+    <ul>
+        {% for us in users %}
+            <li><a href="/agora/user/{{ us.pk }}/">
+    {{ us.username }} </a></li>
+        {% endfor %}
+    </ul>
+
+
+{% endblock %}
