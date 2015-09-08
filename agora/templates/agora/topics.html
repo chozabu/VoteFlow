@@ -45,9 +45,9 @@
     <a href="/agora/topics/new/{{ current_topic.id }}/">New Topic</a>
 
     <h3>Posts</h3>
-    {% if current_topic.post_set.all %}
+    {% if post_list %}
         <ul>
-            {% for post in current_topic.post_set.all|dictsortreversed:sort_method %}
+            {% for post in post_list|dictsortreversed:sort_method %}
                 <li>{% include "agora/inc_post_mini.html" with  post=post %}</li>
             {% endfor %}
         </ul>

@@ -133,7 +133,8 @@ def topics(request, topic_id=None, sort_method="direct_value"):
 	#return render(request, 'agora/detail.html', {'question': question})#
 	#question = get_object_or_404(Question, pk=question_id)
 	topic_list = Topic.objects.filter(parent=topic_id)
-	context = {'topic_list': topic_list, "sort_method":sort_method}
+	post_list = Post.objects.filter(parent=None, topic=topic_id)
+	context = {'topic_list': topic_list,'post_list': post_list, "sort_method":sort_method}
 	if topic_id:
 		current_topic = Topic.objects.get(id=topic_id)
 		context['current_topic'] = current_topic
