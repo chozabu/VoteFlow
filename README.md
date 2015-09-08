@@ -4,7 +4,9 @@ MeshDemocracy is a decentralised system, to let people discuss, select represent
 
 #Agora
 MD: Agora is a website/app built on django to test out the  concepts behind MD.  
-Currently in early stages - expect some uglyness and broken bits.
+Currently in early stages - expect some uglyness and broken bits.  
+
+Live Demo: [Click here - very pre-alpha!](http://meshdemocracy.org/agora/)
 
 ###Topic Tree
 The topic tree is a central component - anyone can create a topic as a subtopic of any other topic - or top-level
