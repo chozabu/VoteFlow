@@ -25,16 +25,16 @@ class Topic(models.Model):
 	def getRepresentee_links(self, voter, liquidVoted={}, results=[]):
 		topic=self
 		print "getRepresentee_links(", voter, ",", topic, ")"
-		topicScore = 0
 
 		if self.parent:
-			topicScore += self.parent.getRepresentee_links(voter, liquidVoted, results)
+			self.parent.getRepresentee_links(voter, liquidVoted, results)
 		# print topicDict[topic]
 		topicReps = Representation.objects.filter(topic=self).all()
 		for links in topicReps:
 			if links.author not in liquidVoted:
 				if links.rep == voter:
 					results.append(links)
+					print("LINK:"+str(links))
 					liquidVoted[links.author] = True
 					if self.parent:
 						self.parent.getRepresentee_links(links.author, liquidVoted, results)
@@ -126,7 +126,18 @@ class Voteable(models.Model):
 			self.liquid_vote_count = int(liquid_v_count)+votelen
 		self.liquid_sum = liquid_sum+total
 		self.save()
-
+	def get_liquid_voters_links(self):
+		votes = PostVote.objects.filter(parent=self.id).all()
+		result=[]
+		voted={}
+		print(votes)
+		for v in votes:
+			rs = []
+			repes =self.topic.getRepresentee_links(v.author, voted,rs)
+			#print(repes)
+			#print rs
+			result+=repes
+		return result
 
 	class Meta:
 		abstract = True

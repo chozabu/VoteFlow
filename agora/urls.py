@@ -34,7 +34,9 @@ urlpatterns = [
     url(r'^topics/(?P<parent_topic_id>[0-9]+)/newrep$', views.new_rep, name='newrep'),
     # ex: /agora/topics/5/subs/
     url(r'^topics/(?P<parent_topic_id>[0-9]+)/subs/', views.subscribe_topic, name='subs'),
-    # ex: /agora/topics/forcearrows/
+    # ex: /agora/topics/sankey/
+    #url(r'^all_topics/sankey/', views.post_sankey, name='post_sankey'),
+    # ex: /agora/topics/5/forcearrows/
     url(r'^all_topics/forcearrows/', views.topic_forcearrows, name='topic_forcearrows'),
     # ex: /agora/topics/5/forcearrows/
     url(r'^topics/(?P<topic_id>[0-9]+)/forcearrows/', views.topic_forcearrows, name='topic_forcearrows'),
@@ -46,6 +48,8 @@ urlpatterns = [
     url(r'^topics/(?P<topic_id>[0-9]+)/posts/(?P<post_id>[0-9]+)/$', views.posts, name='posts'),
     # ex: /agora/topics/5/posts/5/vote/
     url(r'^topics/(?P<topic_id>[0-9]+)/posts/(?P<post_id>[0-9]+)/vote/$', views.vote_post, name='vote_post'),
+    # ex: /agora/topics/5/posts/5/sankey/
+    url(r'^topics/(?P<topic_id>[0-9]+)/posts/(?P<post_id>[0-9]+)/sankey/$', views.post_sankey, name='post_sankey'),
     # ex: /agora/topics/5/posts/5/quickvote/
     url(r'^topics/(?P<topic_id>[0-9]+)/posts/(?P<post_id>[0-9]+)/quickvote/$', views.vote_post_quick, name='quickvote'),
     # ex: /agora/5/vote/

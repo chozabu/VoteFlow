@@ -24,10 +24,11 @@
     - {{ post.author.username }}: {{ post.created_at }} <br>
 
     full average: {% include "agora/inc_stars.html" with percent=post.liquid_value_percent %} {{ post.liquid_value }} <br>
+    Representation Chart:<a href="/agora/topics/{{ post.topic.id }}/posts/{{ post.id }}/sankey/">Here</a><br>
+    full sum: {{ post.liquid_sum }} <br>
+    full vote count: {{ post.liquid_vote_count }} <br>
     direct average: {% include "agora/inc_stars.html" with percent=post.direct_value_percent %} {{ post.direct_value }} <br>
-    liquid sum: {{ post.liquid_sum }} <br>
     direct sum: {{ post.direct_sum }} <br>
-    liquid vote count: {{ post.liquid_vote_count }} <br>
     direct vote count: {{ post.postvote_set.all|length }} <br>
     your vote: <br>
     <a href="/agora/topics/{{ post.topic.id }}/posts/{{ post.id }}/vote/">vote!</a><br>

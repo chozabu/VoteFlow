@@ -24,6 +24,77 @@ def index(request):
 	return render(request, 'agora/index.html')
 
 
+def post_sankey(request, post_id, topic_id=None):
+	#needs nodes - ordered list of users
+	#needs links - 2xuser index and vote value
+	import json
+	post=Post.objects.get(pk=post_id)
+	#foos = Foo.objects.all()
+	#data = serializers.serialize('json', foos)
+	#raw_topic_list = Topic.objects.all()#filter(parent=topic_id)
+	ulookup = {}
+	user_list = []
+	rep_list = []
+	uindex = 0
+	ulookup["mid"]= uindex
+	user_list.append({"name": "mid"})
+	uindex+=1
+	ulookup["low"]= uindex
+	user_list.append({"name": "low"})
+	uindex+=1
+	ulookup["high"]= uindex
+	user_list.append({"name": "high"})
+	uindex+=1
+
+	liquidvoted = {}
+
+	raw_link_list = post.get_liquid_voters_links()
+	for r in raw_link_list:
+		print r
+		if r.author.pk not in ulookup:
+			ulookup[r.author.pk]= uindex
+			user_list.append({
+				"name": r.author.username
+			})
+			uindex+=1
+		if r.rep.pk not in ulookup:
+			ulookup[r.rep.pk]= uindex
+			user_list.append({
+				"name": r.rep.username
+			})
+			uindex+=1
+
+	raw_direct_votes = PostVote.objects.filter(parent=post.id).all()
+	vals = ["low", "mid", "high"]
+	print(raw_direct_votes)
+	print(vals)
+	for v in raw_direct_votes:
+		liquidvoted[v.author] = True
+	for v in raw_direct_votes:
+		rep_list.append({
+			"source": ulookup[v.author.pk],
+			"target": ulookup[vals[int(v.value*2.9999)]],
+			"value": post.topic.getRepVotes(v.author,dict(liquidvoted))+1
+		})
+	for r in raw_link_list:
+		if r.author not in liquidvoted:#ulookup[r.author.pk] != ulookup[r.rep.pk]:
+			rep_list.append({
+				"source": ulookup[r.author.pk],
+				"target": ulookup[r.rep.pk],
+				"value": post.topic.getRepVotes(r.author,dict(liquidvoted))+1
+			})
+			#print(rep_list[-1]["value"])
+
+
+
+	nodes=json.dumps(user_list)
+	links=json.dumps(rep_list)
+	#print(raw_link_list)
+	#print(rep_list)
+	context = {"linksin":links,"nodesin":nodes}#, "rrlinks":raw_link_list}
+	current_topic = post.topic
+	context['current_topic'] = current_topic
+	return render(request, 'agora/sankey.html', context)
 def topic_forcearrows(request, topic_id=None):
 	#foos = Foo.objects.all()
 	#data = serializers.serialize('json', foos)
@@ -90,12 +161,14 @@ def all_topics(request, sort_method="subscription_set"):
 def posts(request, topic_id, post_id, sort_method="direct_value"):
 	post = get_object_or_404(Post, pk=post_id)
 	topic = get_object_or_404(Topic, pk=topic_id)
-	user_vote=PostVote.objects.filter(parent=post_id, author=request.user).first()
 	print(post)
 	print(dir(post))
 	#replies = Post.objects.filter(parent=post_id)
 	#print dir(post)
-	context={'post': post, "current_topic":topic, "user_vote":user_vote}
+	context={'post': post, "current_topic":topic}
+	if request.user.is_authenticated():
+		user_vote=PostVote.objects.filter(parent=post_id, author=request.user).first()
+		context['user_vote']=user_vote
 	context['sort_method']=sort_method
 	return render(request, 'agora/posts.html', context)#, "replies":replies})
 
