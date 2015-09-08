@@ -26,7 +26,13 @@
     Subscriptions:
     {{ selected_user.subscription_set.all }}<br><br>
     Topics Created:
-    {{ selected_user.topic_set.all }}<br><br>
+    <ul>
+    {% for topic in selected_user.topic_set.all %}
+        <li>
+            {% include "agora/inc_topic_mini.html" with  topic=topic %}
+        </li>
+    {% endfor %}
+    </ul><br><br>
     Representees:
     {{ selected_user.rep_from.all }}<br><br>
     Representitives:

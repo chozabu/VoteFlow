@@ -20,9 +20,8 @@
 {% if topic_list %}
     <ul>
         {% for topic in topic_list %}
-            <li><a href="/agora/topics/{{ topic.id }}/">{{ topic.name }}</a> ({{ topic.subscription_set.all|length }})
-            <br> author: {{ topic.author }} @ {{ topic.created_at }}
-            <br> sub-topics: {{ topic.topic_set.all|length }} Posts {{ topic.post_set.all|length }}
+            <li>
+                {% include "agora/inc_topic_mini.html" with  topic=topic %}
             </li>
         {% endfor %}
     </ul>
