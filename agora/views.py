@@ -100,6 +100,7 @@ def post_sankey(request, post_id, topic_id=None):
 	context = {"linksin":links,"nodesin":nodes}#, "rrlinks":raw_link_list}
 	current_topic = post.topic
 	context['current_topic'] = current_topic
+	context['post'] = post
 	return render(request, 'agora/sankey.html', context)
 def topic_forcearrows(request, topic_id=None):
 	#foos = Foo.objects.all()
