@@ -22,6 +22,13 @@ def index(request):
 	#context = {'topic_list': topic_list}
 	#return render(request, 'agora/index.html', context)
 	return render(request, 'agora/index.html')
+def root(request):
+	#return HttpResponse("Hello, world. You're at the agora index.")
+	#'''
+	#topic_list = Topic.objects
+	#context = {'topic_list': topic_list}
+	#return render(request, 'agora/index.html', context)
+	return render(request, 'agora/root.html')
 
 
 def post_sankey(request, post_id, topic_id=None):

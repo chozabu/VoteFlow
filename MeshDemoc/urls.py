@@ -15,9 +15,10 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
+from agora import views as agora_views
 
 urlpatterns = [
     url(r'^agora/', include('agora.urls', namespace="agora")),
-    url(r'^', include('agora.urls', namespace="agora")),
+    url(r'^$', agora_views.root, name='index'),
     url(r'^admin/', include(admin.site.urls)),
 ]
