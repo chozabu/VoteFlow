@@ -29,13 +29,13 @@
         </h2>
     by {{ post.author.username }} @ {{ post.created_at }} <br>
 
-    <h4><a href="/agora/topics/{{ post.topic.id }}/posts/{{ post.id }}/sankey/">Representation Chart</a></h4>
-    full average: {{ post.liquid_value }} {% include "agora/inc_stars.html" with percent=post.liquid_value_percent %} <br>
+    <h4>{% include "agora/inc_stars.html" with percent=post.liquid_value_percent %} <a href="/agora/topics/{{ post.topic.id }}/posts/{{ post.id }}/sankey/">Representation Chart</a></h4>
+    full average: {{ post.liquid_value_percent }}% <br>
     full sum: {{ post.liquid_sum }} <br>
     full vote count: {{ post.liquid_vote_count }} <br>
       <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#extra-post-info">More Details</button>
       <div id="extra-post-info" class="collapse">
-        direct average: {{ post.direct_value }} {% include "agora/inc_stars.html" with percent=post.direct_value_percent %} <br>
+        direct average: {{ post.direct_value_percent }}% {% include "agora/inc_stars.html" with percent=post.direct_value_percent %} <br>
         direct sum: {{ post.direct_sum }} <br>
         direct vote count: {{ post.postvote_set.all|length }} <br>
         your vote: {{ user_vote.value }} <br>

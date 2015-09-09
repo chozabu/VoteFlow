@@ -5,18 +5,21 @@
 <a href="/agora/topics/{{ post.topic.id }}/posts/{{ post.id }}/sankey/">
     ({{ post.liquid_vote_count }} votes)
 </a>
-
+{% include "agora/inc_stars.html" with percent=post.liquid_value_percent %}
 <br>
 <span>
     sum: {{ post.liquid_sum }}, direct sum: {{ post.direct_sum }}
 </span>
 <br>
 <span>
-    average: {{ post.liquid_value }}, direct average: {{ post.direct_value }}
+    average: {{ post.liquid_value_percent }}%, direct average: {{ post.direct_value_percent }}%
 </span>
 <br>
 <span>
     by: <a href="/agora/user/{{ post.author.pk }}/">
     {{ post.author.username }} </a>
-    @ {{ post.created_at }}, with: {{ post.post_set.all|length }} comments
+    @ {{ post.created_at }}, with:
+    <a href="/agora/topics/{{ post.topic.id }}/posts/{{ post.id }}/">
+    {{ post.post_set.all|length }} comments
+        </a>
 </span>
