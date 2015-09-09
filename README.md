@@ -24,14 +24,14 @@ Albert is now representing 1000 people in physics.
 Any user may vote on any Posting/Message.
 
 ##Todo
-- Correct Liquid Counting
-- Use Agora as DevMap/Todo list for its-self
-- Sorting, by user selectable methods
+- ~~Correct Liquid Counting~~
+- ~~Use Agora as DevMap/Todo list for its-self~~
+- Sorting, by user selectable methods ~~partial~~
 - Full Tree View - for topics and posts
 - images
-- user profile page
-- representation graph - show representation for a topic
-- vote graph - should representation for a vote
+- user profile page ~~partial~~
+- ~~representation graph~~ - show representation for a topic
+- ~~vote graph - should representation for a vote~~
 - groups/circles
 - AJAX/Dynamic Updates
 - Template Styling/CSS
