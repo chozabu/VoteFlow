@@ -1,7 +1,7 @@
 <div class="userlinks">
 {% if user.is_authenticated %}
     <ul>
-        <li> {{ user.username }} </li>
+        <li><a href="/agora/user/{{ user.id }}/">{{ user.username }}</a></li>
         <li><a href="/agora/logout/">logout</a></li>
     </ul>
 {% else %}
