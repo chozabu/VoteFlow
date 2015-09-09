@@ -3,7 +3,7 @@
     {{ topic.author.username }} </a> @ {{ topic.created_at }}
 <br> sub-topics: {{ topic.topic_set.all|length }} Posts {{ topic.post_set.all|length }}
     <ul>
-        {% for child_topic in topic.topic_set.all|dictsortreversed:sort_method %}
+        {% for child_topic in topic.topic_set.all|dictsort:sort_method %}
             <li>{% include "agora/inc_topic_mini.html" with  topic=child_topic %}</li>
         {% endfor %}
     </ul>
