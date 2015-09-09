@@ -17,5 +17,19 @@ Agora
     UserInfo <br>
     {% include "agora/inc_user.html" %}
     </p>
+    <div>
+        <div class="ilb">
+        <h3>Top Posts</h3>
+        {% for child_post in high_posts %}
+            <li>{% include "agora/inc_post_mini.html" with  post=child_post %}</li>
+        {% endfor %}
+        </div>
+        <div class="ilb">
+        <h3>Recent Posts</h3>
+        {% for child_post in recent_posts %}
+            <li>{% include "agora/inc_post_mini.html" with  post=child_post %}</li>
+        {% endfor %}
+        </div>
+    </div>
 
 {% endblock %}

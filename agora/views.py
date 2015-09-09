@@ -21,7 +21,10 @@ def index(request):
 	#topic_list = Topic.objects
 	#context = {'topic_list': topic_list}
 	#return render(request, 'agora/index.html', context)
-	return render(request, 'agora/index.html')
+	high_posts = Post.objects.order_by('-liquid_sum')[:5]
+	recent_posts = Post.objects.order_by('-created_at')[:5]
+	context = {'high_posts':high_posts,'recent_posts':recent_posts}
+	return render(request, 'agora/index.html', context)
 def root(request):
 	#return HttpResponse("Hello, world. You're at the agora index.")
 	#'''
