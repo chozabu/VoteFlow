@@ -46,6 +46,12 @@ Vote Results for {{ post.name }}
 <h2> Vote Results for <a href="/agora/topics/{{ post.topic.id }}/posts/{{ post.id }}/">
     {{ post.name }}
 </a> </h2>
+    <p>This chart shows who is being represented in the votes on this post
+    <ul>
+    <li>high - this person rated the post above-average</li>
+    <li>mid - this person rated the post at average</li>
+    <li>low - this person rated the post below-average</li>
+    </ul></p>
 <p id="chart"></p>
 <script src="{% static 'agora/js/d3.v2.min.js' %}"></script>
 <script src="{% static 'agora/js/sankey.js' %}"></script>
