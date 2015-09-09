@@ -1,9 +1,18 @@
-<a href="/agora/topics/{{ post.topic.id }}/posts/{{ post.id }}">
+<a href="/agora/topics/{{ post.topic.id }}/posts/{{ post.id }}/">
     {{ post.name }}
 </a>
+ -
+<a href="/agora/topics/{{ post.topic.id }}/posts/{{ post.id }}/sankey/">
+    ({{ post.liquid_vote_count }} votes)
+</a>
+
 <br>
 <span>
-    total: {{ post.liquid_value }}, direct: {{ post.direct_value }}, vote count: {{ post.postvote_set.all|length }}
+    sum: {{ post.liquid_sum }}, direct sum: {{ post.direct_sum }}
+</span>
+<br>
+<span>
+    average: {{ post.liquid_value }}, direct average: {{ post.direct_value }}
 </span>
 <br>
 <span>

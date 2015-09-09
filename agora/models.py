@@ -81,7 +81,7 @@ class Topic(models.Model):
 			return self.name
 #ABSTRACT - voteable
 class Voteable(models.Model):
-	liquid_vote_count = models.FloatField(default=0)
+	liquid_vote_count = models.IntegerField(default=0)
 	liquid_value = models.FloatField(default=0)
 	direct_value = models.FloatField(default=0)
 	liquid_sum = models.FloatField(default=0)
