@@ -164,6 +164,12 @@ def all_topics(request, sort_method="subscription_set"):
 		topic_list = Topic.objects.filter(parent=None)
 	context = {'topic_list': topic_list, "sort_method":sort_method}
 
+	if "all_topics" in request.get_full_path():
+		context['recur']=True
+		context['tpage']="all_topics"
+	else:
+		context['tpage']="topics"
+
 	return render(request, 'agora/all_topics.html', context)
 
 def posts(request, topic_id, post_id, sort_method="direct_value"):

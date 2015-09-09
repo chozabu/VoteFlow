@@ -8,20 +8,29 @@
 {% block body_block %}
 
 <p>sort method: {{ sort_method }} (
-    <a href="/agora/all_topics/sort/created_at/">created_at</a>
-    <a href="/agora/all_topics/sort/subscription_set/">subscription_set</a>
-    <a href="/agora/all_topics/sort/post_set/">post_set</a>
+    <a href="/agora/{{ tpage }}/sort/created_at/">created_at</a>
+    <a href="/agora/{{ tpage }}/sort/subscription_set/">subscription_set</a>
+    <a href="/agora/{{ tpage }}/sort/post_set/">post_set</a>
     )</p>
 
 
 
 <a href="forcearrows">Representation Map</a>
     <h3>Topics</h3>
+    {% if recur %}
+        <a href="/agora/topics/">Hide sub-topics</a>
+    {% else %}
+        <a href="/agora/all_topics/">Show Full Tree</a>
+    {% endif %}
 {% if topic_list %}
     <ul>
         {% for topic in topic_list %}
             <li>
-                {% include "agora/inc_topic_mini.html" with  topic=topic %}
+                {% if recur %}
+                    {% include "agora/inc_topic_mini_recur.html" with  topic=topic %}
+                {% else %}
+                    {% include "agora/inc_topic_mini.html" with  topic=topic %}
+                {% endif %}
             </li>
         {% endfor %}
     </ul>
