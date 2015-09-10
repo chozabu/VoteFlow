@@ -19,7 +19,7 @@
         <ul id="post_path">
             {% for p_post in post.path %}
                 <li>
-                <a href="/agora/topics/{{ post.topic.id }}/posts/{{ p_post.id }}">{{ p_post.name }}</a>
+                    <a href="/agora/topics/{{ post.topic.id }}/posts/{{ p_post.id }}">{{ p_post.name }}</a>
                 </li> >
             {% endfor %}
         </ul>
@@ -35,12 +35,12 @@
 
         <div class="floatonright">
             <h4>Options</h4>
-            <a class="add_option_link">Add Option</a>
             <ul class="miniul">
                 {% for child_post in post.get_options|dictsortreversed:sort_method %}
                     <li>{% include "agora/inc_post_mini_recur.html" with  post=child_post %}</li>
                 {% endfor %}
             </ul>
+            <a id="option" class="add_option_link">Add Option</a>
         </div>
 
         <h4>{% include "agora/inc_stars.html" with percent=post.liquid_value_percent %} <a
@@ -95,10 +95,12 @@
         <p> post not found </p>
     {% endif %}
     <script>
-        $('a.add_option_link').click(function () {
+        function reply_link_click () {
+            console.log($(this)[0].id);
+            console.log($(this));
             //$(this).closest('div.elementToRemove').remove();
             var form = $("<form/>", {
-                action: 'add_option/',
+                action: 'add_'+$(this)[0].id+'/',
                 method: 'post'
             });
             form.append(
@@ -125,6 +127,7 @@
 
             $(this).parent().append(form);
             $(this).remove();
-        });
+        }
+        $('a.add_option_link').click(reply_link_click);
     </script>
 {% endblock %}
