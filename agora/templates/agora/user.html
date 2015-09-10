@@ -10,11 +10,10 @@
 
 
 {% block body_block %}
-{{ selected_user }}
-        <h4>
-    {{ selected_user }}</h4>
+        <h2>
+    {{ selected_user }}</h2>
 
-    Representees:
+    <h4>Representees</h4>
     <ul class="miniul">
     {% for k, v in repping.items %}
         <li>{{ k.name }} <br>
@@ -26,7 +25,9 @@
         </li>
     {% endfor %}
     </ul>
-    Representitives:
+    <br>
+
+    <h4>Representitives:</h4>
     <ul class="miniul">
     {% for k, v in reps.items %}
         <li>{{ k.name }} <br>
@@ -38,24 +39,44 @@
         </li>
     {% endfor %}
     </ul>
-    Posts:
+    <br>
+
+    <h4>Posts</h4>
         <ul class="miniul">
         {% for child_post in selected_user.post_set.all %}
             <li>{% include "agora/inc_post_mini.html" with  post=child_post %}</li>
         {% endfor %}
     </ul>
-    <br><br>
-    Votes:
-    {{ selected_user.postvote_set.all }}<br><br>
-    Subscriptions:
-    {{ selected_user.subscription_set.all }}<br><br>
-    Topics Created:
+    <br>
+
+
+    <h4>Votes</h4>
+    <ul class="miniul">
+        {% for v in selected_user.postvote_set.all %}
+            <li>{{ v.value }} @
+                <a href="/agora/topics/{{ v.parent.topic.id }}/posts/{{ v.parent.id }}/">{{ v.parent.name }}</a>
+                in
+                <a href="/agora/topics/{{ v.parent.topic.id }}/">{{ v.parent.topic.name }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+    <br>
+
+    <h4>Subscriptions</h4>
+    <ul class="miniul">
+        {% for subs in selected_user.subscription_set.all %}
+            <li><a href="/agora/topics/{{ subs.topic.id }}/">{{ subs.topic.name }}</a></li>
+        {% endfor %}
+    </ul>
+    <br>
+
+    <h4>Topics Created</h4>
     <ul class="miniul">
     {% for topic in selected_user.topic_set.all %}
         <li>
             {% include "agora/inc_topic_mini.html" with  topic=topic %}
         </li>
     {% endfor %}
-    </ul><br><br>
+    </ul><br>
 
 {% endblock %}
