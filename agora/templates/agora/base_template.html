@@ -5,38 +5,38 @@
     <meta charset="UTF-8">
     <title>MeshDemoc: {% block title %}Agora{% endblock %}</title>
     {% block head_block %}{% endblock %}
-    <link rel="stylesheet" type="text/css" href="{% static 'agora/style.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'agora/style.css' %}"/>
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
-    <link rel="stylesheet" type="text/css" href="{% static 'agora/ct.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'agora/ct.css' %}"/>
 
 </head>
 <body>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 <div class="topBar">
-{% include "agora/inc_user.html" %}
+    {% include "agora/inc_user.html" %}
     <h4><a href="/">MD</a>: <a href="/agora/">Agora</a> <h4>
 </div>
 <br><br><br>
 <ul id="topic_path">
-<li><a href="/agora/all_topics/">Root Topics</a> </li> >
-{% if current_topic %}
-    {% for p_topic in current_topic.path %}
+    <li><a href="/agora/all_topics/">Root Topics</a></li>
+    {% if current_topic %}
+        {% for p_topic in current_topic.path %}
             <li>
                 <a href="/agora/topics/{{ p_topic.id }}/">{{ p_topic.name }}</a>
             </li> >
-    {% endfor %}
-{% endif %}
+        {% endfor %}
+    {% endif %}
 </ul>
-    <div id="mainContentPanel">
-        {% block body_block %}{% endblock %}
-    </div>
+<div id="mainContentPanel">
+    {% block body_block %}{% endblock %}
+</div>
 
-    <hr />
+<hr/>
 
-    <div>
-        <!--<ul>
+<div>
+    <!--<ul>
         {% if user.is_authenticated %}
             <li><a href="/rango/restricted/">Restricted Page</a></li>
             <li><a href="/rango/logout/">Logout</a></li>
@@ -48,6 +48,6 @@
 
             <li><a href="/rango/about/">About</a></li>
         </ul>-->
-    </div>
+</div>
 </body>
 </html>

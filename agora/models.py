@@ -156,6 +156,15 @@ class Post(Voteable):
 	author = models.ForeignKey(User)
 	subtype = models.CharField(max_length=20, default="comment")
 	@property
+	def path(self):
+		list = []
+		cur_top = self
+		while cur_top:
+			list.append(cur_top)
+			cur_top=cur_top.parent
+		list.reverse()
+		return list
+	@property
 	def get_comments(self):
 		return self.post_set.filter(subtype='comment')
 	@property

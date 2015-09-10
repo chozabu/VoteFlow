@@ -19,6 +19,28 @@ ul#topic_path li a:hover {
     background-color: orange;
 }
 
+ul#post_path {
+    padding: 0;
+}
+
+ul#post_path li {
+    display: inline;
+}
+
+ul#post_path li a {
+    #background-color: black;
+    #color: white;
+    padding: 5px 5px;
+    margin: 5px 5px;
+    text-decoration: none;
+    border-radius: 4px 4px 0 0;
+    border-color: black;
+}
+
+ul#post_path li a:hover {
+    background-color: orange;
+}
+
  
 .ctfbody {
   /*background-color: e9f5f1;*/

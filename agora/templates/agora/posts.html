@@ -15,12 +15,15 @@
 
 {% block body_block %}
 
-
     {% if post %}
-        <p> in <a href="/agora/topics/{{ post.topic.id }}/">{{ post.topic.name }}</a></p>
-        {% if post.parent %}
-            <h4><a href="/agora/topics/{{ post.topic.id }}/posts/{{ post.parent.id }}">{{ post.parent.name }}</a></h4>
-        {% endif %}
+        <ul id="post_path">
+            {% for p_post in post.path %}
+                <li>
+                <a href="/agora/topics/{{ post.topic.id }}/posts/{{ p_post.id }}">{{ p_post.name }}</a>
+                </li> >
+            {% endfor %}
+        </ul>
+
         <h2>
             <a href="/agora/topics/{{ post.topic.id }}/posts/{{ post.id }}">{{ post.name }}</a>
             -
