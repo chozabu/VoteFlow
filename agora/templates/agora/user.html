@@ -14,6 +14,30 @@
         <h4>
     {{ selected_user }}</h4>
 
+    Representees:
+    <ul class="miniul">
+    {% for k, v in repping.items %}
+        <li>{{ k.name }} <br>
+        <ul class="miniul">
+            {% for i in v %}
+                <li>{{ i.author }}</li>
+            {% endfor %}
+        </ul>
+        </li>
+    {% endfor %}
+    </ul>
+    Representitives:
+    <ul class="miniul">
+    {% for k, v in reps.items %}
+        <li>{{ k.name }} <br>
+        <ul class="miniul">
+            {% for i in v %}
+                <li>{{ i.author }}</li>
+            {% endfor %}
+        </ul>
+        </li>
+    {% endfor %}
+    </ul>
     Posts:
         <ul class="miniul">
         {% for child_post in selected_user.post_set.all %}
@@ -33,9 +57,5 @@
         </li>
     {% endfor %}
     </ul><br><br>
-    Representees:
-    {{ selected_user.rep_from.all }}<br><br>
-    Representitives:
-    {{ selected_user.rep_to.all }}<br><br>
 
 {% endblock %}

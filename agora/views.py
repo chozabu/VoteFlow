@@ -199,6 +199,19 @@ def posts(request, topic_id, post_id, sort_method="direct_value"):
 def view_user(request, user_id):
 	user = get_object_or_404(User, pk=user_id)
 	context={'selected_user': user}
+	repping = {}
+	for r in user.rep_from.all():
+		if r.topic not in repping:
+			repping[r.topic]=[]
+		repping[r.topic].append(r)
+	context['repping']=repping
+	
+	reps = {}
+	for r in user.rep_to.all():
+		if r.topic not in reps:
+			reps[r.topic]=[]
+		reps[r.topic].append(r)
+	context['reps']=reps
 	return render(request, 'agora/user.html', context)#, "replies":replies})
 
 def view_users(request):
