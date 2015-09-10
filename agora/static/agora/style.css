@@ -96,3 +96,13 @@ ul li:before {
   margin-left: 0.4em;
   box-shadow: -4px 4px 5px rgba(50, 50, 50, 0.2);
 }
+
+.floatonright {
+  padding: 5px;
+  margin-left: 2px;
+  border-radius: 4px;
+  border: #bdb8b2 1px solid;
+  margin-left: 0.4em;
+  box-shadow: -4px 4px 5px rgba(50, 50, 50, 0.2);
+    float: right;
+}
