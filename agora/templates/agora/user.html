@@ -15,7 +15,7 @@
     {{ selected_user }}</h4>
 
     Posts:
-        <ul>
+        <ul class="miniul">
         {% for child_post in selected_user.post_set.all %}
             <li>{% include "agora/inc_post_mini.html" with  post=child_post %}</li>
         {% endfor %}
@@ -26,7 +26,7 @@
     Subscriptions:
     {{ selected_user.subscription_set.all }}<br><br>
     Topics Created:
-    <ul>
+    <ul class="miniul">
     {% for topic in selected_user.topic_set.all %}
         <li>
             {% include "agora/inc_topic_mini.html" with  topic=topic %}

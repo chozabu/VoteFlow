@@ -31,7 +31,7 @@
     <h3>Sub Topics</h3>
 
 {% if topic_list %}
-    <ul>
+    <ul class="miniul">
         {% for topic in topic_list %}
             <li>
                 {% include "agora/inc_topic_mini.html" with  topic=topic %}
@@ -46,7 +46,7 @@
 
     <h3>Posts</h3>
     {% if post_list %}
-        <ul>
+        <ul class="miniul">
             {% for post in post_list|dictsortreversed:sort_method %}
                 <li>{% include "agora/inc_post_mini.html" with  post=post %}</li>
             {% endfor %}

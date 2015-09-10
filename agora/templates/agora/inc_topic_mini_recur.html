@@ -1,5 +1,5 @@
 {% include "agora/inc_topic_mini.html" %}
-    <ul>
+    <ul class="miniul">
         {% for child_topic in topic.topic_set.all|dictsort:sort_method %}
             <li>{% include "agora/inc_topic_mini_recur.html" with  topic=child_topic %}</li>
         {% endfor %}

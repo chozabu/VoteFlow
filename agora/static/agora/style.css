@@ -69,3 +69,30 @@ h1 span {
 #fullstars {
   background-image: url("/static/agora/img/stars.png");
 }
+
+ul {
+  list-style-type: hiragana;
+}
+
+.miniul li {
+
+  padding: 5px;
+  margin-left: 2px;
+  border-radius: 4px;
+  border: #bdb8b2 1px solid;
+  margin-left: 0.4em;
+  box-shadow: -4px 4px 5px rgba(50, 50, 50, 0.2);
+}
+
+ul li:before {
+ content: "";
+ }
+
+#mainContentPanel {
+  padding: 5px;
+  margin-left: 2px;
+  border-radius: 4px;
+  border: #bdb8b2 1px solid;
+  margin-left: 0.4em;
+  box-shadow: -4px 4px 5px rgba(50, 50, 50, 0.2);
+}

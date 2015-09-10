@@ -1,6 +1,6 @@
 
 {% include "agora/inc_post_mini.html" %}
-    <ul>
+    <ul class="miniul">
         {% for child_post in post.post_set.all|dictsortreversed:sort_method %}
             <li>{% include "agora/inc_post_mini_recur.html" with  post=child_post %}</li>
         {% endfor %}
