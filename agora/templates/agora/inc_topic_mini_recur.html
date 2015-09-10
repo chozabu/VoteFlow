@@ -1,9 +1,6 @@
-<a href="/agora/topics/{{ topic.id }}/">{{ topic.name }}</a> {{ topic.subscription_set.all|length }}
-<br> author: <a href="/agora/user/{{ topic.author.pk }}/">
-    {{ topic.author.username }} </a> @ {{ topic.created_at }}
-<br> sub-topics: {{ topic.topic_set.all|length }} Posts {{ topic.post_set.all|length }}
+{% include "agora/inc_topic_mini.html" %}
     <ul>
         {% for child_topic in topic.topic_set.all|dictsort:sort_method %}
-            <li>{% include "agora/inc_topic_mini.html" with  topic=child_topic %}</li>
+            <li>{% include "agora/inc_topic_mini_recur.html" with  topic=child_topic %}</li>
         {% endfor %}
     </ul>

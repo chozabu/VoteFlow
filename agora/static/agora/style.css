@@ -29,15 +29,24 @@ h1 span {
 
 
 
-
+.topicminititle {
+  font-size: 150%;
+}
+.postminititle {
+  font-size: 150%;
+}
 .ilb {
   display: inline-block;
   vertical-align: text-top;
-  border: double;
   border-radius: 4px;
-  border-width: 2px;
+  border-width: 1px;
   padding: 4px;
+
   margin-left: 2px;
+  border: #bdb8b2 1px solid;
+  text-align: center;
+  margin-left: 0.4em;
+  box-shadow: -4px 4px 5px rgba(50, 50, 50, 0.2);
 }
 #starscontainer {
   width: 100px;

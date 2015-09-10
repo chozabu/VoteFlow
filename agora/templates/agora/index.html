@@ -1,34 +1,40 @@
 {% extends 'agora/base_template.html' %}
 {% block title %}
-Agora
+    Agora
 {% endblock %}
 
 {% block body_block %}
-        <div class="title">
-            <h1>Mesh Democracy: <span>Agora</span></h1>
-        </div>
+    <div class="title">
+        <h1>Mesh Democracy: <span>Agora</span></h1>
+    </div>
 
-<ul>
-    <li><a href="all_topics/">Topics</a></li>
-    <li><a href="all_topics/forcearrows/">Representation Map</a></li>
-    <li><a href="users/">Users</a></li>
-</ul>
+    <div>
+        <div class="ilb">
+            <h2><a href="all_topics/">Topics</a></h2>
+        </div>
+        <div class="ilb">
+            <h2><a href="all_topics/forcearrows/">Representation Map</a></h2>
+        </div>
+        <div class="ilb">
+            <h2><a href="users/">Users</a></h2>
+        </div>
+    </div>
     <p>
-    UserInfo <br>
-    {% include "agora/inc_user.html" %}
+        UserInfo <br>
+        {% include "agora/inc_user.html" %}
     </p>
     <div>
         <div class="ilb">
-        <h3>Top Posts</h3>
-        {% for child_post in high_posts %}
-            <li>{% include "agora/inc_post_mini.html" with  post=child_post %}</li>
-        {% endfor %}
+            <h3>Top Posts</h3>
+            {% for child_post in high_posts %}
+                <li>{% include "agora/inc_post_mini.html" with  post=child_post %}</li>
+            {% endfor %}
         </div>
         <div class="ilb">
-        <h3>Recent Posts</h3>
-        {% for child_post in recent_posts %}
-            <li>{% include "agora/inc_post_mini.html" with  post=child_post %}</li>
-        {% endfor %}
+            <h3>Recent Posts</h3>
+            {% for child_post in recent_posts %}
+                <li>{% include "agora/inc_post_mini.html" with  post=child_post %}</li>
+            {% endfor %}
         </div>
     </div>
 
