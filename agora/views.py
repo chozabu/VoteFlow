@@ -250,6 +250,23 @@ def new_topic(request, parent_topic_id=None):
 
 	return render(request, 'agora/newtopic.html', {'form': form, "parent_topic":parent_topic})
 
+def reply_post_quick(request, topic_id, post_id, reply_type="comment"):
+	# if this is a POST request we need to process the form data
+	if not request.user.is_authenticated():
+		print "noauth in quickvote"
+		return None
+	if request.method == 'POST':
+		ptext = request.POST['text']
+		print "QUICKREPLY", ptext
+		prnt = Post.objects.get(id=post_id)
+		topic = Topic.objects.get(id=topic_id)
+		#TODO! CHECK topic_id == prnt.topic_id!!
+		newpost = Post(subtype=reply_type, name=ptext,topic=topic, parent=prnt, author=request.user)
+		newpost.save()
+		return HttpResponseRedirect('/agora/topics/'+str(topic_id)+"/posts/"+str(post_id))
+	return HttpResponseRedirect('/agora/topics/'+str(topic_id)+"/posts/"+str(post_id))
+
+
 def vote_post_quick(request, topic_id, post_id):
 	# if this is a POST request we need to process the form data
 	if not request.user.is_authenticated():

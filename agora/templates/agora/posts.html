@@ -1,11 +1,11 @@
 {% extends 'agora/base_template.html' %}
 
 {% block title %}
-{% if current_topic %}
-    {{ current_topic.name }} : {{ post.name }}
-{% else %}
-    Post
-{% endif %}
+    {% if current_topic %}
+        {{ current_topic.name }} : {{ post.name }}
+    {% else %}
+        Post
+    {% endif %}
 {% endblock %}
 
 {% block head_block %}
@@ -15,72 +15,113 @@
 
 {% block body_block %}
 
-{% if post %}
-    <p> in <a href="/agora/topics/{{ post.topic.id }}/">{{ post.topic.name }}</a></p>
-    {% if post.parent %}
-        <h4><a href="/agora/topics/{{ post.topic.id }}/posts/{{ post.parent.id }}">{{ post.parent.name }}</a></h4>
-    {% endif %}
-    <h2>
-        <a href="/agora/topics/{{ post.topic.id }}/posts/{{ post.id }}">{{ post.name }}</a>
-        -
-        <a href="/agora/topics/{{ post.topic.id }}/posts/{{ post.id }}/sankey/">
-        ({{ post.liquid_vote_count }} votes)
-        </a>
+
+    {% if post %}
+        <p> in <a href="/agora/topics/{{ post.topic.id }}/">{{ post.topic.name }}</a></p>
+        {% if post.parent %}
+            <h4><a href="/agora/topics/{{ post.topic.id }}/posts/{{ post.parent.id }}">{{ post.parent.name }}</a></h4>
+        {% endif %}
+        <h2>
+            <a href="/agora/topics/{{ post.topic.id }}/posts/{{ post.id }}">{{ post.name }}</a>
+            -
+            <a href="/agora/topics/{{ post.topic.id }}/posts/{{ post.id }}/sankey/">
+                ({{ post.liquid_vote_count }} votes)
+            </a>
         </h2>
-    by {{ post.author.username }} @ {{ post.created_at }} <br>
+        by {{ post.author.username }} @ {{ post.created_at }} <br>
 
-    <h4>{% include "agora/inc_stars.html" with percent=post.liquid_value_percent %} <a href="/agora/topics/{{ post.topic.id }}/posts/{{ post.id }}/sankey/">Representation Chart</a></h4>
-    full average: {{ post.liquid_value_percent }}% <br>
-    full sum: {{ post.liquid_sum }} <br>
-    full vote count: {{ post.liquid_vote_count }} <br>
-      <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#extra-post-info">More Details</button>
-      <div id="extra-post-info" class="collapse">
-        direct average: {{ post.direct_value_percent }}% {% include "agora/inc_stars.html" with percent=post.direct_value_percent %} <br>
-        direct sum: {{ post.direct_sum }} <br>
-        direct vote count: {{ post.postvote_set.all|length }} <br>
-        your vote: {{ user_vote.value }} <br>
-      </div>
-    <br>
+        <div class="floatonright">
+            <h4>Options</h4>
+            <a class="add_option_link">Add Option</a>
+            <ul class="miniul">
+                {% for child_post in post.get_options|dictsortreversed:sort_method %}
+                    <li>{% include "agora/inc_post_mini_recur.html" with  post=child_post %}</li>
+                {% endfor %}
+            </ul>
+        </div>
 
-    <a href="/agora/topics/{{ post.topic.id }}/posts/{{ post.id }}/vote/">vote!</a><br>
+        <h4>{% include "agora/inc_stars.html" with percent=post.liquid_value_percent %} <a
+                href="/agora/topics/{{ post.topic.id }}/posts/{{ post.id }}/sankey/">Representation Chart</a></h4>
+        full average: {{ post.liquid_value_percent }}% <br>
+        full sum: {{ post.liquid_sum }} <br>
+        full vote count: {{ post.liquid_vote_count }} <br>
+        <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#extra-post-info">More Details
+        </button>
+        <div id="extra-post-info" class="collapse">
+            direct
+            average: {{ post.direct_value_percent }}% {% include "agora/inc_stars.html" with percent=post.direct_value_percent %}
+            <br>
+            direct sum: {{ post.direct_sum }} <br>
+            direct vote count: {{ post.postvote_set.all|length }} <br>
+            your vote: {{ user_vote.value }} <br>
+        </div>
+        <br>
 
-    <form action="/agora/topics/{{ post.topic.id }}/posts/{{ post.id }}/quickvote/" method="post">
-        {% csrf_token %}
-    <input name="voteslider" value={{ user_vote.value_percent }} id="slider1" type="range" min="0" max="100" step="10" style="position:relative; width:300px; height:20px; border:1px solid #cccccc;" />
+        <a href="/agora/topics/{{ post.topic.id }}/posts/{{ post.id }}/vote/">vote!</a><br>
 
-        <input type="submit" value="Vote"/>
-    </form>
-    <br>
-    <h4>Tags:</h4>
-    <div id="tagcontainer">
-        {% for tag in post.tag_set.all %}
-            <span>{{ tag.name }}</span>,
-        {% endfor %}
-    </div>
-    <a href="/agora/topics/{{ post.topic.id }}/posts/{{ post.id }}/newtag/">Add Tag!</a><br>
+        <form action="/agora/topics/{{ post.topic.id }}/posts/{{ post.id }}/quickvote/" method="post">
+            {% csrf_token %}
+            <input name="voteslider" value={{ user_vote.value_percent }} id="slider1" type="range" min="0" max="100"
+                   step="10" style="position:relative; width:300px; height:20px; border:1px solid #cccccc;"/>
 
-    <div class="floatonright">
-    <h4>Options</h4>
-    <ul class="miniul">
-        {% for child_post in post.get_options|dictsortreversed:sort_method %}
-            <li>{% include "agora/inc_post_mini_recur.html" with  post=child_post %}</li>
-        {% endfor %}
-    </ul>
-    </div>
-    <h4>Replies</h4>
-    <a href="/agora/topics/{{ current_topic.id }}/newpost/{{ post.id }}">Reply to Post</a>
-    <p>sort method: {{ sort_method }} (
-    <a href="/agora/topics/{{ current_topic.id }}/posts/{{ post.parent.id }}/sort/liquid_value/">liquid_value</a>
-    <a href="/agora/topics/{{ current_topic.id }}/posts/{{ post.parent.id }}/sort/direct_value/">direct_value</a>
-    <a href="/agora/topics/{{ current_topic.id }}/posts/{{ post.parent.id }}/sort/created_at/">created_at</a>
-    )</p>
-    <ul class="miniul">
-        {% for child_post in post.get_comments|dictsortreversed:sort_method %}
-            <li>{% include "agora/inc_post_mini_recur.html" with  post=child_post %}</li>
-        {% endfor %}
-    </ul>
+            <input type="submit" value="Vote"/>
+        </form>
+        <br>
+        <h4>Tags:</h4>
+        <div id="tagcontainer">
+            {% for tag in post.tag_set.all %}
+                <span>{{ tag.name }}</span>,
+            {% endfor %}
+        </div>
+        <a href="/agora/topics/{{ post.topic.id }}/posts/{{ post.id }}/newtag/">Add Tag!</a><br>
 
-{% else %}
-    <p> post not found </p>
-{% endif %}
+        <h4>Replies</h4>
+        <a href="/agora/topics/{{ current_topic.id }}/newpost/{{ post.id }}">Reply to Post</a>
+        <p>sort method: {{ sort_method }} (
+            <a href="/agora/topics/{{ current_topic.id }}/posts/{{ post.parent.id }}/sort/liquid_value/">liquid_value</a>
+            <a href="/agora/topics/{{ current_topic.id }}/posts/{{ post.parent.id }}/sort/direct_value/">direct_value</a>
+            <a href="/agora/topics/{{ current_topic.id }}/posts/{{ post.parent.id }}/sort/created_at/">created_at</a>
+            )</p>
+        <ul class="miniul">
+            {% for child_post in post.get_comments|dictsortreversed:sort_method %}
+                <li>{% include "agora/inc_post_mini_recur.html" with  post=child_post %}</li>
+            {% endfor %}
+        </ul>
+
+    {% else %}
+        <p> post not found </p>
+    {% endif %}
+    <script>
+        $('a.add_option_link').click(function () {
+            //$(this).closest('div.elementToRemove').remove();
+            var form = $("<form/>", {
+                action: 'add_option/',
+                method: 'post'
+            });
+            form.append(
+                    $("<input/>", {
+                        type: 'text',
+                        placeholder: '...',
+                        name: 'text',
+                        style: 'width:65%'
+                    }));
+            form.append(
+                    $("{% csrf_token %}"));
+            var submit_button = $("<input/>", {
+                type: 'submit',
+                value: 'post',
+                style: 'width:30%'
+            });
+
+            form.append(submit_button);
+
+            /*form.submit(function (event) {});*/
+            form.bind('ajax:complete', function () {
+                console.log("done!")
+            });
+
+            $(this).parent().append(form);
+            $(this).remove();
+        });
+    </script>
 {% endblock %}
