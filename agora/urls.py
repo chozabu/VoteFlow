@@ -40,6 +40,7 @@ urlpatterns = [
     #url(r'^all_topics/sankey/', views.post_sankey, name='post_sankey'),
     # ex: /agora/topics/5/forcearrows/
     url(r'^all_topics/forcearrows/', views.topic_forcearrows, name='topic_forcearrows'),
+    url(r'^topics/forcearrows/', views.topic_forcearrows, name='topic_forcearrows'),
     # ex: /agora/topics/5/forcearrows/
     url(r'^topics/(?P<topic_id>[0-9]+)/forcearrows/', views.topic_forcearrows, name='topic_forcearrows'),
     # ex: /agora/topics/new/
