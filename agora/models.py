@@ -2,6 +2,7 @@ import datetime
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
+from django.db.models.functions import Length
 
 #topic
 class Topic(models.Model):
@@ -11,6 +12,12 @@ class Topic(models.Model):
 	created_at = models.DateField(auto_now_add=True)
 	modified_at = models.DateField(auto_now=True)
 
+	@property
+	def sorted_subs(self):
+		return self.topic_set.order_by(Length('subscription').desc())
+	@property
+	def num_followers(self):
+		return self.topic_set.count()
 		#liquid votes
 		#for each vote author
 			#get list of reps in topics to root
