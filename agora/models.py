@@ -147,6 +147,13 @@ class Post(Voteable):
 	name = models.CharField(max_length=200)
 	parent = models.ForeignKey("self", null = True, blank=True)
 	author = models.ForeignKey(User)
+	subtype = models.CharField(max_length=20, default="comment")
+	@property
+	def get_comments(self):
+		return self.post_set.filter(subtype='comment')
+	@property
+	def get_options(self):
+		return self.post_set.filter(subtype='option')
 	def __unicode__(self):
 		return self.name
 
