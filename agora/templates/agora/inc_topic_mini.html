@@ -1,4 +1,9 @@
-<a class="topicminititle" href="/agora/topics/{{ topic.id }}/">{{ topic.name }}</a> {{ topic.subscription_set.all|length }}
-<br> author: <a href="/agora/user/{{ topic.author.pk }}/">
-    {{ topic.author.username }} </a> @ {{ topic.created_at }}
-<br> sub-topics: {{ topic.topic_set.all|length }} Posts {{ topic.post_set.all|length }}
+<div class="topicminititle">
+    <a href="/agora/topics/{{ topic.id }}/">
+        {{ topic.name }}
+    </a>
+    <span>{{ topic.subscription_set.all|length }}</span>
+</div>
+<br><span> author: <a href="/agora/user/{{ topic.author.pk }}/">
+    {{ topic.author.username }} </a> @ {{ topic.created_at }}</span>
+<br> <span>sub-topics: {{ topic.topic_set.all|length }} Posts {{ topic.post_set.all|length }} </span>

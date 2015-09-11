@@ -48,11 +48,11 @@
 
         <button title="(average|sum|count)" type="button" class="btn btn-info" data-toggle="collapse" data-target="#basic-post-info">
             {% include "agora/inc_stars.html" with percent=post.liquid_value_percent %}<br>
-            ({{ post.liquid_value_percent }}% | {{ post.liquid_sum }} | {{ post.liquid_vote_count }})
+            ({{ post.liquid_value_percent|floatformat }}% | {{ post.liquid_sum|floatformat }} | {{ post.liquid_vote_count }})
         </button>
         <div id="basic-post-info" class="collapse">
-        Full average: {{ post.liquid_value_percent }}%<br>
-        full sum: {{ post.liquid_sum }} <br>
+        Full average: {{ post.liquid_value_percent|floatformat }}%<br>
+        full sum: {{ post.liquid_sum|floatformat }} <br>
         full vote count: {{ post.liquid_vote_count }} <br>
         <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#extra-post-info">
             Direct Vote Details
