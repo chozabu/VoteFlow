@@ -79,7 +79,10 @@
         <a href="/agora/topics/{{ post.topic.id }}/posts/{{ post.id }}/newtag/">Add Tag!</a><br>
 
         <h4>Replies</h4>
-        <a href="/agora/topics/{{ current_topic.id }}/newpost/{{ post.id }}">Reply to Post</a>
+        <div>
+            <a id="comment" class="add_comment_link">Reply to Post</a>
+        </div>
+        <!--<a href="/agora/topics/{{ current_topic.id }}/newpost/{{ post.id }}">Reply to Post</a>-->
         <p>sort method: {{ sort_method }} (
             <a href="/agora/topics/{{ current_topic.id }}/posts/{{ post.parent.id }}/sort/liquid_value/">liquid_value</a>
             <a href="/agora/topics/{{ current_topic.id }}/posts/{{ post.parent.id }}/sort/direct_value/">direct_value</a>
@@ -95,12 +98,12 @@
         <p> post not found </p>
     {% endif %}
     <script>
-        function reply_link_click () {
+        function reply_link_click() {
             console.log($(this)[0].id);
             console.log($(this));
             //$(this).closest('div.elementToRemove').remove();
             var form = $("<form/>", {
-                action: 'add_'+$(this)[0].id+'/',
+                action: 'add_' + $(this)[0].id + '/',
                 method: 'post'
             });
             form.append(
@@ -129,5 +132,6 @@
             $(this).remove();
         }
         $('a.add_option_link').click(reply_link_click);
+        $('a.add_comment_link').click(reply_link_click);
     </script>
 {% endblock %}
