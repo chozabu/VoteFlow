@@ -1,15 +1,35 @@
 {% extends 'agora/base_template.html' %}
 {% block title %}
-{{ title }}
+    {{ title }}
 {% endblock %}
 
 {% block body_block %}
-    {% if form.errors %}
-        <p class="error">Oops, invalid username or password</p>
+    {% if user and not user.is_anonymous %}
+        <ul>
+            <li>
+                <a>Hello {{ user.get_full_name|default:user.username }}!</a>
+            </li>
+            <li>
+                <a href="{% url 'auth:logout' %}?next={{ request.path }}">Logout</a>
+            </li>
+        </ul>
+    {% else %}
+        <ul>
+            <li>
+                <a href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}">Login with Facebook</a>
+            </li>
+            <li>
+                <a href="{% url 'social:begin' 'google-oauth2' %}?next={{ request.path }}">Login with Google</a>
+            </li>
+        </ul>
+
+        {% if form.errors %}
+            <p class="error">Oops, invalid username or password</p>
+        {% endif %}
+        <form action="/agora/login/" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="login"/>
+        </form>
     {% endif %}
-    <form action="/agora/login/" method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="login"/>
-    </form>
 {% endblock %}

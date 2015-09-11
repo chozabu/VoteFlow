@@ -277,8 +277,7 @@ def reply_post_quick(request, topic_id, post_id, reply_type="comment"):
 	# if this is a POST request we need to process the form data
 	if not request.user.is_authenticated():
 		print "noauth in quickvote"
-		raise Http404('Not logged in!')
-		return None
+		return HttpResponseRedirect("/agora/login")
 	if request.method == 'POST':
 		ptext = request.POST['text']
 		print "QUICKREPLY", ptext
@@ -295,8 +294,7 @@ def vote_post_quick(request, topic_id, post_id):
 	# if this is a POST request we need to process the form data
 	if not request.user.is_authenticated():
 		print "noauth in quick post"
-		raise Http404('Not logged in!')
-		return None
+		return HttpResponseRedirect("/agora/login")
 	if request.method == 'POST':
 		#covert (0 ... 100) to (-1 ... 1)
 		voteval = float(request.POST['voteslider'])*.02-1.
@@ -315,8 +313,7 @@ def vote_post_quick(request, topic_id, post_id):
 def vote_post(request, topic_id, post_id):
 	# if this is a POST request we need to process the form data
 	if not request.user.is_authenticated():
-		raise Http404('Not logged in!')
-		return None
+		return HttpResponseRedirect("/agora/login")
 
 	if request.method == 'POST':
 		form = PostVoteForm(request.POST)
@@ -343,8 +340,7 @@ def vote_post(request, topic_id, post_id):
 
 def new_post(request, parent_topic_id, parent_post_id=None):
 	if not request.user.is_authenticated():
-		raise Http404('Not logged in!')
-		return None
+		return HttpResponseRedirect("/agora/login")
 	# if this is a POST request we need to process the form data
 	if request.method == 'POST':
 		form = PostForm(request.POST)
@@ -367,8 +363,7 @@ def new_post(request, parent_topic_id, parent_post_id=None):
 
 def new_tag(request, post_id, topic_id=None):
 	if not request.user.is_authenticated():
-		raise Http404('Not logged in!')
-		return None
+		return HttpResponseRedirect("/agora/login")
 	# if this is a POST request we need to process the form data
 	if request.method == 'POST':
 		form = TagForm(request.POST)
@@ -405,8 +400,7 @@ def new_tag(request, post_id, topic_id=None):
 def new_rep(request, parent_topic_id):
 	# if this is a POST request we need to process the form data
 	if not request.user.is_authenticated():
-		raise Http404('Not logged in!')
-		return None
+		return HttpResponseRedirect("/agora/login")
 	rep=Representation.objects.filter(topic=parent_topic_id, author=request.user).first()
 	if request.method == 'POST':
 		form = RepForm(request.POST)
@@ -434,8 +428,7 @@ def new_rep(request, parent_topic_id):
 
 def subscribe_topic(request, parent_topic_id):
 	if not request.user.is_authenticated():
-		raise Http404('Not logged in!')
-		return None
+		return HttpResponseRedirect("/agora/login")
 	sub = Subscription.objects.filter(topic=parent_topic_id, author=request.user).first()
 	if sub:
 		Subscription.objects.filter(topic=parent_topic_id, author=request.user).delete()
@@ -476,7 +469,8 @@ def login_user(request):
 	return render	(request, 'agora/login.html', {'form': form})
 
 def new_user(request):
-	if request.method == "POST":
+	raise Http404('Disabled for now - use FB or Google login!')
+	'''if request.method == "POST":
 		form = UserCreationForm(data = request.POST)
 		if form.is_valid():
 			u = form.save()
@@ -486,7 +480,7 @@ def new_user(request):
 			#redirect('edit_user', user_id = u.id)
 	else:
 		form = UserCreationForm()
-	return render	(request, 'agora/newuser.html', {'form': form})
+	return render	(request, 'agora/newuser.html', {'form': form})'''
 def logout_user(request):
 	logout(request)
-	return HttpResponseRedirect("/agora/")
+	return HttpResponseRedirect("/agora/login")
