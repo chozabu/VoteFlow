@@ -21,9 +21,26 @@ def index(request):
 	#topic_list = Topic.objects
 	#context = {'topic_list': topic_list}
 	#return render(request, 'agora/index.html', context)
-	high_posts = Post.objects.order_by('-liquid_sum')[:5]
-	recent_posts = Post.objects.order_by('-created_at')[:5]
-	context = {'high_posts':high_posts,'recent_posts':recent_posts}
+	context = { 'pboxes':[
+		{"name":"High Rated Posts",
+		'items':Post.objects.filter(parent=None).order_by('-liquid_value')[:5]
+		},
+		{"name":"Recent Posts",
+		'items':Post.objects.filter(parent=None).order_by('-created_at')[:5]
+		},
+		{"name":"Top Posts",
+		'items':Post.objects.filter(parent=None).order_by('-liquid_sum')[:5]
+		},
+		{"name":"High Rated Comments",
+		'items':Post.objects.filter(parent__isnull=True).order_by('-liquid_value')[:5],
+		},
+		{"name":"Recent Comments",
+		'items':Post.objects.filter(parent__isnull=True).order_by('-created_at')[:5],
+		},
+		{"name":"Top Comments",
+		'items':Post.objects.filter(parent__isnull=True).order_by('-liquid_sum')[:5],
+		},
+	]}
 	return render(request, 'agora/index.html', context)
 def root(request):
 	#return HttpResponse("Hello, world. You're at the agora index.")
