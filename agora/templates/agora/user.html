@@ -12,8 +12,16 @@
 {% block body_block %}
         <h2>{{ selected_user }}</h2>
 
-    {% if social_services %}
-        {{ social_services }}
+    {% if fb_ss %}
+        <p>Connected with FaceBook!</p>
+    {% else %}
+        <p><a href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}">Connect with Facebook</a></p>
+    {% endif %}
+
+    {% if goog_ss %}
+        <p>Connected with Google!</p>
+    {% else %}
+       <a href="{% url 'social:begin' 'google-oauth2' %}?next={{ request.path }}">Connect with Google</a>
     {% endif %}
 
     <h4>Representees</h4>

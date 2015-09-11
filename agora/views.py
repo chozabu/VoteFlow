@@ -239,8 +239,8 @@ def view_user(request, user_id):
 	context['reps']=reps
 
 	if request.user.is_authenticated() and user==request.user:
-		social_services = UserSocialAuth.objects.filter(user=request.user)
-		context['social_services']=social_services
+		context['fb_ss'] = UserSocialAuth.objects.filter(user=request.user, provider="facebook")
+		context['goog_ss'] = UserSocialAuth.objects.filter(user=request.user, provider="google-oauth2")
 
 	return render(request, 'agora/user.html', context)#, "replies":replies})
 
