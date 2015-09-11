@@ -35,7 +35,7 @@ ul#topic_path li a {
 }
 
 ul#topic_path li a:hover {
-    background-color: #c2d2ff;
+    background-color: #caffca;
 }
 
 ul#post_path {
@@ -57,7 +57,7 @@ ul#post_path li a {
 }
 
 ul#post_path li a:hover {
-    background-color: orange;
+    background-color: #bfc7ff;
 }
 
  
