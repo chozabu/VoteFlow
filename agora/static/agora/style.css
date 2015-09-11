@@ -71,7 +71,7 @@ h1 span {
 }
 
 ul {
-  list-style-type: hiragana;
+  list-style-type: none;
 }
 
 .miniul li {
@@ -84,9 +84,6 @@ ul {
   box-shadow: -4px 4px 5px rgba(50, 50, 50, 0.2);
 }
 
-ul li:before {
- content: "";
- }
 
 #mainContentPanel {
   padding: 5px;
