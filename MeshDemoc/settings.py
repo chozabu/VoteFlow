@@ -9,7 +9,9 @@ https://docs.djangoproject.com/en/1.8/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.8/ref/settings/
 """
-
+import json
+with open('localsettings.json') as data_file:
+    localsettings = json.load(data_file)
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 
@@ -20,7 +22,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'hc%gux5n=7gvw59=m6wr_tb2sq$1=a067rqvz57%%!nx#ibk^*'
+SECRET_KEY = localsettings['secret_key']
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -37,6 +39,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'social.apps.django_app.default',
     'agora',
 )
 
