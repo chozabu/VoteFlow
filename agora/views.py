@@ -8,6 +8,8 @@ from django.db.models import Count
 
 from django.core import serializers
 
+from social.apps.django_app.default.models import UserSocialAuth
+
 from .forms import TopicForm, PostForm, RepForm, PostVoteForm, TagForm, TagVoteForm
 
 
@@ -235,6 +237,10 @@ def view_user(request, user_id):
 			reps[r.topic]=[]
 		reps[r.topic].append(r)
 	context['reps']=reps
+
+	if request.user.is_authenticated() and user_id==request.user.id:
+		social_services = UserSocialAuth.objects.filter(user=request.user)
+		context['social_services']=social_services
 	return render(request, 'agora/user.html', context)#, "replies":replies})
 
 def view_users(request):

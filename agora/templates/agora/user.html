@@ -10,8 +10,11 @@
 
 
 {% block body_block %}
-        <h2>
-    {{ selected_user }}</h2>
+        <h2>{{ selected_user }}</h2>
+
+    {% if social_services %}
+        {{ social_services }}
+    {% endif %}
 
     <h4>Representees</h4>
     <ul class="miniul">
