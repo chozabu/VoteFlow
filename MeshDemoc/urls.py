@@ -21,4 +21,5 @@ urlpatterns = [
     url(r'^agora/', include('agora.urls', namespace="agora")),
     url(r'^$', agora_views.root, name='index'),
     url(r'^admin/', include(admin.site.urls)),
+    url('', include('social.apps.django_app.urls', namespace='social')),
 ]

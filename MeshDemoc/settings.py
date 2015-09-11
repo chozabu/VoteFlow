@@ -12,6 +12,11 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 import json
 with open('localsettings.json') as data_file:
     localsettings = json.load(data_file)
+def gl(attr):
+    if attr in localsettings:
+        return localsettings[attr]
+    print "error, json setting not found:",attr
+    return ''
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 
@@ -22,7 +27,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = localsettings['secret_key']
+SECRET_KEY = gl('secret_key')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -39,7 +44,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    #'social.apps.django_app.default',
+    'social.apps.django_app.default',
     'agora',
 )
 
@@ -107,3 +112,32 @@ STATIC_URL = '/static/'
 import getpass
 if getpass.getuser() == 'alexpb':
 	STATIC_ROOT = os.path.dirname(BASE_DIR) + '/meshdemocracy.org/public/static/'
+
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.contrib.auth.context_processors.auth',
+    'django.core.context_processors.debug',
+    'django.core.context_processors.i18n',
+    'django.core.context_processors.media',
+   'django.core.context_processors.static',
+   'django.core.context_processors.tz',
+    'django.contrib.messages.context_processors.messages',
+    'social.apps.django_app.context_processors.backends',
+   'social.apps.django_app.context_processors.login_redirect',
+)
+
+
+AUTHENTICATION_BACKENDS = (
+   'social.backends.facebook.FacebookOAuth2',
+   'social.backends.google.GoogleOAuth2',
+   'social.backends.twitter.TwitterOAuth',
+   'django.contrib.auth.backends.ModelBackend',
+)
+
+SOCIAL_AUTH_FACEBOOK_KEY = localsettings['SOCIAL_AUTH_FACEBOOK_KEY']
+SOCIAL_AUTH_FACEBOOK_SECRET = gl('SOCIAL_AUTH_FACEBOOK_SECRET')
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = gl('SOCIAL_AUTH_GOOGLE_OAUTH2_KEY')
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = gl('SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET')
+#SOCIAL_AUTH_TWITTER_KEY =
+#SOCIAL_AUTH_TWITTER_SECRET =
+

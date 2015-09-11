@@ -10,6 +10,8 @@ urlpatterns = [
     url(r'^new_user/$', views.new_user, name='new_user'),
     # ex: /agora/login/
     url(r'^login/$', views.login_user, name='login'),
+    # ex: /agora/login2/
+    url(r'^login2/$', views.home, name='home'),
     # ex: /agora/logout/
     url(r'^logout/$', views.logout_user, name='logout'),
     # ex: /agora/all_topics/
