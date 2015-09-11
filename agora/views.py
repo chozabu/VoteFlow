@@ -238,9 +238,10 @@ def view_user(request, user_id):
 		reps[r.topic].append(r)
 	context['reps']=reps
 
-	if request.user.is_authenticated() and user_id==request.user.id:
+	if request.user.is_authenticated() and user==request.user:
 		social_services = UserSocialAuth.objects.filter(user=request.user)
 		context['social_services']=social_services
+
 	return render(request, 'agora/user.html', context)#, "replies":replies})
 
 def view_users(request):
