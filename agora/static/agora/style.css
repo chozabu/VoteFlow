@@ -48,6 +48,12 @@ h1 span {
   margin-left: 0.4em;
   box-shadow: -4px 4px 5px rgba(50, 50, 50, 0.2);
 }
+.ilb h2{
+  background-color: transparent;
+  box-shadow: none;
+  padding: 2px;
+  margin: 2px;
+}
 #starscontainer {
   width: 100px;
   height: 20px;

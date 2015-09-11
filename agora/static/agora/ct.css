@@ -1,11 +1,13 @@
 /* name: ct.css */
 
-h2 {
+h1, h2 {
     background-color: #ffefc2;
     color: #000000;
     padding: 10px 20px;
     text-decoration: none;
     border-radius: 5px;
+    margin-left: -.2em;
+  box-shadow: -4px 4px 5px rgba(50, 50, 50, 0.2);
 }
 
 .tagspan {
@@ -37,7 +39,7 @@ ul#topic_path li a:hover {
 }
 
 ul#post_path {
-    padding: 0;
+    padding: .2em;
 }
 
 ul#post_path li {
