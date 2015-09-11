@@ -115,6 +115,7 @@ class Voteable(models.Model):
 		for v in votes:
 			total+=v.value
 			voted[v.author]=True
+			print v.value
 		votelen=len(votes)
 		self.direct_sum = total
 		self.direct_value = total/votelen
@@ -129,9 +130,11 @@ class Voteable(models.Model):
 			self.liquid_value = self.direct_value
 			self.liquid_vote_count = int(votelen)
 		else:
+			print liquid_sum,total,liquid_v_count,votelen
 			self.liquid_value = (liquid_sum+total)/float(liquid_v_count+votelen)
 			self.liquid_vote_count = int(liquid_v_count)+votelen
 		self.liquid_sum = liquid_sum+total
+		print liquid_sum, total
 		self.save()
 	def get_liquid_voters_links(self):
 		votes = PostVote.objects.filter(parent=self.id).all()

@@ -274,7 +274,7 @@ def vote_post_quick(request, topic_id, post_id):
 		return None
 	if request.method == 'POST':
 		#covert (0 ... 100) to (-1 ... 1)
-		voteval = float(request.POST['voteslider'])*.02-.5
+		voteval = float(request.POST['voteslider'])*.02-1.
 		print "QUICKVOTE", voteval
 		vote=PostVote.objects.filter(parent=post_id, author=request.user).first()
 		prnt = Post.objects.get(id=post_id)
