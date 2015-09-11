@@ -101,10 +101,10 @@ class Voteable(models.Model):
 
 	@property
 	def liquid_value_percent(self):
-		return self.liquid_value * 100.
+		return self.liquid_value * 50. + 50.
 	@property
 	def direct_value_percent(self):
-		return self.direct_value * 100.
+		return self.direct_value * 50. + 50.
 
 	def count_votes(self):
 		print "======counting votes======"
@@ -204,7 +204,7 @@ class MetaVote(models.Model):
 	modified_at = models.DateField(auto_now=True)
 	@property
 	def value_percent(self):
-		return self.value * 100.
+		return self.value * 50. + 50.
 	def __unicode__(self):
 		return self.author.username + " : " + str(self.value) + "@" + self.parent.name[0:20]
 

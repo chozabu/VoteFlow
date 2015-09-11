@@ -273,7 +273,8 @@ def vote_post_quick(request, topic_id, post_id):
 		print "noauth in quickvote"
 		return None
 	if request.method == 'POST':
-		voteval = float(request.POST['voteslider'])*.01
+		#covert (0 ... 100) to (-1 ... 1)
+		voteval = float(request.POST['voteslider'])*.02-.5
 		print "QUICKVOTE", voteval
 		vote=PostVote.objects.filter(parent=post_id, author=request.user).first()
 		prnt = Post.objects.get(id=post_id)

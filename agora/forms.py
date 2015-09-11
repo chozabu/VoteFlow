@@ -15,7 +15,7 @@ class PostForm(forms.Form):
 
 class PostVoteForm(forms.Form):
 	post_id = forms.ModelChoiceField(label='Parent',queryset = Post.objects.all())
-	value = forms.FloatField(label='Vote (between 0 and 1, eg: .5)', max_value=1, min_value=0)
+	value = forms.FloatField(label='Vote (between -1 and 1, eg: .5)', max_value=1, min_value=-1)
 
 class TagForm(forms.Form):
 	post_parent_id = forms.ModelChoiceField(label='Parent Post', queryset = Post.objects.all(),required=False)
