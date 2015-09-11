@@ -185,7 +185,15 @@ a:hover { color:#3783ff; }
 }
 
 
+.topBar ul{
+    margin:5px;
+
+}
+.topBar li{
+    display:inline;
+}
 .topBar {
+    padding-left: 10px;
 	top: 0px;
   border-bottom: gray 1px solid;
   /*background-color: #DDDDDD;*/
