@@ -42,13 +42,13 @@ def index(request):
 		'items':Post.objects.filter(parent=None).order_by('-liquid_sum')[:5]
 		},
 		{"name":"High Rated Comments",
-		'items':Post.objects.filter(parent__isnull=True).order_by('-liquid_value')[:5],
+		'items':Post.objects.filter(parent__isnull=False).order_by('-liquid_value')[:5],
 		},
 		{"name":"Recent Comments",
-		'items':Post.objects.filter(parent__isnull=True).order_by('-created_at')[:5],
+		'items':Post.objects.filter(parent__isnull=False).order_by('-created_at')[:5],
 		},
 		{"name":"Top Comments",
-		'items':Post.objects.filter(parent__isnull=True).order_by('-liquid_sum')[:5],
+		'items':Post.objects.filter(parent__isnull=False).order_by('-liquid_sum')[:5],
 		},
 	]}
 	return render(request, 'agora/index.html', context)
