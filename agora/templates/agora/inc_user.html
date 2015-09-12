@@ -1,13 +1,12 @@
 <div class="userlinks">
 {% if user.is_authenticated %}
     <ul>
-        <li><a href="/agora/user/{{ user.id }}/">{{ user.username }}</a></li>
-        <li><a href="/agora/logout/">logout</a></li>
+        <li><a href="/agora/user/{{ user.id }}/"><span class="glyphicon glyphicon-user"></span> {{ user.username }}</a></li>
+        <li><a href="/agora/logout/"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
     </ul>
 {% else %}
-    <ul>
-        <li><a href="/agora/login/">new user</a></li>
-        <li><a href="/agora/login/">login</a></li>
+        <li><a href="/agora/login/"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+        <li><a href="/agora/login/"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
     </ul>
 {% endif %}
 </div>

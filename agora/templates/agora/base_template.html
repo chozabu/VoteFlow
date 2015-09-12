@@ -14,18 +14,16 @@
 <body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-<div class="topBar">
-    {% include "agora/inc_user.html" %}
-    <h4><a href="/">MD</a>: <a href="/agora/">Agora</a> <h4>
-</div>
-<br><br><br>
-<ul id="topic_path">
-    <li><a href="/agora/all_topics/">Root Topics</a></li>
+
+{% include "agora/navbar.html" %}
+
+<ul id="topic_path" class="na">
+    <li><a href="/agora/all_topics/">Topics</a></li>
     {% if current_topic %}
         {% for p_topic in current_topic.path %}
             <li>
                 <a href="/agora/topics/{{ p_topic.id }}/">{{ p_topic.name }}</a>
-            </li> >
+            </li>
         {% endfor %}
     {% endif %}
 </ul>

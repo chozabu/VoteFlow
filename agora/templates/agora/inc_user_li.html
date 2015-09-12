@@ -1,0 +1,7 @@
+{% if user.is_authenticated %}
+    <li><a href="/agora/user/{{ user.id }}/"><span class="glyphicon glyphicon-user"></span> {{ user.username }}</a></li>
+    <li><a href="/agora/logout/"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+{% else %}
+    <li><a href="/agora/login/"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+    <li><a href="/agora/login/"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+{% endif %}

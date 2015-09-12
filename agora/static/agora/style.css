@@ -62,6 +62,24 @@ h1 span {
   padding: 2px;
   margin: 2px;
 }
+.ilb li{
+  list-style-type: none;
+}
+
+.ilb li:nth-of-type(odd){
+  border: #bdb8b2 1px solid;
+  margin-left: 0.4em;
+  border-radius: 5px;
+  background-color: #f3f3f3;
+
+}
+.ilb li:nth-of-type(even){
+  border: #f4eee7 1px solid;
+  margin-left: 0.4em;
+  border-radius: 5px;
+  background-color: #e8e8e8;
+
+}
 #basic-post-info, #extra-post-info {
   padding-left: .5em;
 }
