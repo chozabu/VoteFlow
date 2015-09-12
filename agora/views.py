@@ -100,12 +100,14 @@ def db_query(request):
 	startat=int(r_get.get("startat", 0))
 	length=int(r_get.get("length", 10))
 
+	o_count = objs.count()
 	objs = objs[startat:startat+length]
+	r_count = objs.count()
 
 	rtype=r_get.get("rtype")
 	if rtype=="html":
 		print "returning html", len(objs)
-		context = {table:objs}
+		context = {table:objs, "total_num":o_count, "got_num":r_count, "start_at":startat}
 		return render(request, 'agora/' + r_get.get("template") + '.html', context)
 
 	retr = []
