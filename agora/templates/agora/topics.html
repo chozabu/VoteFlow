@@ -31,13 +31,11 @@
     <h3>Sub Topics</h3>
 
 {% if topic_list %}
-    <ul class="miniul">
+    <div class="mincotopicholder">
         {% for topic in topic_list %}
-            <li>
-                {% include "agora/inc_topic_mini.html" with  topic=topic %}
-            </li>
+                {% include "agora/inc_topic_micro.html" with  topic=topic %}
         {% endfor %}
-    </ul>
+    </div>.<br>
 {% else %}
     <p>No sub-topics found...</p>
 {% endif %}

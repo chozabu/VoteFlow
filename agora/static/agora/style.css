@@ -40,6 +40,24 @@ h1 span {
   border-radius: .5em;
 
 }
+.topicmicrotitle {
+  background-color: #dfffdb;
+  display: inline-block;
+  margin: .1em;
+  padding: .2em;
+  border-radius: .5em;
+  text-align: center;
+
+}
+.mincotopicholder {
+  background-color: #f5f2ff;
+  margin: .1em;
+  padding: .2em;
+  border-radius: .5em;
+  text-align: center;
+  display: inline-block;
+
+}
 .postminititle {
   font-size: 150%;
 }

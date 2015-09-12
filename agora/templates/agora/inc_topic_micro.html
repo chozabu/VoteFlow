@@ -1,0 +1,8 @@
+<div class="topicmicrotitle">
+    <a href="/agora/topics/{{ topic.id }}/">
+        {{ topic.name }}
+    </a>
+    <br>
+    <span title="[subscriptions, sub-topics, posts]">[{{ topic.subscription_set.all|length }}, {{ topic.topic_set.all|length }}, {{ topic.post_set.all|length }}]</span>
+
+</div>
