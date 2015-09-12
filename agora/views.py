@@ -80,23 +80,28 @@ def db_query(request):
 		return HttpResponse("bad table")
 
 	objs =rdata[table].objects.filter()
-	vfilter=r_get.get("filter")
-	if vfilter:
+
+	filters=r_get.get("filter", '[]')
+	filters=json.loads(filters)
+	for vfilter in filters:
 		print "@filter"
 		print vfilter
-		vf = json.loads(vfilter)
-		print vf
-		objs = objs.filter(**vf)
+		objs = objs.filter(**vfilter)
 
 	exclude=r_get.get("exclude")
 	if exclude:
-		objs = objs.exclude(**exclude)
+		print "@exclude"
+		ve = json.loads(exclude)
+		print ve
+		objs = objs.exclude(**ve)
 
 	sortby=r_get.get("sortby")
 	if sortby:
+		print "@sortby"
 		objs = objs.order_by(sortby)
 
 
+	print "@len"
 	startat=int(r_get.get("startat", 0))
 	length=int(r_get.get("length", 10))
 
@@ -104,6 +109,7 @@ def db_query(request):
 	objs = objs[startat:startat+length]
 	r_count = objs.count()
 
+	print "@type"
 	rtype=r_get.get("rtype")
 	if rtype=="html":
 		print "returning html", len(objs)
@@ -230,7 +236,7 @@ def topics(request, topic_id=None, sort_method="direct_value"):
 	#return render(request, 'agora/detail.html', {'question': question})#
 	#question = get_object_or_404(Question, pk=question_id)
 	topic_list = Topic.objects.filter(parent=topic_id)
-	post_list = Post.objects.filter(parent=None, topic=topic_id)[0:10]
+	post_list = Post.objects.filter(parent=None, topic=topic_id).exclude(tag__liquid_value__gte=-.1, tag__name="completed")[0:10]
 	context = {'topic_list': topic_list,'post_list': post_list, "sort_method":sort_method}
 	if topic_id:
 		current_topic = Topic.objects.get(id=topic_id)
