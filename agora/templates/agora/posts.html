@@ -33,6 +33,7 @@
         </h2>
         <p class="authorinfo" >by {{ post.author.username }} @ {{ post.created_at }} </p>
 
+        {% if user == post.author or post.get_options|length > 0 %}
         <div class="floatonright">
             <h4>Options</h4>
             <ul class="miniul">
@@ -42,6 +43,7 @@
             </ul>
             <a id="option" class="add_option_link">Add Option</a>
         </div>
+            {% endif %}
 
         <h4> <a
                 href="/agora/topics/{{ post.topic.id }}/posts/{{ post.id }}/sankey/">Representation Chart</a></h4>
