@@ -1,0 +1,7 @@
+
+
+    <ul class="miniul">
+        {% for child_post in Post %}
+            <li>{% include "agora/inc_post_mini_recur.html" with  post=child_post %}</li>
+        {% endfor %}
+    </ul>

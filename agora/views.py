@@ -16,6 +16,8 @@ from .forms import TopicForm, PostForm, RepForm, PostVoteForm, TagForm, TagVoteF
 from django.contrib.auth.models import User
 from .models import Topic, Post, Tag, Representation, PostVote, TagVote, Subscription
 
+import json
+
 def home(request):
    context = RequestContext(request,
                            {'request': request,
@@ -58,11 +60,70 @@ def root(request):
 	#return render(request, 'agora/index.html', context)
 	return render(request, 'agora/root.html')
 
+#basic API
+#/agora/basic_api/?table=Post&template=api_post_list&rtype=html&sortby=-liquid_sum&startat=39
+def db_query(request):
+	if len(request.POST) == 0:
+		r_get = request.GET
+	else:
+		r_get = request.POST
+	print "==dbquery=="
+	print r_get
+
+	rdata = {"Post":Post, "Tag":Tag, "Topic":Topic}
+
+	table=r_get.get("table")
+
+	if not table:
+		return HttpResponse("no table")
+	if table not in rdata:
+		return HttpResponse("bad table")
+
+	objs =rdata[table].objects.filter()
+	vfilter=r_get.get("filter")
+	if vfilter:
+		print "@filter"
+		print vfilter
+		vf = json.loads(vfilter)
+		print vf
+		objs = objs.filter(**vf)
+
+	exclude=r_get.get("exclude")
+	if exclude:
+		objs = objs.exclude(**exclude)
+
+	sortby=r_get.get("sortby")
+	if sortby:
+		objs = objs.order_by(sortby)
+
+
+	startat=int(r_get.get("startat", 0))
+	length=int(r_get.get("length", 10))
+
+	objs = objs[startat:startat+length]
+
+	rtype=r_get.get("rtype")
+	if rtype=="html":
+		print "returning html", len(objs)
+		context = {table:objs}
+		return render(request, 'agora/' + r_get.get("template") + '.html', context)
+
+	retr = []
+	print "returning json"
+	fields=r_get.getlist("fields", ['pk','id'])
+	print fields
+	for i in objs:
+		ret_obj = {}
+		for f in fields:
+			ret_obj[f] = getattr(i, f)
+		retr.append(ret_obj)
+	return HttpResponse(json.dumps(retr))
+
+
 
 def post_sankey(request, post_id, topic_id=None):
 	#needs nodes - ordered list of users
 	#needs links - 2xuser index and vote value
-	import json
 	post=Post.objects.get(pk=post_id)
 	#foos = Foo.objects.all()
 	#data = serializers.serialize('json', foos)
@@ -114,7 +175,7 @@ def post_sankey(request, post_id, topic_id=None):
 	for v in raw_direct_votes:
 		rep_list.append({
 			"source": ulookup[v.author.pk],
-			"target": ulookup[vals[int(v.value*2.9999)]],
+			"target": ulookup[vals[int((v.value*.5+.5)*2.9999)]],
 			"value": post.topic.getRepVotes(v.author,dict(liquidvoted))+1
 		})
 	for r in raw_link_list:
@@ -150,7 +211,6 @@ def topic_forcearrows(request, topic_id=None):
 			"target": r.rep.username,
 			"type": ltypes[len(r.topic.name)%3]
 		})
-	import json
 	links=json.dumps(rep_list)
 
 	if topic_id:
@@ -168,7 +228,7 @@ def topics(request, topic_id=None, sort_method="direct_value"):
 	#return render(request, 'agora/detail.html', {'question': question})#
 	#question = get_object_or_404(Question, pk=question_id)
 	topic_list = Topic.objects.filter(parent=topic_id)
-	post_list = Post.objects.filter(parent=None, topic=topic_id)
+	post_list = Post.objects.filter(parent=None, topic=topic_id)[0:10]
 	context = {'topic_list': topic_list,'post_list': post_list, "sort_method":sort_method}
 	if topic_id:
 		current_topic = Topic.objects.get(id=topic_id)

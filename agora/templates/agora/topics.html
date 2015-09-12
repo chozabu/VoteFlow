@@ -9,17 +9,13 @@
 
     <h1>{{ current_topic.name }}</h1>
 
-<p>sort method: {{ sort_method }} (
-    <a href="/agora/topics/{{ current_topic.id }}/sort/liquid_value/">liquid_value</a>
-    <a href="/agora/topics/{{ current_topic.id }}/sort/direct_value/">direct_value</a>
-    <a href="/agora/topics/{{ current_topic.id }}/sort/created_at/">created_at</a>
-    )</p>
+
 
     {% if user.is_authenticated %}
         {% if sub %}
-            <p>Subscribed! (<a href="/agora/topics/{{ current_topic.id }}/subs/">unsub</a>)  </p>
+            <p>Subscribed! (<a href="/agora/topics/{{ current_topic.id }}/subs/">unsub</a>) </p>
         {% else %}
-            <p>(<a href="/agora/topics/{{ current_topic.id }}/subs/">Subscribe?</a>)  </p>
+            <p>(<a href="/agora/topics/{{ current_topic.id }}/subs/">Subscribe?</a>) </p>
         {% endif %}
         {% if rep %}
             Representitive: {{ rep.rep }}
@@ -30,29 +26,111 @@
     <a href="/agora/topics/{{ current_topic.id }}/newrep">Pick Representative</a>
     <h3>Sub Topics</h3>
 
-{% if topic_list %}
-    <div class="mincotopicholder">
-        {% for topic in topic_list %}
+    {% if topic_list %}
+        <div class="mincotopicholder">
+            {% for topic in topic_list %}
                 {% include "agora/inc_topic_micro.html" with  topic=topic %}
-        {% endfor %}
-    </div>.<br>
-{% else %}
-    <p>No sub-topics found...</p>
-{% endif %}
+            {% endfor %}
+        </div>.<br>
+    {% else %}
+        <p>No sub-topics found...</p>
+    {% endif %}
 
     <a href="/agora/topics/new/{{ current_topic.id }}/">New Topic</a>
 
     <h3>Posts</h3>
+
     {% if post_list %}
-        <ul class="miniul">
-            {% for post in post_list|dictsortreversed:sort_method %}
-                <li>{% include "agora/inc_post_mini.html" with  post=post %}</li>
-            {% endfor %}
-        </ul>
+
+        <div class="postlistintopics" data-table="Post" data-rtype="html"
+             data-sortby="-liquid_sum" data-startat="0" data-template="api_post_list"
+             data-filter='{"topic":{{ current_topic.id }}, "parent":null }'>
+
+            Sorting <select name="SortMethods" id="sortbox">
+            <option value="-liquid_sum">Top</option>
+            <option value="-liquid_value">Rating</option>
+            <option value="-created_at">Newest</option>
+            <option value="-direct_value">Direct Rating</option>
+        </select>
+            <button id="gobutton" type="button" class="btn btn-info">
+                Go
+            </button>
+            <ul id="topicslist" class="miniul">
+                {% for post in post_list|dictsortreversed:sort_method %}
+                    <li>{% include "agora/inc_post_mini.html" with  post=post %}</li>
+                {% endfor %}
+            </ul>
+            <button id="prevbutton" type="button" class="btn btn-info">
+                Previous
+            </button>
+            <button id="nextbutton" type="button" class="btn btn-info">
+                Next
+            </button>
+        </div>
     {% else %}
         <p> no Posts Found </p>
     {% endif %}
     {% if current_topic %}
         <a href="/agora/topics/{{ current_topic.id }}/newpost/">New Post</a>
     {% endif %}
+
+    <script>
+        //#/agora/basic_api/?table=Post&template=api_post_list&rtype=html&sortby=-liquid_sum&startat=39
+
+        //console.log($(this)[0].id);
+        //console.log($(this));
+        function load_page(pbox) {
+            var datain = {}
+            datain['table'] = pbox.data('table');
+            datain['sortby'] = pbox.find("#sortbox")[0].value;
+            datain['startat'] = pbox.data('startat');
+            datain['rtype'] = pbox.data('rtype');
+            datain['template'] = pbox.data('template');
+            datain['filter'] = JSON.stringify(pbox.data('filter'));
+            $.ajax({
+                url: "/agora/basic_api/"
+                , data: datain
+                , context: pbox,
+                success: function (result) {
+                    if (result.length > 200) {
+                        $(this).find("#topicslist").html(result);
+                    } else {
+                        var pbox = $(this);
+                        var ns = pbox.data('startat') - 10;
+                        if (ns < 0)ns = 0
+                        pbox.data('startat', ns);
+
+                    }
+                }
+            });
+
+
+        }
+        function next_page() {
+            var pbox = $(this).parent();
+            console.log("pbox");
+            console.log(pbox);
+            var ns = pbox.data('startat') + 10;
+            if (ns < 0)ns = 0
+            pbox.data('startat', ns);
+            load_page(pbox)
+        }
+        function prev_page() {
+            var pbox = $(this).parent();
+            console.log("pbox");
+            console.log(pbox);
+            var ns = pbox.data('startat') - 10;
+            if (ns < 0)ns = 0
+            pbox.data('startat', ns);
+            load_page(pbox)
+        }
+        function go_page() {
+            var pbox = $(this).parent();
+            pbox.data('startat', 0);
+            load_page(pbox)
+        }
+        $('#nextbutton').click(next_page);
+        $('#prevbutton').click(prev_page);
+        $('#gobutton').click(go_page);
+    </script>
 {% endblock %}

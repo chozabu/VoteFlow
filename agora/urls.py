@@ -6,6 +6,8 @@ from . import views
 urlpatterns = [
     # ex: /agora/
     url(r'^$', views.index, name='index'),
+    # ex: /agora/basic_api/
+    url(r'^basic_api/$', views.db_query, name='basic_api'),
     # ex: /agora/new_user/
     url(r'^new_user/$', views.new_user, name='new_user'),
     # ex: /agora/login/
