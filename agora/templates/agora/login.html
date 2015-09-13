@@ -3,6 +3,13 @@
     {{ title }}
 {% endblock %}
 
+{% block head_block %}
+    {% load staticfiles %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
+    <link rel="stylesheet" type="text/css" href="{% static 'agora/css/bootstrap-social.css' %}"/>
+{% endblock %}
+
 {% block body_block %}
     {% if user and not user.is_anonymous %}
         <ul>
@@ -14,22 +21,27 @@
             </li>
         </ul>
     {% else %}
-        <ul>
-            <li>
-                <a href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}">Login with Facebook</a>
-            </li>
-            <li>
-                <a href="{% url 'social:begin' 'google-oauth2' %}?next={{ request.path }}">Login with Google</a>
-            </li>
-        </ul>
-
-        {% if form.errors %}
-            <p class="error">Oops, invalid username or password</p>
-        {% endif %}
-        <form action="/agora/login/" method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <input type="submit" value="login"/>
-        </form>
+        <div class="row">
+            <div class="col-sm-6">
+                <a href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}"
+                   class="btn btn-block btn-social btn-facebook">
+                    <i class="fa fa-facebook"></i> Sign in with Facebook
+                </a>
+                <a href="{% url 'social:begin' 'google-oauth2' %}?next={{ request.path }}"
+                   class="btn btn-block btn-social btn-google">
+                    <i class="fa fa-google"></i> Sign in with Google
+                </a>
+            </div>
+            <div class="col-sm-6">
+                {% if form.errors %}
+                    <p class="error">Oops, invalid username or password</p>
+                {% endif %}
+                <form action="/agora/login/" method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <input type="submit" value="login"/>
+                </form>
+            </div>
+        </div>
     {% endif %}
 {% endblock %}
