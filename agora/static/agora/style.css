@@ -28,6 +28,16 @@ h1 span {
 
 }
 .topicmicrotitle {
+  font-size: 150%;
+  background-color: #dfffdb;
+  display: inline-block;
+  margin: .1em;
+  padding: .2em;
+  border-radius: .5em;
+  text-align: center;
+
+}
+.topicmicroitem {
   background-color: #dfffdb;
   display: inline-block;
   margin: .1em;
