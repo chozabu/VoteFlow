@@ -4,11 +4,10 @@
     {% load staticfiles %}
     <meta charset="UTF-8">
     <title>MeshDemoc: {% block title %}Agora{% endblock %}</title>
-    {% block head_block %}{% endblock %}
-    <link rel="stylesheet" type="text/css" href="{% static 'agora/style.css' %}"/>
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
-    <link rel="stylesheet" type="text/css" href="{% static 'agora/ct.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'agora/style.css' %}"/>
+    {% block head_block %}{% endblock %}
 
 </head>
 <body>

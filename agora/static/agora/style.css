@@ -1,19 +1,6 @@
 
 body { background: #ffffff; }
 
-.cont {
-  width: 93%;
-  max-width: 350px;
-  text-align: center;
-  margin: 4% auto;
-  padding: 30px 0;
-  background: #7ea0ff;
-  color: #EEE;
-  border-radius: 5px;
-  border: thin solid #444;
-  overflow: hidden;
-}
-
 hr {
   margin: 20px;
   border: none;
@@ -155,4 +142,89 @@ ul {
   margin-left: 0.4em;
   box-shadow: -4px 4px 5px rgba(50, 50, 50, 0.2);
     float: right;
+}
+
+
+h1, h2 {
+    background-color: #ffefc2;
+    color: #000000;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-left: -.2em;
+  box-shadow: -4px 4px 5px rgba(50, 50, 50, 0.2);
+}
+
+.tagspan {
+    background-color: #e2fff6;
+    color: #000000;
+    padding: 5px 5px;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+ul#topic_path {
+    padding: 0;
+}
+
+ul#topic_path li {
+    display: inline;
+}
+ul#topic_path li:not(:last-child)::after {
+    content: "⇒";
+}
+
+ul#topic_path li a {
+    background-color: #dfffdb;
+    color: #000000;
+    margin-top: -10px;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+ul#topic_path li a:hover {
+    background-color: #caffca;
+}
+
+ul#post_path {
+    padding: .2em;
+}
+
+ul#post_path li {
+    display: inline;
+}
+ul#post_path li:not(:last-child)::after {
+    content: "▶";
+}
+
+ul#post_path li a {
+    background-color: #c9daff;
+    color: #000000;
+    padding: 5px 10px;
+    margin: 1px 1px;
+    text-decoration: none;
+    border-radius: 5px;
+    border-color: black;
+}
+
+ul#post_path li a:hover {
+    background-color: #bfc7ff;
+}
+
+
+.mainContentPanel{
+  margin-top: 2em
+  padding: 1em;
+}
+
+
+a { color:#2773ff; }
+
+a:hover { color:#3783ff; }
+
+.tinyUserThumb{
+    margin:2px;
+    width:32px;
+    float: left;
 }
