@@ -1,0 +1,18 @@
+{% extends 'agora/base_template.html' %}
+{% block title %}
+    Agora
+{% endblock %}
+
+{% block body_block %}
+    <a href="?markall=true">Mark all as Read</a><br>
+    {% for n in notifications %}
+        <div class="ilb">
+        {{ n.name }} <br>
+        {% if n.content_type.name == "post" %}
+                <li>{% include "agora/inc_post_mini.html" with  post=n.content_object.parent %}</li>
+                <li>{% include "agora/inc_post_mini.html" with  post=n.content_object %}</li>
+        {% endif %}
+        </div>
+    {% endfor %}
+
+{% endblock %}

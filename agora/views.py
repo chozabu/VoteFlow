@@ -14,7 +14,7 @@ from .forms import TopicForm, PostForm, RepForm, PostVoteForm, TagForm, TagVoteF
 
 
 from django.contrib.auth.models import User
-from .models import Topic, Post, Tag, Representation, PostVote, TagVote, Subscription
+from .models import Notification, Topic, Post, Tag, Representation, PostVote, TagVote, Subscription
 
 import json
 
@@ -52,6 +52,18 @@ def index(request):
 		},
 	]}
 	return render(request, 'agora/index.html', context)
+
+def notifications(request):
+
+	user = request.user
+	if not user.is_authenticated():
+		raise Http404('Need login.')
+	nlist = Notification.objects.filter(seen=False, target=user)
+	if request.GET.get("markall") == "true":
+		for n in nlist:
+			n.seen = True
+			n.save()
+	return render(request, 'agora/notifications.html', {"notifications":nlist})
 def root(request):
 	#return HttpResponse("Hello, world. You're at the agora index.")
 	#'''
@@ -361,6 +373,10 @@ def reply_post_quick(request, topic_id, post_id, reply_type="comment"):
 		#TODO! CHECK topic_id == prnt.topic_id!!
 		newpost = Post(subtype=reply_type, name=ptext,topic=topic, parent=prnt, author=request.user)
 		newpost.save()
+		#this could be in an override on post save?
+		if prnt:
+			newnotify = Notification(target=prnt.author, name="New Post", content_object=newpost, author=request.user)
+			newnotify.save()
 		return HttpResponseRedirect('/agora/topics/'+str(topic_id)+"/posts/"+str(post_id))
 	return HttpResponseRedirect('/agora/topics/'+str(topic_id)+"/posts/"+str(post_id))
 

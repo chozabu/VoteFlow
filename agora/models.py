@@ -4,6 +4,23 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 from django.db.models.functions import Length
 
+from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.contenttypes.models import ContentType
+
+
+
+class Notification(models.Model):
+	name = models.CharField(max_length=200, null=True, blank=True)
+	#url = models.CharField(max_length=200, null=True, blank=True)#perhaps a link?
+	target = models.ForeignKey(User, related_name='notifications')
+	seen = models.BooleanField(default=False)
+	author = models.ForeignKey(User, null=True, blank=True, related_name='notifications_generated')
+	content_type = models.ForeignKey(ContentType, null=True, blank=True)
+	object_id = models.PositiveIntegerField(null=True, blank=True)
+	content_object = GenericForeignKey('content_type', 'object_id')
+	def __unicode__(self):
+		return self.name + " from " + self.author.username + " about " + str(self.content_object)
+
 #topic
 class Topic(models.Model):
 	name = models.CharField(max_length=200)

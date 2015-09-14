@@ -16,6 +16,9 @@ urlpatterns = [
     url(r'^login2/$', views.home, name='home'),
     # ex: /agora/logout/
     url(r'^logout/$', views.logout_user, name='logout'),
+    # ex: /agora/notifications/
+    url(r'^notifications/$', views.notifications, name='notifications'),
+    #url(r'^notifications/mark_read$', views.clear_notifications, name='notifications'),
     # ex: /agora/all_topics/
     url(r'^all_topics/$', views.all_topics, name='all_topics'),
     # ex: /agora/topics/5/sort/sort-method

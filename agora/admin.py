@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import Topic, Post, Tag, Representation, PostVote, TagVote, Subscription
+from .models import Notification, Topic, Post, Tag, Representation, PostVote, TagVote, Subscription
 
 
 admin.site.register(Topic)
@@ -11,3 +11,4 @@ admin.site.register(Representation)
 admin.site.register(PostVote)
 admin.site.register(TagVote)
 admin.site.register(Subscription)
+admin.site.register(Notification)
