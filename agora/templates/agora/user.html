@@ -64,11 +64,7 @@
     <h4>Votes</h4>
     <ul class="miniul">
         {% for v in selected_user.postvote_set.all %}
-            <li>{{ v.value }} @
-                <a href="/agora/topics/{{ v.parent.topic.id }}/posts/{{ v.parent.id }}/">{{ v.parent.name }}</a>
-                in
-                <a href="/agora/topics/{{ v.parent.topic.id }}/">{{ v.parent.topic.name }}</a>
-            </li>
+            {% include "agora/inc_vote_mini.html" with  v=v %}
         {% endfor %}
     </ul>
     <br>

@@ -80,13 +80,13 @@ class Topic(models.Model):
 					if self.parent:
 						self.parent.getRepresentees(links.author, liquidVoted, people)
 		return people
-	def getRepVotes(self, voter, liquidVoted={}):
+	def getRepVotes(self, voter, liquidVoted={}, notify=None):
 		topic=self
 		print "getRepVotes(", voter, ",", topic, ")"
 		topicScore = 0
 
 		if self.parent:
-			topicScore += self.parent.getRepVotes(voter, liquidVoted)
+			topicScore += self.parent.getRepVotes(voter, liquidVoted, notify=notify)
 		# print topicDict[topic]
 		topicReps = Representation.objects.filter(topic=self).all()
 		for links in topicReps:
@@ -95,8 +95,11 @@ class Topic(models.Model):
 				if representer == voter:
 					topicScore += 1
 					liquidVoted[links.author] = True
+					if notify:
+						newnotify = Notification(target=links.author, name="Representative Voted!!", content_object=notify, author=voter)
+						newnotify.save()
 					if self.parent:
-						topicScore += self.parent.getRepVotes(links.author, liquidVoted)
+						topicScore += self.parent.getRepVotes(links.author, liquidVoted, notify=notify)
 		return topicScore
 	def __unicode__(self):
 		if self.parent:
@@ -140,7 +143,7 @@ class Voteable(models.Model):
 		liquid_sum=0
 		liquid_v_count = 0
 		for v in votes:
-			lv=self.topic.getRepVotes(v.author, voted)
+			lv=self.topic.getRepVotes(v.author, voted, notify=v)
 			liquid_v_count+=lv
 			liquid_sum += lv*v.value
 		if liquid_v_count<=0:
