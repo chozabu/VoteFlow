@@ -444,6 +444,16 @@ def vote_post_quick(request, topic_id, post_id):
 	return HttpResponseRedirect('/agora/topics/'+str(topic_id)+"/posts/"+str(post_id))
 
 
+def unvote_post_quick(request, topic_id, post_id):
+	# if this is a POST request we need to process the form data
+	if not request.user.is_authenticated():
+		print "noauth in unvote"
+		return HttpResponseRedirect("/agora/login")
+	PostVote.objects.filter(parent=post_id, author=request.user).delete()
+	prnt = Post.objects.get(id=post_id)
+	prnt.count_votes()
+	return HttpResponseRedirect('/agora/topics/'+str(topic_id)+"/posts/"+str(post_id))
+
 def vote_tag_quick(request, tag_id):
 	# if this is a POST request we need to process the form data
 	if not request.user.is_authenticated():

@@ -140,7 +140,14 @@ class Voteable(models.Model):
 			print v.value
 		votelen=len(votes)
 		self.direct_sum = total
-		self.direct_value = total/votelen
+		if votelen:
+			self.direct_value = total/votelen
+		else:
+			self.direct_value =0
+			self.direct_sum = 0
+			self.liquid_value=0
+			self.liquid_sum=0
+			self.liquid_vote_count=0
 		liquid_value=0.0
 		liquid_sum=0
 		liquid_v_count = 0
