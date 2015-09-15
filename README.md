@@ -27,24 +27,32 @@ Any user may vote on any Posting/Message.
 - ~~Correct Liquid Counting~~
 - ~~Use Agora as DevMap/Todo list for its-self~~
 - Sorting, by user selectable methods ~~partial~~
-- Full Tree View - for topics and posts
+- ~~Full Tree View - for topics and posts~~
 - images
 - user profile page ~~partial~~
 - ~~representation graph~~ - show representation for a topic
 - ~~vote graph - should representation for a vote~~
 - groups/circles
-- AJAX/Dynamic Updates
-- Template Styling/CSS
+- AJAX/Dynamic Updates ~~partial~~
+- Template Styling/CSS ~~partial~~
 - search/filter
-- notifications
-- OAUTH FB/Goog/GitHub login
+- ~~notifications~~
+- ~~OAUTH FB/Goog/~~ GitHub login
 - loads more
 
 ----------------------------
 ##Running MD: Agora
 ###Linux
 
-    pip install django #Install Dependencies
+dependencies:
+
+    pip install django 
+    pip install markdown
+    pip install python-social-auth
+
+install
+
+    #Install Dependencies then
     git clone https://github.com/chozabu/MeshDemocAgora.git #Clone the project
     cd MeshDemocAgora #enter project
     python manage.py migrate #create DB
@@ -55,10 +63,9 @@ or in a virtualenv
 
     git clone https://github.com/chozabu/MeshDemocAgora
     cd MeshDemocAgora/
-    virtualenv .
-    source bin/activate
-    pip install django
-    cat README.md 
+    virtualenv env
+    source env/bin/activate
+    #Install Dependencies HERE
     python manage.py migrate
     python manage.py runserver
 
