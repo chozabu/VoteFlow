@@ -88,15 +88,16 @@
 
             <input type="submit" value="Vote"/>
         </form>
-
-        <form action="/agora/topics/{{ post.topic.id }}/posts/{{ post.id }}/unvote/">
-            <input type="submit" value="Remove Vote"/>
-        </form>
+        {% if user_vote %}
+            <form action="/agora/topics/{{ post.topic.id }}/posts/{{ post.id }}/unvote/">
+                <input type="submit" value="Remove Vote"/>
+            </form>
+        {% endif %}
         <br>
         <h4>Tags:</h4>
         <div id="tagcontainer">
             {% for tag in post.tag_set.all %}
-                <span class="tagspan"><a href="/agora/tags/{{ tag.id }}/" >{{ tag.name }}</a></span>
+                <span class="tagspan"><a href="/agora/tags/{{ tag.id }}/">{{ tag.name }}</a></span>
             {% endfor %}
         </div>
         <a href="/agora/topics/{{ post.topic.id }}/posts/{{ post.id }}/newtag/">Add Tag!</a><br>
