@@ -92,7 +92,7 @@
         <h4>Tags:</h4>
         <div id="tagcontainer">
             {% for tag in post.tag_set.all %}
-                <span class="tagspan">{{ tag.name }}</span>
+                <span class="tagspan"><a href="/agora/tags/{{ tag.id }}/" >{{ tag.name }}</a></span>
             {% endfor %}
         </div>
         <a href="/agora/topics/{{ post.topic.id }}/posts/{{ post.id }}/newtag/">Add Tag!</a><br>

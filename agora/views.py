@@ -297,6 +297,16 @@ def posts(request, topic_id, post_id, sort_method="direct_value"):
 	context['sort_method']=sort_method
 	return render(request, 'agora/posts.html', context)#, "replies":replies})
 
+def tags(request, tag_id):
+	tag = get_object_or_404(Tag, pk=tag_id)
+	post = tag.parent
+	topic = tag.topic
+	context={'post': post, 'tag': tag, "current_topic":topic}
+	if request.user.is_authenticated():
+		user_vote=TagVote.objects.filter(parent=tag_id, author=request.user).first()
+		context['user_vote']=user_vote
+	return render(request, 'agora/tags.html', context)#, "replies":replies})
+
 def fancy_post(request, topic_id, post_id=None):
 	topic = get_object_or_404(Topic, pk=topic_id)
 	post = Post.objects.filter(pk=post_id)
@@ -432,6 +442,27 @@ def vote_post_quick(request, topic_id, post_id):
 			newrep.save()
 		prnt.count_votes()
 	return HttpResponseRedirect('/agora/topics/'+str(topic_id)+"/posts/"+str(post_id))
+
+
+def vote_tag_quick(request, tag_id):
+	# if this is a POST request we need to process the form data
+	if not request.user.is_authenticated():
+		print "noauth in quick tag"
+		return HttpResponseRedirect("/agora/login")
+	if request.method == 'POST':
+		#covert (0 ... 100) to (-1 ... 1)
+		voteval = float(request.POST['voteslider'])*.02-1.
+		print "QUICKTAGVOTE", voteval
+		vote=TagVote.objects.filter(parent=tag_id, author=request.user).first()
+		prnt = Tag.objects.get(id=tag_id)
+		if vote:
+			vote.value = voteval
+			vote.save()
+		else:
+			newrep = TagVote(value=voteval, author=request.user, parent=prnt)
+			newrep.save()
+		prnt.count_votes(TagVote)
+	return HttpResponseRedirect('/agora/tags/'+str(tag_id))
 
 def vote_post(request, topic_id, post_id):
 	# if this is a POST request we need to process the form data

@@ -1,0 +1,68 @@
+{% extends 'agora/base_template.html' %}
+{% load cmarkdown %}
+{% block title %}
+    {% if current_topic %}
+        {{ current_topic.name }} : {{ post.name }} : {{ tag.name }}
+    {% else %}
+        Post
+    {% endif %}
+{% endblock %}
+
+{% block head_block %}
+
+{% endblock %}
+
+
+{% block body_block %}
+
+        <ul id="post_path">
+            {% for p_post in post.path %}
+                <li>
+                    <a href="/agora/topics/{{ post.topic.id }}/posts/{{ p_post.id }}">{{ p_post.name }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+
+        <h2>
+            <a href="/agora/tags/{{ tag.id }}/">{{ tag.name }}</a>
+            <!-- -
+            <a href="/agora/topics/{{ post.topic.id }}/posts/{{ post.id }}/sankey/">
+                ({{ post.liquid_vote_count }} votes)
+            </a> todo, repchart for tags. -->
+        </h2>
+        <p class="authorinfo">by {{ tag.author.username }} @ {{ tag.created_at }} </p>
+
+
+        <button title="(average|sum|count)" type="button" class="btn btn-info" data-toggle="collapse"
+                data-target="#basic-tag-info">
+            {% include "agora/inc_stars.html" with percent=tag.liquid_value_percent %}<br>
+            ({{ tag.liquid_value_percent|floatformat }}% | {{ tag.liquid_sum|floatformat }}
+            | {{ tag.liquid_vote_count }})
+        </button>
+        <div id="basic-tag-info" class="collapse">
+            Full average: {{ tag.liquid_value_percent|floatformat }}%<br>
+            full sum: {{ tag.liquid_sum|floatformat }} <br>
+            full vote count: {{ tag.liquid_vote_count }} <br>
+            <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#extra-tag-info">
+                Direct Vote Details
+            </button>
+            <div id="extra-tag-info" class="collapse">
+                direct
+                average: {{ tag.direct_value_percent }}% {% include "agora/inc_stars.html" with percent=tag.direct_value_percent %}
+                <br>
+                direct sum: {{ tag.direct_sum }} <br>
+                direct vote count: {{ tag.tagvote_set.all|length }} <br>
+                your vote: {{ user_vote.value }} <br>
+            </div>
+        </div>
+        <br>
+
+        <form action="/agora/tags/{{ tag.id }}/quickvote/" method="post">
+            {% csrf_token %}
+            <input name="voteslider" value={{ user_vote.value_percent }} id="slider1" type="range" min="0" max="100"
+                   step="10" style="position:relative; width:300px; height:20px; border:1px solid #cccccc;"/>
+
+            <input type="submit" value="Vote"/>
+        </form>
+        <br>
+{% endblock %}

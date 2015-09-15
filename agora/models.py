@@ -126,10 +126,12 @@ class Voteable(models.Model):
 	def direct_value_percent(self):
 		return self.direct_value * 50. + 50.
 
-	def count_votes(self):
+	def count_votes(self, table=None):
+		if table==None:
+			table=PostVote
 		print "======counting votes======"
 		#direct votes
-		votes = PostVote.objects.filter(parent=self.id).all()
+		votes = table.objects.filter(parent=self.id).all()
 		total = 0.0
 		voted={}
 		for v in votes:
