@@ -240,7 +240,7 @@ def topic_forcearrows(request, topic_id=None):
 	return render(request, 'agora/forcearrows.html', {"linksin":links})
 
 
-def topics(request, topic_id=None, sort_method="direct_value"):
+def topics(request, topic_id=None, sort_method="liquid_value"):
 	#try:
 	#	question = Question.objects.get(pk=question_id)
 	#except Question.DoesNotExist:
