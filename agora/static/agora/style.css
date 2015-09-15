@@ -124,7 +124,7 @@ ul {
   list-style-type: none;
 }
 
-.miniul li {
+.miniul li, .postpreview {
 
   padding: 5px;
   margin-left: 2px;

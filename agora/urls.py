@@ -51,7 +51,9 @@ urlpatterns = [
     # ex: /agora/topics/5/forcearrows/
     url(r'^topics/(?P<topic_id>[0-9]+)/forcearrows/', views.topic_forcearrows, name='topic_forcearrows'),
     # ex: /agora/topics/new/
-    url(r'^topics/(?P<parent_topic_id>[0-9]+)/newpost/$', views.new_post, name='newpost'),
+    url(r'^topics/(?P<parent_topic_id>[0-9]+)/old_newpost/$', views.new_post, name='oldnewpost'),
+    url(r'^topics/(?P<topic_id>[0-9]+)/newpost/$', views.fancy_post, name='newpost'),
+    url(r'^topics/(?P<topic_id>[0-9]+)/newpost/newpost_submit/$', views.post_quick, name='newpost_submit'),
     # ex: /agora/topics/new/
     url(r'^topics/(?P<parent_topic_id>[0-9]+)/newpost/(?P<parent_post_id>[0-9]+)$', views.new_post, name='newpost'),
     # ex: /agora/topics/5/posts/5/
@@ -65,7 +67,7 @@ urlpatterns = [
     # ex: /agora/topics/5/posts/5/quickvote/
     url(r'^topics/(?P<topic_id>[0-9]+)/posts/(?P<post_id>[0-9]+)/quickvote/$', views.vote_post_quick, name='quickvote'),
     # ex: /agora/topics/5/posts/5/add_option/
-    url(r'^topics/(?P<topic_id>[0-9]+)/posts/(?P<post_id>[0-9]+)/add_(?P<reply_type>[\w-]+)/$', views.reply_post_quick, name='quickreply'),
+    url(r'^topics/(?P<topic_id>[0-9]+)/posts/(?P<post_id>[0-9]+)/add_(?P<reply_type>[\w-]+)/$', views.post_quick, name='quickreply'),
     # ex: /agora/5/vote/
     #url(r'^(?P<question_id>[0-9]+)/vote/$', views.vote, name='vote'),
 ]

@@ -178,6 +178,7 @@ class Post(Voteable):
 	parent = models.ForeignKey("self", null = True, blank=True)
 	author = models.ForeignKey(User)
 	subtype = models.CharField(max_length=20, default="comment")
+	text = models.TextField(default="")
 	@property
 	def path(self):
 		list = []

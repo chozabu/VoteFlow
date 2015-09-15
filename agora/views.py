@@ -290,16 +290,21 @@ def all_topics(request, sort_method="subscription_set"):
 def posts(request, topic_id, post_id, sort_method="direct_value"):
 	post = get_object_or_404(Post, pk=post_id)
 	topic = get_object_or_404(Topic, pk=topic_id)
-	print(post)
-	print(dir(post))
-	#replies = Post.objects.filter(parent=post_id)
-	#print dir(post)
 	context={'post': post, "current_topic":topic}
 	if request.user.is_authenticated():
 		user_vote=PostVote.objects.filter(parent=post_id, author=request.user).first()
 		context['user_vote']=user_vote
 	context['sort_method']=sort_method
 	return render(request, 'agora/posts.html', context)#, "replies":replies})
+
+def fancy_post(request, topic_id, post_id=None):
+	topic = get_object_or_404(Topic, pk=topic_id)
+	post = Post.objects.filter(pk=post_id)
+
+	context={"current_topic":topic}
+	if post:
+		context['post'] = post
+	return render(request, 'agora/fancy_post.html', context)#, "replies":replies})
 
 def view_user(request, user_id):
 	user = get_object_or_404(User, pk=user_id)
@@ -359,6 +364,33 @@ def new_topic(request, parent_topic_id=None):
 		parent_topic = Topic.objects.get(id=parent_topic_id)
 
 	return render(request, 'agora/newtopic.html', {'form': form, "parent_topic":parent_topic})
+
+def post_quick(request, topic_id=None, post_id=None, reply_type="comment"):
+	# if this is a POST request we need to process the form data
+	if not request.user.is_authenticated():
+		print "noauth in quickvote"
+		return HttpResponseRedirect("/agora/login")
+	if topic_id==None and post_id==None:
+		return HttpResponse("Need Post, or topic ID")
+	prnt = None
+	if post_id!=None:
+		prnt = Post.objects.get(id=post_id)
+		topic_id=prnt.topic_id
+	if request.method == 'POST':
+		ptext = request.POST['text']
+		btext = request.POST.get('body_text', '')
+		print "FANCY_REPLY", ptext, btext
+		topic = Topic.objects.get(id=topic_id)
+		newpost = Post(text=btext, subtype=reply_type, name=ptext,topic=topic, parent=prnt, author=request.user)
+		newpost.save()
+		if post_id==None:
+			post_id=newpost.id
+		#this could be in an override on post save?
+		if prnt:
+			newnotify = Notification(target=prnt.author, name="New Post", content_object=newpost, author=request.user)
+			newnotify.save()
+		return HttpResponseRedirect('/agora/topics/'+str(topic_id)+"/posts/"+str(post_id))
+	return HttpResponseRedirect('/agora/topics/'+str(topic_id)+"/posts/"+str(post_id))
 
 def reply_post_quick(request, topic_id, post_id, reply_type="comment"):
 	# if this is a POST request we need to process the form data
