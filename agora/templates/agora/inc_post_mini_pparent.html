@@ -1,0 +1,9 @@
+
+{% if post.parent %}
+{% include "agora/inc_post_mini.html" with post=post.parent %}
+    {% else %}
+{% include "agora/inc_topic_mini.html" with topic=post.topic %}
+{% endif %}
+    <ul class="miniul">
+        <li>{% include "agora/inc_post_mini.html" %}</li>
+    </ul>

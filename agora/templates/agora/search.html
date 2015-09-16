@@ -13,7 +13,7 @@
     <h3>Results</h3>
 
     <div class="postlistintopics" data-table="Post" data-rtype="html"
-         data-sortby="-liquid_sum" data-startat="0" data-template="api_post_list"
+         data-sortby="-liquid_sum" data-startat="0" data-template="api_post_list_parents"
          data-filter='{"name__icontains":"{{ searchtext }}"}'>
 
         Sorting <select name="SortMethods" id="sortbox">
@@ -34,7 +34,7 @@
         <ul id="topicslist" class="miniul">
             {% if post_list %}
                 {% for post in post_list%}
-                    <li>{% include "agora/inc_post_mini.html" with  post=post %}</li>
+                    <li>{% include "agora/inc_post_mini_pparent.html" with  post=post %}</li>
                 {% endfor %}
             {% else %}
                 <p> no Posts Found </p>
