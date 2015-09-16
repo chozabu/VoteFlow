@@ -334,6 +334,7 @@ def view_user(request, user_id):
 	context['reps']=reps
 
 	if request.user.is_authenticated() and user==request.user:
+		context['own_profile'] = True
 		context['fb_ss'] = UserSocialAuth.objects.filter(user=request.user, provider="facebook")
 		context['goog_ss'] = UserSocialAuth.objects.filter(user=request.user, provider="google-oauth2")
 
