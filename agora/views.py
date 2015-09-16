@@ -149,7 +149,7 @@ def search(request):
 	searchtext=r_get.get("searchtext", "")
 	context = {'searchtext':searchtext}
 	if searchtext:
-		post_list = Post.objects.filter(name__icontains =searchtext)
+		post_list = Post.objects.filter(name__icontains =searchtext)[0:10]
 
 		context['post_list']=post_list
 	return render(request, 'agora/search.html', context)
