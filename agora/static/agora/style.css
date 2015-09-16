@@ -152,6 +152,7 @@ ul {
   margin-left: 0.4em;
   box-shadow: -4px 4px 5px rgba(50, 50, 50, 0.2);
     float: right;
+    max-width: 70%;
 }
 
 
