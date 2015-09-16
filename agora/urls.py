@@ -8,6 +8,8 @@ urlpatterns = [
     url(r'^$', views.index, name='index'),
     # ex: /agora/basic_api/
     url(r'^basic_api/$', views.db_query, name='basic_api'),
+    # ex: /agora/search/
+    url(r'^search/$', views.search, name='search'),
     # ex: /agora/new_user/
     url(r'^new_user/$', views.new_user, name='new_user'),
     # ex: /agora/login/

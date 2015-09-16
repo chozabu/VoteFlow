@@ -94,8 +94,11 @@ def db_query(request):
 	objs =rdata[table].objects.filter()
 
 	filters=r_get.get("filter", '[]')
+	if not filters:filters="[]"
 	filters=json.loads(filters)
+	print filters
 	for vfilter in filters:
+		if not vfilter:continue
 		print "@filter"
 		print vfilter
 		objs = objs.filter(**vfilter)
@@ -138,6 +141,19 @@ def db_query(request):
 			ret_obj[f] = getattr(i, f)
 		retr.append(ret_obj)
 	return HttpResponse(json.dumps(retr))
+
+def search(request):
+	r_get = request.GET
+	print "==search=="
+	print r_get
+	searchtext=r_get.get("searchtext", "")
+	context = {'searchtext':searchtext}
+	if searchtext:
+		post_list = Post.objects.filter(name__icontains =searchtext)
+
+		context['post_list']=post_list
+	return render(request, 'agora/search.html', context)
+
 
 
 
