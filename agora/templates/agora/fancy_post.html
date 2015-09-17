@@ -63,13 +63,6 @@
                 toolbar: 'halloToolbarFixed'
             });
 
-            jQuery('#imgs').hallo({
-                plugins: {
-                    'halloimagesearch': {}
-                },
-                toolbar: 'halloToolbarFixed'
-            });
-
             var markdownize = function (content) {
                 var html = content.split("\n").map($.trim).filter(function (line) {
                     return line != "";

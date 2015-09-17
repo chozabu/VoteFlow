@@ -9,6 +9,17 @@
 {% endblock %}
 
 {% block head_block %}
+    {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'agora/fontawesome/css/font-awesome.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'agora/css/hallo.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.11.3/themes/smoothness/jquery-ui.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js"></script>
+    <script src="http://rangy.googlecode.com/svn/trunk/currentrelease/rangy-core.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="{% static 'agora/fontawesome/css/font-awesome.css' %}"/>
+    <script src="{% static 'agora/js/hallo-min.js' %}"></script>
+    <script src="{% static 'agora/js/showdown.js' %}"></script>
+    <script src="{% static 'agora/js/to-markdown.js' %}"></script>
 
 {% endblock %}
 
@@ -140,12 +151,40 @@
                     }));
             form.append(
                     $("{% csrf_token %}"));
+            form.append($("<br>"));
+
+            var ta = $("<div/>", {
+                class: 'editable postpreview'
+            });
+            ta.append($("<p/>"))
+            form.append(ta);
+
+            var ssbutton =  $("<button/>", {
+                type: "button",
+                class: "btn btn-info",
+                "data-toggle": "collapse",
+                "data-target":"#post-source-panel"
+            });
+            var hiddendiv = $("<div/>", {
+                id: "post-source-panel",
+                class: "collapse"
+            });
+
+            var btext =  $("<textarea/>", {
+                name:"body_text",
+                id:"source"
+            });
+
+            ssbutton.append("Show Source");
+            form.append(ssbutton);
+            hiddendiv.append(btext);
+            form.append(hiddendiv);
             var submit_button = $("<input/>", {
                 type: 'submit',
                 value: 'post',
                 style: 'width:30%'
             });
-
+            form.append($("<br>"));
             form.append(submit_button);
 
             /*form.submit(function (event) {});*/
@@ -155,6 +194,64 @@
 
             $(this).parent().append(form);
             $(this).remove();
+            ta.hallo({
+                plugins: {
+                    'halloformat': {},
+                    'halloheadings': {},
+                    'hallolists': {},
+                    //'halloblacklist': {"tags":["div"]},
+                    'hallo-image-insert-edit': {},
+                    'hallolink': {},
+                    'halloreundo': {}
+                },
+                toolbar: 'halloToolbarFixed'
+            });
+
+
+
+
+            var markdownize = function (content) {
+                var html = content.split("\n").map($.trim).filter(function (line) {
+                    return line != "";
+                }).join("\n");
+                //next line for chrome...
+                html = html.replace(/\<div\>/g, "<br>").replace(/\<\/div\>/g, "");
+                //console.log(html)
+                return toMarkdown(html);
+            };
+
+            var converter = new Showdown.converter();
+            var htmlize = function (content) {
+                return converter.makeHtml(content);
+            };
+
+            // Method that converts the HTML contents to Markdown
+            var showSource = function (content) {
+                var markdown = markdownize(content);
+                if (btext.get(0).value == markdown) {
+                    return;
+                }
+                btext.get(0).value = markdown;
+            };
+
+
+            var updateHtml = function (content) {
+                if (markdownize(ta.html()) == content) {
+                    return;
+                }
+                var html = htmlize(content);
+                ta.html(html);
+            };
+
+            // Update Markdown every time content is modified
+            ta.bind('hallomodified', function (event, data) {
+                showSource(data.content);
+            });
+            btext.bind('keyup', function () {
+                updateHtml(this.value);
+            });
+            showSource(ta.html());
+
         }
         $('a.add_option_link').click(reply_link_click);
         $('a.add_comment_link').click(reply_link_click);
