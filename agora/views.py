@@ -647,7 +647,18 @@ def login_user(request):
 			#redirect('edit_user', user_id = u.id)
 	else:
 		form = AuthenticationForm()
-	return render	(request, 'agora/login.html', {'form': form})
+	import requests
+	context = {'form': form}
+	if request.user.is_authenticated():
+		user = User.objects.get(...)
+		social = user.social_auth.get(provider='google-oauth2')
+		response = requests.get(
+		    'https://www.googleapis.com/plus/v1/people/me/people/visible',
+		    params={'access_token': social.extra_data['access_token']}
+		)
+		friends = response.json()['items']
+		context['friends']=friends
+	return render	(request, 'agora/login.html', context)
 
 def new_user(request):
 	raise Http404('Disabled for now - use FB or Google login!')

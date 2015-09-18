@@ -20,6 +20,7 @@
                 <a href="{% url 'auth:logout' %}?next={{ request.path }}">Logout</a>
             </li>
         </ul>
+   {{ friends }}
     {% else %}
         <div class="row">
             <div class="col-sm-6">
