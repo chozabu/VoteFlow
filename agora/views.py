@@ -650,7 +650,7 @@ def login_user(request):
 	import requests
 	context = {'form': form}
 	if request.user.is_authenticated():
-		user = User.objects.get(...)
+		user = request.user
 		social = user.social_auth.get(provider='google-oauth2')
 		response = requests.get(
 		    'https://www.googleapis.com/plus/v1/people/me/people/visible',
