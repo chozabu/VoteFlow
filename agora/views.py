@@ -649,7 +649,7 @@ def login_user(request):
 		form = AuthenticationForm()
 	import requests
 	context = {'form': form}
-	if request.user.is_authenticated():
+	'''if request.user.is_authenticated():
 		user = request.user
 		social = user.social_auth.get(provider='google-oauth2')
 		response = requests.get(
@@ -657,7 +657,7 @@ def login_user(request):
 		    params={'access_token': social.extra_data['access_token']}
 		)
 		friends = response.json()
-		context['friends']=friends
+		context['friends']=friends'''
 	return render	(request, 'agora/login.html', context)
 
 def new_user(request):
