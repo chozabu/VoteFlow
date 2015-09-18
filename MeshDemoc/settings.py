@@ -159,3 +159,6 @@ SOCIAL_AUTH_FACEBOOK_SCOPE = [
     'public_profile',
     #user_location
 ]
+SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = [
+    'https://www.googleapis.com/auth/plus.login'
+]
