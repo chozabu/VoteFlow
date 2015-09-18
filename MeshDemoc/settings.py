@@ -156,5 +156,6 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = gl('SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET')
 SOCIAL_AUTH_FACEBOOK_SCOPE = [
     'email',
     'user_friends',
-    'friends_location',
+    'public_profile',
+    #user_location
 ]
