@@ -110,7 +110,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 if 'STATIC_ROOT' in localsettings:
-    STATIC_ROOT = localsettings['STATIC_ROOT']
+    STATIC_ROOT = os.path.dirname(BASE_DIR) + localsettings['STATIC_ROOT']
 
 
 TEMPLATE_CONTEXT_PROCESSORS = (
