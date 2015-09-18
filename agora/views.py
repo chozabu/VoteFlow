@@ -656,7 +656,7 @@ def login_user(request):
 		    'https://www.googleapis.com/plus/v1/people/me/people/visible',
 		    params={'access_token': social.extra_data['access_token']}
 		)
-		friends = response.json()['items']
+		friends = response.json()
 		context['friends']=friends
 	return render	(request, 'agora/login.html', context)
 
