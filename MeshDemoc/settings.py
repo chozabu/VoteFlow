@@ -109,9 +109,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
-import getpass
-if getpass.getuser() == 'alexpb':
-	STATIC_ROOT = os.path.dirname(BASE_DIR) + '/meshdemocracy.org/public/static/'
+if 'STATIC_ROOT' in localsettings:
+    STATIC_ROOT = localsettings['STATIC_ROOT']
 
 
 TEMPLATE_CONTEXT_PROCESSORS = (
@@ -153,4 +152,3 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = gl('SOCIAL_AUTH_GOOGLE_OAUTH2_KEY')
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = gl('SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET')
 #SOCIAL_AUTH_TWITTER_KEY =
 #SOCIAL_AUTH_TWITTER_SECRET =
-
