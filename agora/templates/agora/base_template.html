@@ -19,7 +19,13 @@
 <div id="mainContentPanel">
 <ul id="topic_path" class="na">
     <li><a href="/agora/all_topics/">Topics</a></li>
-    {% if current_topic %}
+    {% if post %}
+        {% for p_topic in current_topic.full_path %}
+            <li>
+                <a href="/agora/topics/{{ p_topic.id }}/">{{ p_topic.name }}</a>
+            </li>
+        {% endfor %}
+    {% elif current_topic %}
         {% for p_topic in current_topic.path %}
             <li>
                 <a href="/agora/topics/{{ p_topic.id }}/">{{ p_topic.name }}</a>

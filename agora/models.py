@@ -40,6 +40,14 @@ class Topic(models.Model):
 			#get list of reps in topics to root
 	def path(self):
 		list = []
+		cur_top = self.parent
+		while cur_top:
+			list.append(cur_top)
+			cur_top=cur_top.parent
+		list.reverse()
+		return list
+	def full_path(self):
+		list = []
 		cur_top = self
 		while cur_top:
 			list.append(cur_top)
@@ -191,7 +199,7 @@ class Post(Voteable):
 	@property
 	def path(self):
 		list = []
-		cur_top = self
+		cur_top=self.parent
 		while cur_top:
 			list.append(cur_top)
 			cur_top=cur_top.parent

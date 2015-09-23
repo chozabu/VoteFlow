@@ -160,11 +160,16 @@ h2 {
 ul#topic_path {
 	margin-top: 7px;
 	padding: 0;
+	display: inline-block;
 }
 ul#topic_path li {
 	display: inline;
 }
+/*
 ul#topic_path li:not(:last-child)::after {
+	content: "⇒";
+}*/
+ul#topic_path li::after {
 	content: "⇒";
 }
 ul#topic_path li a {
@@ -180,11 +185,12 @@ ul#topic_path li a:hover {
 }
 ul#post_path {
 	padding: .2em;
+	display: inline-block;
 }
 ul#post_path li {
 	display: inline;
 }
-ul#post_path li:not(:last-child)::after {
+ul#post_path li::after {
 	content: "▶";
 }
 ul#post_path li a {
