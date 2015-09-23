@@ -136,12 +136,13 @@ ul {
 
 
 #mainContentPanel {
-  padding: 5px;
-  margin-left: 2px;
-  border-radius: 4px;
-  border: #bdb8b2 1px solid;
-  margin-left: 0.4em;
-  box-shadow: -4px 4px 5px rgba(50, 50, 50, 0.2);
+	padding: 5px;
+	border-radius: 4px;
+	border: 1px solid rgb(189, 184, 178);
+	margin-left: auto;
+	box-shadow: -4px 4px 5px rgba(50, 50, 50, 0.2);
+	margin-right: auto;
+	width: 90%;
 }
 
 .floatonright {
