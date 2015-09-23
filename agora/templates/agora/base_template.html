@@ -16,6 +16,7 @@
 
 {% include "agora/navbar.html" %}
 
+<div id="mainContentPanel">
 <ul id="topic_path" class="na">
     <li><a href="/agora/all_topics/">Topics</a></li>
     {% if current_topic %}
@@ -26,7 +27,6 @@
         {% endfor %}
     {% endif %}
 </ul>
-<div id="mainContentPanel">
     {% block body_block %}{% endblock %}
 </div>
 
