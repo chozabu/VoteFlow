@@ -49,6 +49,7 @@ dependencies:
     pip install django 
     pip install markdown
     pip install python-social-auth
+    pip install oauthlib
 
 install
 
