@@ -1,0 +1,7 @@
+{
+  "secret_key":"adjangosecretkeyadjangosecretkeyadjangosecretkeya",
+  "SOCIAL_AUTH_FACEBOOK_KEY":"fbk",
+  "SOCIAL_AUTH_FACEBOOK_SECRET":"fbs",
+  "SOCIAL_AUTH_GOOGLE_OAUTH2_KEY":"gk",
+  "SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET":"gs"
+}
