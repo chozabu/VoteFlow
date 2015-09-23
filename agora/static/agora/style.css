@@ -120,6 +120,7 @@ ul {
 	border: #bdb8b2 1px solid;
 	margin-left: 0.4em;
 	box-shadow: -4px 4px 5px rgba(50, 50, 50, 0.2);
+	text-align: center;
 }
 #mainContentPanel {
 	padding: 5px;
