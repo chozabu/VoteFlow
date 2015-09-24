@@ -1,0 +1,10 @@
+<div class="groupminititle">
+    <a href="/agora/groups/{{ group.id }}/">
+        {{ group.name }}
+    </a>
+    <span>{{ group.subscription_set.all|length }}</span>
+</div>
+<br><span> author: <a href="/agora/user/{{ group.author.pk }}/">
+    {{ group.groupextra.author.username }} </a> @ {{ group.groupextra.created_at }}</span>
+<br> <span>type: {{ group.groupextra.subtype }}</span>
+<br> <span>sub-groups: {{ group.group_set.all|length }} Posts {{ group.post_set.all|length }} </span>

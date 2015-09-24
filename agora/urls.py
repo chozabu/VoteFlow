@@ -23,6 +23,14 @@ urlpatterns = [
     #url(r'^notifications/mark_read$', views.clear_notifications, name='notifications'),
     # ex: /agora/all_topics/
     url(r'^all_topics/$', views.all_topics, name='all_topics'),
+    # ex: /agora/groups/
+    url(r'^groups/$', views.groups, name='groups'),
+    # ex: /agora/groups/5/
+    url(r'^groups/(?P<group_id>[0-9]+)/$', views.group, name='group'),
+    url(r'^groups/(?P<group_id>[0-9]+)/new/$', views.fancy_group, name='newgroup'),
+    url(r'^groups/(?P<group_id>[0-9]+)/new/newgroup_submit/$', views.group_quick, name='newgroup_submit'),
+    url(r'^groups/new/$', views.fancy_group, name='newgroup'),
+    url(r'^groups/new/newgroup_submit/$', views.group_quick, name='newgroup_submit'),
     # ex: /agora/topics/5/sort/sort-method
     #(?P<page_slug>[\w-]+)
     url(r'^all_topics/sort/(?P<sort_method>[\w-]+)/$', views.all_topics, name='all_topics'),

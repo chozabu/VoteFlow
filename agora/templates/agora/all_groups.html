@@ -1,0 +1,24 @@
+{% extends 'agora/base_template.html' %}
+
+{% block title %}
+    Groups
+{% endblock %}
+
+
+{% block body_block %}
+    <h3>Groups</h3>
+    {% if group_list %}
+        <ul class="miniul">
+            {% for group in group_list %}
+                <li>
+                    {% include "agora/inc_group_mini.html" with  group=group %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No sub-groups found...</p>
+    {% endif %}
+
+    <a href="/agora/groups/new/">New Group</a>
+
+{% endblock %}

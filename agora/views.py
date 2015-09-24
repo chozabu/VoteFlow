@@ -13,7 +13,7 @@ from social.apps.django_app.default.models import UserSocialAuth
 from .forms import TopicForm, PostForm, RepForm, PostVoteForm, TagForm, TagVoteForm
 
 
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from .models import Notification, Topic, Post, Tag, Representation, PostVote, TagVote, Subscription
 
 import json
@@ -280,6 +280,45 @@ def topics(request, topic_id=None, sort_method="liquid_value"):
 			context['parent_topic'] = current_topic.parent
 		
 	return render(request, 'agora/topics.html', context)
+
+def groups(request):
+	group_list = Group.objects.filter()
+	context = {'group_list': group_list}
+	return render(request, 'agora/all_groups.html', context)
+
+def group(request, group_id):
+	group = get_object_or_404(Group, pk=group_id)
+	context = {'group': group}
+	return render(request, 'agora/group.html', context)
+
+
+def fancy_group(request, group_id=None):
+	group = Group.objects.filter(pk=group_id)
+	context = {}
+	if group:
+		context['group'] = group
+	return render(request, 'agora/fancy_group.html', context)#, "replies":replies})
+
+def group_quick(request,group_id=None):
+	# if this is a POST request we need to process the form data
+	if not request.user.is_authenticated():
+		print "noauth in newgroup"
+		return HttpResponseRedirect("/agora/login")
+	if request.method == 'POST':
+		ptext = request.POST['text']
+		#btext = request.POST.get('body_text', '')
+		print "fancy_group", ptext
+		newgroup = Group(name=ptext)
+		newgroup.save()
+		gextra = newgroup.groupextra
+		gextra.author=request.user
+		gextra.save()
+		if group_id==None:
+			group_id=newgroup.id
+		return HttpResponseRedirect('/agora/groups/'+str(group_id))
+	return HttpResponseRedirect('/agora/groups/'+str(group_id))
+
+
 
 def all_topics(request, sort_method="subscription_set"):
 	topic_list = []

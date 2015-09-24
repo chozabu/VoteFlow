@@ -1,0 +1,22 @@
+{% extends 'agora/base_template.html' %}
+
+{% block title %}
+    {{ group.name }}
+{% endblock %}
+
+
+{% block body_block %}
+<div class="groupminititle">
+<h1>
+    <a href="/agora/groups/{{ group.id }}/">
+        {{ group.name }}
+    </a></h1>
+    <span>{{ group.subscription_set.all|length }} members</span>
+</div>
+<br><span> author: <a href="/agora/user/{{ group.author.pk }}/">
+    {{ group.groupextra.author.username }} </a> @ {{ group.groupextra.created_at }}</span>
+<br> <span>type: {{ group.groupextra.subtype }}</span>
+<br> <span>sub-groups: {{ group.group_set.all|length }} Posts {{ group.post_set.all|length }} </span>
+<br><a href="/agora/groups/new/">New Group</a>
+
+{% endblock %}

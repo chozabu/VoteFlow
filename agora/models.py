@@ -1,13 +1,32 @@
 import datetime
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.utils import timezone
 from django.db.models.functions import Length
 
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
+class UserExtra(models.Model):
+	user = models.OneToOneField(User)
+
+class GroupExtra(models.Model):
+	group = models.OneToOneField(Group)
+	author = models.ForeignKey(User, null=True, blank=True)
+	parent = models.ForeignKey(Group, null=True, blank=True, related_name='children')
+	subtype = models.CharField(max_length=20, default="public")
+	created_at = models.DateField(auto_now_add=True)
+	modified_at = models.DateField(auto_now=True)
+	hidden = models.BooleanField(default=False)
+
+
+@receiver(post_save, sender=Group)
+def create_group_extra(sender, instance, created, **kwargs):
+	if created:
+		GroupExtra.objects.create(group=instance)
 
 class Notification(models.Model):
 	name = models.CharField(max_length=200, null=True, blank=True)
