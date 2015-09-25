@@ -1,0 +1,6 @@
+<ul class="miniul">
+    {% for user in User %}
+        <li><a href="/agora/user/{{ user.id }}/"><span class="glyphicon glyphicon-user"></span> {{ user.username }}</a></li>
+    {% endfor %}
+</ul>
+<span>items: {{ start_at }} ~ {{ got_num }} of {{ total_num }}</span>

@@ -82,7 +82,7 @@ def db_query(request):
 	print "==dbquery=="
 	print r_get
 
-	rdata = {"Post":Post, "Tag":Tag, "Topic":Topic}
+	rdata = {"Post":Post, "Tag":Tag, "Topic":Topic, "User":User}
 
 	table=r_get.get("table")
 
@@ -113,16 +113,28 @@ def db_query(request):
 	sortby=r_get.get("sortby")
 	if sortby:
 		print "@sortby"
+		presort = objs
 		objs = objs.order_by(sortby)
+		try:
+			print objs
+		except:
+			objs=presort
 
 
 	print "@len"
 	startat=int(r_get.get("startat", 0))
 	length=int(r_get.get("length", 10))
+	print startat, length
 
 	o_count = objs.count()
+	print 1
+	print o_count
 	objs = objs[startat:startat+length]
+	print 4
+	print objs
+	print 5
 	r_count = objs.count()
+	print 3
 
 	print "@type"
 	rtype=r_get.get("rtype")
