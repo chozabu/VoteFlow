@@ -36,7 +36,9 @@
         <p>No sub-topics found...</p>
     {% endif %}
 
-    <a href="/agora/topics/new/{{ current_topic.id }}/">New Topic</a>
+    <a href="/agora/topics/new/{{ current_topic.id }}/">
+        <button id="prevbutton" type="button" class="btn btn-info">New Topic
+    </button></a>
 
     <h3>Posts</h3>
 
@@ -77,7 +79,9 @@
         </button>
     </div>
     {% if current_topic %}
-        <a href="/agora/topics/{{ current_topic.id }}/newpost/">New Post</a>
+            <a href="/agora/topics/{{ current_topic.id }}/newpost/">
+        <button id="prevbutton" type="button" class="btn btn-info">New Post
+        </button></a>
     {% endif %}
 
     <script>

@@ -111,12 +111,16 @@
                 <span class="tagspan"><a href="/agora/tags/{{ tag.id }}/">{{ tag.name }}</a></span>
             {% endfor %}
         </div>
-        <a href="/agora/topics/{{ post.topic.id }}/posts/{{ post.id }}/newtag/">Add Tag!</a><br>
+        <a href="/agora/topics/{{ post.topic.id }}/posts/{{ post.id }}/newtag/">
+            <button id="prevbutton" type="button" class="btn btn-info">Add Tag!
+        </button></a><br>
 
         <div style="clear: both;"></div>
         <h3>Replies</h3>
         <div>
-            <a id="comment" class="add_comment_link">Reply to Post</a>
+            <a id="comment" class="add_comment_link">
+                <button id="prevbutton" type="button" class="btn btn-info">Reply to Post
+            </button></a>
         </div>
         <!--<a href="/agora/topics/{{ current_topic.id }}/newpost/{{ post.id }}">Reply to Post</a>-->
         <p>sort method: {{ sort_method }} (
