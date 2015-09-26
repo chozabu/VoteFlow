@@ -143,7 +143,8 @@ SOCIAL_AUTH_PIPELINE = (
     'social.pipeline.user.create_user',
     'social.pipeline.social_auth.associate_user',
     'social.pipeline.social_auth.load_extra_data',
-    'social.pipeline.user.user_details'
+    'social.pipeline.user.user_details',
+    'projects.pipeline.save_profile_picture', #save facebook profile image,
 )
 
 SOCIAL_AUTH_FACEBOOK_KEY = localsettings['SOCIAL_AUTH_FACEBOOK_KEY']
