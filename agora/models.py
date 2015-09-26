@@ -12,6 +12,7 @@ from django.dispatch import receiver
 
 class UserExtra(models.Model):
 	user = models.OneToOneField(User)
+	photo = models.ImageField(null=True, blank=True)
 
 class GroupExtra(models.Model):
 	group = models.OneToOneField(Group)
