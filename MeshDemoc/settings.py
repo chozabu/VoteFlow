@@ -111,7 +111,11 @@ USE_TZ = True
 STATIC_URL = '/static/'
 if 'STATIC_ROOT' in localsettings:
     STATIC_ROOT = os.path.dirname(BASE_DIR) + localsettings['STATIC_ROOT']
-
+if 'MEDIA_ROOT' in localsettings:
+    MEDIA_ROOT = os.path.dirname(BASE_DIR) + localsettings['MEDIA_ROOT']
+if 'MEDIA_URL' in localsettings:
+    MEDIA_URL = localsettings['MEDIA_URL']
+print MEDIA_ROOT
 
 TEMPLATE_CONTEXT_PROCESSORS = (
     'django.contrib.auth.context_processors.auth',
@@ -144,7 +148,7 @@ SOCIAL_AUTH_PIPELINE = (
     'social.pipeline.social_auth.associate_user',
     'social.pipeline.social_auth.load_extra_data',
     'social.pipeline.user.user_details',
-    'projects.pipeline.save_profile_picture', #save facebook profile image,
+    'agora.pipeline.save_profile_picture', #save facebook profile image,
 )
 
 SOCIAL_AUTH_FACEBOOK_KEY = localsettings['SOCIAL_AUTH_FACEBOOK_KEY']
