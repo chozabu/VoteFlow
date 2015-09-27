@@ -293,7 +293,6 @@ class UserRepCache(models.Model):
 			#update objects it is pointing to
 			topicReps = Representation.objects.filter(topic=self.topic, author=self.user)
 			for tr in topicReps:
-				print  "asdasdasasdasdasdasd", tr, rfrom
 				if tr == rfrom:continue
 				if tr.author==rfrom.rep and tr.rep == rfrom.author: continue
 				#this could be optimised by altering from the diff in value

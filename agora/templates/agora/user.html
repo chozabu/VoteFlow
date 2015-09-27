@@ -47,7 +47,8 @@
         <li>{{ k.name }} <br>
         <ul class="miniul">
             {% for i in v %}
-                <li>{{ i.rep }}</li>
+                <li>{% include "agora/inc_user_micro.html" with user=i.rep %}<div style="clear: both;" />    </li>
+
             {% endfor %}
         </ul>
         </li>
