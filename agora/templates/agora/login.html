@@ -16,7 +16,7 @@
             <li>
                <a>Hello {{ user.get_full_name|default:user.username }}!
                <br>
-               <img src="/media/ppics/{{ user.userextra.photo }}" />
+               <img src="/media/{{ user.userextra.photo }}" />
                </a>
             </li>
             <li>

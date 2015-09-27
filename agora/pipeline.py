@@ -13,5 +13,5 @@ def save_profile_picture(backend, user, response, details,
             print url
             response = urllib.urlopen(url)
             io = BytesIO(response.read())
-            up[0].photo.save('ppics/profile_pic_{}.jpg'.format(user.pk), File(io))
+            up[0].photo.save('profile_pic_{}.jpg'.format(user.pk), File(io))
             up[0].save()

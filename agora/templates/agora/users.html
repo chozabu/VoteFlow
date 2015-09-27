@@ -15,8 +15,7 @@
 
     <ul class="miniul">
         {% for us in users %}
-            <li><a href="/agora/user/{{ us.pk }}/">
-    {{ us.username }} </a></li>
+            <li>{% include "agora/inc_user_micro.html" with user=us %}</li>
         {% endfor %}
     </ul>
 
