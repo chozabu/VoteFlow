@@ -16,6 +16,7 @@
     <ul class="miniul">
         {% for us in users %}
             <li>{% include "agora/inc_user_micro.html" with user=us %}
+                <br>representing: {{ us.rep_from.all|length }}, Trusting: {{ us.rep_to.all|length }}
             <div style="clear: both"></div>
             </li>
         {% endfor %}
