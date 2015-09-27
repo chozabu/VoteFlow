@@ -42,7 +42,7 @@
                 ({{ post.liquid_vote_count }} votes)
             </a>
         </h2>
-        <p class="authorinfo">by {{ post.author.username }} @ {{ post.created_at }} </p>
+        <p class="authorinfo">{% include "agora/inc_user_micro.html" with user=post.author %} @ {{ post.created_at }} <div style="clear: both;" </p>
         {% if post.text %}
             <div class="postpreview">
                 {% autoescape off %}
