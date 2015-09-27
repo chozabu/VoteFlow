@@ -10,54 +10,57 @@
 
 
 {% block body_block %}
-        <h2>{{ selected_user }}</h2>
+    <h2>{{ selected_user }}</h2>
 
     {% if own_profile %}
-    {% if fb_ss %}
-        <p>Connected with FaceBook!</p>
-    {% else %}
-        <p><a href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}">Connect with Facebook</a></p>
-    {% endif %}
+        {% if fb_ss %}
+            <p>Connected with FaceBook!</p>
+        {% else %}
+            <p><a href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}">Connect with Facebook</a></p>
+        {% endif %}
 
-    {% if goog_ss %}
-        <p>Connected with Google!</p>
-    {% else %}
-       <a href="{% url 'social:begin' 'google-oauth2' %}?next={{ request.path }}">Connect with Google</a>
-    {% endif %}
+        {% if goog_ss %}
+            <p>Connected with Google!</p>
+        {% else %}
+            <a href="{% url 'social:begin' 'google-oauth2' %}?next={{ request.path }}">Connect with Google</a>
+        {% endif %}
     {% endif %}
 
     <h4>Representees</h4>
     <ul class="miniul">
-    {% for k, v in repping.items %}
-        <li>{{ k.name }} ({{ v.cache.rep_cache }}) <br>
-        <ul class="miniul">
-            {% for i in v.people %}
-                <li>{% include "agora/inc_user_micro.html" with user=i.author %}<div style="clear: both;" />    </li>
+        {% for k, v in repping.items %}
+            <li>{{ k.name }} ({{ v.cache.rep_cache }}) <br>
+                <ul class="miniul">
+                    {% for i in v.people %}
+                        <li>{% include "agora/inc_user_micro.html" with user=i.author %}
+                            <div style="clear: both;"/>
+                        </li>
 
-            {% endfor %}
-        </ul>
-        </li>
-    {% endfor %}
+                    {% endfor %}
+                </ul>
+            </li>
+        {% endfor %}
     </ul>
     <br>
 
     <h4>Representitives:</h4>
     <ul class="miniul">
-    {% for k, v in reps.items %}
-        <li>{{ k.name }} <br>
-        <ul class="miniul">
-            {% for i in v %}
-                <li>{% include "agora/inc_user_micro.html" with user=i.rep %}<div style="clear: both;" />    </li>
-
-            {% endfor %}
-        </ul>
-        </li>
-    {% endfor %}
+        {% for k, v in reps.items %}
+            <li>{{ k.name }} <br>
+                <ul class="miniul">
+                    {% for i in v %}
+                        <li>{% include "agora/inc_user_micro.html" with user=i.rep %}
+                            <div style="clear: both;"/>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </li>
+        {% endfor %}
     </ul>
     <br>
 
     <h4>Posts</h4>
-        <ul class="miniul">
+    <ul class="miniul">
         {% for child_post in selected_user.post_set.all %}
             <li>{% include "agora/inc_post_mini.html" with  post=child_post %}</li>
         {% endfor %}
@@ -83,11 +86,11 @@
 
     <h4>Topics Created</h4>
     <ul class="miniul">
-    {% for topic in selected_user.topic_set.all %}
-        <li>
-            {% include "agora/inc_topic_mini.html" with  topic=topic %}
-        </li>
-    {% endfor %}
+        {% for topic in selected_user.topic_set.all %}
+            <li>
+                {% include "agora/inc_topic_mini.html" with  topic=topic %}
+            </li>
+        {% endfor %}
     </ul><br>
 
 {% endblock %}
