@@ -29,10 +29,11 @@
     <h4>Representees</h4>
     <ul class="miniul">
     {% for k, v in repping.items %}
-        <li>{{ k.name }} <br>
+        <li>{{ k.name }} ({{ v.cache.rep_cache }}) <br>
         <ul class="miniul">
-            {% for i in v %}
-                <li>{{ i.author }}</li>
+            {% for i in v.people %}
+                <li>{% include "agora/inc_user_micro.html" with user=i.author %}<div style="clear: both;" />    </li>
+
             {% endfor %}
         </ul>
         </li>

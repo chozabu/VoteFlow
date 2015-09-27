@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import UserExtra, GroupExtra, Notification, Topic, Post, Tag, Representation, PostVote, TagVote, Subscription
+from .models import UserRepCache, UserExtra, GroupExtra, Notification, Topic, Post, Tag, Representation, PostVote, TagVote, Subscription
 
 
 admin.site.register(Topic)
@@ -14,3 +14,4 @@ admin.site.register(Subscription)
 admin.site.register(Notification)
 admin.site.register(UserExtra)
 admin.site.register(GroupExtra)
+admin.site.register(UserRepCache)

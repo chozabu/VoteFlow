@@ -14,7 +14,8 @@ from .forms import TopicForm, PostForm, RepForm, PostVoteForm, TagForm, TagVoteF
 
 
 from django.contrib.auth.models import User, Group
-from .models import Notification, Topic, Post, Tag, Representation, PostVote, TagVote, Subscription
+from .models import Notification, Topic, Post, Tag, \
+	Representation, PostVote, TagVote, Subscription, UserRepCache
 
 import json
 
@@ -389,8 +390,9 @@ def view_user(request, user_id):
 	repping = {}
 	for r in user.rep_from.all():
 		if r.topic not in repping:
-			repping[r.topic]=[]
-		repping[r.topic].append(r)
+			cache = UserRepCache.objects.get_or_create(user=user, topic=r.topic)[0]
+			repping[r.topic]={"cache":cache,"people":[]}
+		repping[r.topic]['people'].append(r)
 	context['repping']=repping
 	
 	reps = {}

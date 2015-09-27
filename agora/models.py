@@ -265,8 +265,48 @@ class Representation(models.Model):
 	topic = models.ForeignKey(Topic)
 	author = models.ForeignKey(User, related_name='rep_to')
 	rep = models.ForeignKey(User, related_name='rep_from')
+	def cache_rep_info(self):
+		uc = UserRepCache.objects.get_or_create(user=self.rep, topic=self.topic)[0]
+		print uc
+		uc.cache_rep_info(self)
 	def __unicode__(self):
 		return self.author.username + " -> " + self.rep.username + " @ " + str(self.topic.name)
+
+class UserRepCache(models.Model):
+	user = models.ForeignKey(User, related_name='rep_cache')
+	topic = models.ForeignKey(Topic)
+	rep_cache = models.IntegerField(default=1)
+	def cache_rep_info(self, rfrom=None):
+		#cval = self.rep_cache
+		topicReps = Representation.objects.filter(topic=self.topic, rep=self.user)
+		newval = 1
+		for tr in topicReps:
+			if tr == rfrom:continue
+			if tr.author==rfrom.rep and tr.rep == rfrom.author: continue
+			uci = UserRepCache.objects.get_or_create(user=tr.author, topic=self.topic)[0]
+			newval+=uci.rep_cache
+			print newval
+		if newval != self.rep_cache:
+			#this has been changed
+			self.rep_cache = newval
+			self.save()
+			#update objects it is pointing to
+			topicReps = Representation.objects.filter(topic=self.topic, author=self.user)
+			for tr in topicReps:
+				print  "asdasdasasdasdasdasd", tr, rfrom
+				if tr == rfrom:continue
+				if tr.author==rfrom.rep and tr.rep == rfrom.author: continue
+				#this could be optimised by altering from the diff in value
+				tr.cache_rep_info()
+	def __unicode__(self):
+		return self.user.username + " = " + str(self.rep_cache) + " @ " + str(self.topic.name)
+
+
+@receiver(post_save, sender=Representation)
+def update_rep_data(sender, instance, created, **kwargs):
+	instance.cache_rep_info()
+	#if created:
+	#	UserExtra.objects.create(user=instance)
 
 #Topic Subscription
 class Subscription(models.Model):
