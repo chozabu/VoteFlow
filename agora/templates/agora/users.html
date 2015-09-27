@@ -15,7 +15,9 @@
 
     <ul class="miniul">
         {% for us in users %}
-            <li>{% include "agora/inc_user_micro.html" with user=us %}</li>
+            <li>{% include "agora/inc_user_micro.html" with user=us %}
+            <div style="clear: both"></div>
+            </li>
         {% endfor %}
     </ul>
 

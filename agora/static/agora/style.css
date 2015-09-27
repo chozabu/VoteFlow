@@ -13,6 +13,10 @@ h1 span {
 	font-weight: 300;
 	color: #Fd4;
 }
+.userimage{
+	float:left;
+	margin: 2px;
+}
 .topicminititle {
 	font-size: 150%;
 	background-color: #c2cde6;

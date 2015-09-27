@@ -5,7 +5,7 @@
 <br>
 
 <span>
-    by: {% include "agora/inc_user_micro.html" with user=post.author %}
+    {% include "agora/inc_user_micro.html" with user=post.author %}
     @ {{ post.created_at }}, with:
     <a href="/agora/topics/{{ post.topic.id }}/posts/{{ post.id }}/">
     {{ post.post_set.all|length }} comments
