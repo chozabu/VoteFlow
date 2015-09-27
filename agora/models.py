@@ -13,6 +13,24 @@ from django.dispatch import receiver
 class UserExtra(models.Model):
 	user = models.OneToOneField(User)
 	photo = models.ImageField(null=True, blank=True)
+	def image_url(self):
+		"""
+		Returns the URL of the image associated with this Object.
+		If an image hasn't been uploaded yet, it returns a stock image
+
+		:returns: str -- the image url
+
+		"""
+		if self.photo and hasattr(self.photo, 'url'):
+			return self.photo.url
+		else:
+			return '/static/agora/img/default_profile_pic.png'
+
+
+@receiver(post_save, sender=User)
+def create_user_extra(sender, instance, created, **kwargs):
+	if created:
+		UserExtra.objects.create(user=instance)
 
 class GroupExtra(models.Model):
 	group = models.OneToOneField(Group)
