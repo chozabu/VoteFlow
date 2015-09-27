@@ -17,6 +17,10 @@ h1 span {
 	float:left;
 	margin: 2px;
 }
+.postminicontent {
+	display:inline-block;
+	text-align: left;
+}
 .topicminititle {
 	font-size: 150%;
 	background-color: #c2cde6;

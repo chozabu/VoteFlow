@@ -4,13 +4,12 @@
 
 <br>
 
-<span>
+<div class="postminicontent">
     {% include "agora/inc_user_micro.html" with user=post.author %}
     @ {{ post.created_at }}, with:
     <a href="/agora/topics/{{ post.topic.id }}/posts/{{ post.id }}/">
     {{ post.post_set.all|length }} comments
         </a>
-</span>
 <br>
         <button title="(average|sum|count)" type="button" class="btn btn-info" data-toggle="collapse" data-target="#{{ post.id }}-post-info">
             ({{ post.liquid_value_percent|floatformat }}% | {{ post.liquid_sum|floatformat }} | {{ post.liquid_vote_count }})
@@ -23,4 +22,5 @@
         full sum: {{ post.liquid_sum|floatformat }} <br>
         full vote count: {{ post.liquid_vote_count }} <br>
         </div>
+</div>
 
