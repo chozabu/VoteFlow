@@ -267,6 +267,26 @@ def topic_forcearrows(request, topic_id=None):
 		#for r in reps
 
 	return render(request, 'agora/forcearrows.html', {"linksin":links})
+def topic_sunburst(request, topic_id=None):
+	topic_list = Topic.objects.filter(parent=topic_id)
+	root = {"name":"Topics", "children":[]}
+	children = root['children']
+	for t in topic_list:
+		c = []
+		for tc in t.topic_set.all():
+			c.append({
+				"name": tc.name,
+				"size": tc.post_set.count(),
+				"children": []
+			})
+		children.append({
+			"name": t.name,
+			"size": t.post_set.count(),
+			"children": c
+		})
+	rootin=json.dumps(root)
+
+	return render(request, 'agora/sunburst.html', {"rootin":rootin})
 
 
 def topics(request, topic_id=None, sort_method="liquid_value"):
