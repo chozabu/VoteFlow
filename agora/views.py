@@ -664,8 +664,11 @@ def new_tag(request, post_id, topic_id=None):
 def new_rep(request, parent_topic_id):
 	if not request.user.is_authenticated():
 		return HttpResponseRedirect("/agora/login")
+	rep=Representation.objects.filter(topic=parent_topic_id, author=request.user).first()
 	parent_topic = Topic.objects.get(id=parent_topic_id)
-	return render(request, 'agora/new_rep.html', {"parent_topic":parent_topic, "action":"/agora/topics/"+str(parent_topic_id)+"/newrep", "title":"Select Representative"})
+	context = {"current_topic":parent_topic}
+	if rep: context['current_rep']=rep
+	return render(request, 'agora/new_rep.html', context)
 def confirm_rep(request, parent_topic_id,rep_id):
 	if not request.user.is_authenticated():
 		return HttpResponseRedirect("/agora/login")

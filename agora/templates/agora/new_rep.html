@@ -4,17 +4,21 @@ Pick Representative for {{ current_topic }}
 {% endblock %}
 
 {% block body_block %}
-<h1>Representitive in: {{ current_topic }}</h1>
+<h1>Pick Representative in: {{ current_topic }}</h1>
+    {% if current_rep %}
+        <div style="clear: both;"></div>
+        <h4>Current Rep:</h4> <span>{% include "agora/inc_user_micro.html" with user=current_rep.rep %}</span>
+
+        <div style="clear: both;"></div>
+    {% endif %}
     <div class="postlistintopics" data-rtype="html"
          data-sortby="-liquid_sum" data-startat="0">
 
-        username: <input name="text" type="text" id="username_input"/>
+    <h4>New Rep:</h4>
+        UserName: <input name="text" type="text" id="username_input"/>
         <div id="topicslist">
         </div>
 <br>
-        <button id="nextbutton" type="button" class="btn btn-info">
-            Next
-        </button>
     </div>
 
     <script>
@@ -75,7 +79,7 @@ Pick Representative for {{ current_topic }}
         $('#prevbutton').click(prev_page);
         $('#gobutton').click(go_page);*/
         function init_search() {
-            var pbox = $('#nextbutton').parent();
+            var pbox = $('#topicslist').parent();
             pbox.data('startat', 0);
             load_page(pbox)
         }
