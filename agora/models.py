@@ -249,6 +249,18 @@ class Post(Voteable):
 	@property
 	def get_options(self):
 		return self.post_set.filter(subtype='option')
+	@property
+	def get_concerns(self):
+		return self.post_set.filter(subtype='concern')
+	@property
+	def get_benefits(self):
+		return self.post_set.filter(subtype='benefit')
+	@property
+	def get_polls(self):
+		return self.post_set.filter(subtype='poll')
+	@property
+	def get_proposals(self):
+		return self.post_set.filter(subtype='proposal')
 	def __unicode__(self):
 		return self.name
 

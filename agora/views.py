@@ -459,7 +459,10 @@ def post_quick(request, topic_id=None, post_id=None, reply_type="comment"):
 	if request.method == 'POST':
 		ptext = request.POST['text']
 		btext = request.POST.get('body_text', '')
+		reply_type = request.POST.get('subtype', reply_type)
 		print "FANCY_REPLY", ptext, btext
+		print "reply type:", reply_type
+		print request.POST
 		topic = Topic.objects.get(id=topic_id)
 		newpost = Post(text=btext, subtype=reply_type, name=ptext,topic=topic, parent=prnt, author=request.user)
 		newpost.save()

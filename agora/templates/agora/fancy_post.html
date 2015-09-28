@@ -19,13 +19,30 @@
 {% endblock %}
 
 {% block body_block %}
-    <h3>New Post</h3>
+    <div>
+    <h3>New <span id="title_type">Post</span></h3>
     <form action="newpost_submit/" method="post">
         {% csrf_token %}
-        <h2>Title:<input name="text" class="titleinput" type="text" value="title"/></h2>
+    <div>
+        <div class="radio" style="display: inline-block;">
+          <label><input checked id="type_post" type="radio" value="post" name="subtype">Post</label>
+        </div>
+        <div class="radio" style="display: inline-block;">
+          <label><input id="type_poll" type="radio" value="poll" name="subtype">Poll</label>
+        </div>
+        <div class="radio" style="display: inline-block;">
+          <label><input id="type_prop" type="radio" value="proposal" name="subtype">Proposal</label>
+        </div>
+        </div>
+
+        <h2><input name="text" class="titleinput" type="text" value="title"/></h2>
+<div class="container-fluid">
+    <div id="post_left" class="post_left col-md-4" style="display: none;">
+        <h2>Benifits</h2>
+        </div>
+    <div id="post_middle" class="post_middle col-md-12">
         <br>
         <article>
-            Text:
             <div class="editable postpreview">
                 <p>
                     text
@@ -44,9 +61,17 @@
 
         <br>
         <br>
+        </div>
+    <div id="post_right"  class="post_right col-md-4" style="display: none;">
+        <h2>Concerns</h2>
+        </div>
+    <div id="post_options"  class="post_right col-md-4" style="display: none;">
+        <h2>Options</h2>
+        </div>
+        </div>
         <input type="submit" value="Submit"/>
     </form>
-
+</div>
     <script>
         jQuery(document).ready(function () {
             // Enable Hallo editor
@@ -104,6 +129,44 @@
                 updateHtml(this.value);
             });
             showSource(jQuery('.editable').html());
+
+            function set_subtype() {
+                var pbox = $(this).parent();
+                console.log("pbox");
+                console.log(pbox);
+                var name = pbox[0].textContent;
+                console.log(name);
+                var subtype = $(this)[0].id
+                console.log(subtype);
+                $("#title_type").text(pbox[0].textContent);
+                if (subtype=="type_post"){
+                    $("#post_left").hide()
+                    $("#post_right").hide()
+                    $("#post_options").hide()
+                    $("#post_middle").removeClass("col-md-4")
+                    $("#post_middle").removeClass("col-md-8")
+                    $("#post_middle").addClass("col-md-12")
+                }
+                if (subtype=="type_poll"){
+                    $("#post_left").hide()
+                    $("#post_right").hide()
+                    $("#post_options").show()
+                    $("#post_middle").removeClass("col-md-4")
+                    $("#post_middle").removeClass("col-md-12")
+                    $("#post_middle").addClass("col-md-8")
+                }
+                if (subtype=="type_prop"){
+                    $("#post_left").show()
+                    $("#post_right").show()
+                    $("#post_options").hide()
+                    $("#post_middle").removeClass("col-md-4")
+                    $("#post_middle").removeClass("col-md-12")
+                    $("#post_middle").addClass("col-md-4")
+                }
+            }
+            $('#type_poll').click(set_subtype);
+            $('#type_post').click(set_subtype);
+            $('#type_prop').click(set_subtype);
         });
 
     </script>

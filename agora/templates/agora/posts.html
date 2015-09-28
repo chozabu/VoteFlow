@@ -42,7 +42,26 @@
                 ({{ post.liquid_vote_count }} votes)
             </a>
         </h2>
-        <p class="authorinfo">{% include "agora/inc_user_micro.html" with user=post.author %} @ {{ post.created_at }} <div style="clear: both;" </p>
+
+        <div class="container-fluid">
+        {% if post.subtype == "proposal" %}
+    <div id="post_left" class="post_left col-md-4">
+        <h2>Benefits</h2>
+            <ul class="miniul">
+                {% for child_post in post.get_benefits|dictsortreversed:sort_method %}
+                    <li>{% include "agora/inc_post_mini_recur.html" with  post=child_post %}</li>
+                {% endfor %}
+            </ul>
+        <a id="benefit" class="add_benefit_link">Add Benefit</a>
+        </div>
+            {% endif %}
+        {% if post.subtype == "proposal" %}
+    <div id="post_middle" class="post_middle col-md-4">
+        {% elif post.subtype == "poll" %}
+    <div id="post_middle" class="post_middle col-md-8">
+        {% else %}
+    <div id="post_middle" class="post_middle col-md-12">
+        {% endif %}
         {% if post.text %}
             <div class="postpreview">
                 {% autoescape off %}
@@ -51,20 +70,8 @@
             </div>
         {% endif %}
 
-        {% if user == post.author or post.get_options|length > 0 %}
-            <div class="floatonright">
-                <h4>Options</h4>
-                <ul class="miniul">
-                    {% for child_post in post.get_options|dictsortreversed:sort_method %}
-                        <li>{% include "agora/inc_post_mini_recur.html" with  post=child_post %}</li>
-                    {% endfor %}
-                </ul>
-                <a id="option" class="add_option_link">Add Option</a>
-            </div>
-        {% endif %}
-
-        <h4><a
-                href="/agora/topics/{{ post.topic.id }}/posts/{{ post.id }}/sankey/">Representation Chart</a></h4>
+        <p class="authorinfo">{% include "agora/inc_user_micro.html" with user=post.author %} @ {{ post.created_at }}<br> {{ post.subtype }} <div style="clear: both;"></div> </p>
+        <h4><a href="/agora/topics/{{ post.topic.id }}/posts/{{ post.id }}/sankey/">Representation Chart</a></h4>
 
         <button title="(average|sum|count)" type="button" class="btn btn-info" data-toggle="collapse"
                 data-target="#basic-post-info">
@@ -116,6 +123,31 @@
         </button></a><br>
 
         <div style="clear: both;"></div>
+
+        </div>
+        {% if post.subtype == "proposal" %}
+    <div id="post_right"  class="post_right col-md-4">
+        <h2>Concerns</h2>
+                <ul class="miniul">
+                    {% for child_post in post.get_concerns|dictsortreversed:sort_method %}
+                        <li>{% include "agora/inc_post_mini_recur.html" with  post=child_post %}</li>
+                    {% endfor %}
+                </ul>
+        <a id="concern" class="add_concern_link">Add Concern</a>
+        </div>
+            {% endif %}
+        {% if post.subtype == "poll" %}
+    <div id="post_options"  class="post_right col-md-4">
+        <h2>Options</h2>
+            <ul class="miniul">
+                {% for child_post in post.get_options|dictsortreversed:sort_method %}
+                    <li>{% include "agora/inc_post_mini_recur.html" with  post=child_post %}</li>
+                {% endfor %}
+            </ul>
+        <a id="option" class="add_option_link">Add Option</a>
+        </div>
+            {% endif %}
+        </div>
         <h3>Replies</h3>
         <div>
             <a id="comment" class="add_comment_link">
@@ -258,6 +290,8 @@
 
         }
         $('a.add_option_link').click(reply_link_click);
+        $('a.add_concern_link').click(reply_link_click);
+        $('a.add_benefit_link').click(reply_link_click);
         $('a.add_comment_link').click(reply_link_click);
     </script>
 {% endblock %}
