@@ -50,6 +50,7 @@ dependencies:
     pip install markdown
     pip install python-social-auth
     pip install oauthlib
+    pip install pillow
 
 install
 
