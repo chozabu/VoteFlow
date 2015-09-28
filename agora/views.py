@@ -271,19 +271,26 @@ def topic_sunburst(request, topic_id=None):
 	topic_list = Topic.objects.filter(parent=topic_id)
 	root = {"name":"Topics", "children":[]}
 	children = root['children']
+	def sbrecur(tc, cin):
+		subtopics = tc.topic_set.all()
+		cin.append({
+			"name": "",
+			"size": tc.post_set.count()
+		})
+		for t in subtopics:
+			c=[]
+			cin.append({
+				"name": t.name,
+				"children": c
+			})
+			sbrecur(t, c)
 	for t in topic_list:
 		c = []
-		for tc in t.topic_set.all():
-			c.append({
-				"name": tc.name,
-				"size": tc.post_set.count(),
-				"children": []
-			})
 		children.append({
 			"name": t.name,
-			"size": t.post_set.count(),
 			"children": c
 		})
+		sbrecur(t, c)
 	rootin=json.dumps(root)
 
 	return render(request, 'agora/sunburst.html', {"rootin":rootin})
