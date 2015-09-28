@@ -1,0 +1,93 @@
+{% extends 'agora/base_template.html' %}
+{% block title %}
+Pick Representative for {{ current_topic }}
+{% endblock %}
+
+{% block body_block %}
+<h1>Representitive in: {{ current_topic }}</h1>
+    <div class="postlistintopics" data-rtype="html"
+         data-sortby="-liquid_sum" data-startat="0">
+
+        username: <input name="text" type="text" id="username_input"/>
+        <div id="topicslist">
+        </div>
+<br>
+        <button id="nextbutton" type="button" class="btn btn-info">
+            Next
+        </button>
+    </div>
+
+    <script>
+        //#/agora/basic_api/?table=Post&template=api_post_list&rtype=html&sortby=-liquid_sum&startat=39
+
+        var searchtext = "";
+        //console.log($(this)[0].id);
+        //console.log($(this));
+        function load_page(pbox) {
+            var datain = {}
+            datain['table'] = "User";
+            //datain['sortby'] = pbox.find("#sortbox")[0].value;
+            datain['startat'] = pbox.data('startat');
+            datain['rtype'] = pbox.data('rtype');
+            datain['template'] = "api_user_rep_picker";
+            //var filter = [pbox.data('filter')];
+            var filter = [{"username__icontains":searchtext}];
+            cbox = pbox.find("#completed_toggle")[0]
+            console.log(cbox)
+            //filter={};
+            console.log("FILTER");
+            console.log(filter);
+
+            datain['filter'] = JSON.stringify(filter);
+            console.log(datain['filter']);
+            console.log("REQUESTING");
+            console.log(datain);
+            $.ajax({
+                url: "/agora/basic_api/"
+                , data: datain
+                , context: pbox,
+                success: function (result) {
+                    console.log("OK");
+                    if (result.length > 200) {
+                        $(this).find("#topicslist").html(result);
+                    } else {
+                        $(this).find("#topicslist").html(result);
+                        console.log(result);
+                        console.log("RESULT TOO SMALL - empty")
+                        var pbox = $(this);
+                        var ns = pbox.data('startat') - 10;
+                        if (ns < 0)ns = 0
+                        pbox.data('startat', ns);
+
+                    }
+                }
+            });
+            console.log("DONE");
+
+
+        }
+        function go_page() {
+            var pbox = $(this).parent();
+            pbox.data('startat', 0);
+            load_page(pbox)
+        }
+        /*$('#nextbutton').click(next_page);
+        $('#prevbutton').click(prev_page);
+        $('#gobutton').click(go_page);*/
+        function init_search() {
+            var pbox = $('#nextbutton').parent();
+            pbox.data('startat', 0);
+            load_page(pbox)
+        }
+        $( "#username_input" ).keyup(function() {
+          console.log( "Handler for .keypress() called." );
+          console.log($(this)[0].value );
+            searchtext = $(this)[0].value;
+            init_search();
+
+        });
+        //init_search();
+    </script>
+
+
+{% endblock %}

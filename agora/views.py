@@ -662,11 +662,20 @@ def new_tag(request, post_id, topic_id=None):
 		"title":"Create Tag"})
 
 def new_rep(request, parent_topic_id):
-	# if this is a POST request we need to process the form data
 	if not request.user.is_authenticated():
 		return HttpResponseRedirect("/agora/login")
-	rep=Representation.objects.filter(topic=parent_topic_id, author=request.user).first()
+	parent_topic = Topic.objects.get(id=parent_topic_id)
+	return render(request, 'agora/new_rep.html', {"parent_topic":parent_topic, "action":"/agora/topics/"+str(parent_topic_id)+"/newrep", "title":"Select Representative"})
+def confirm_rep(request, parent_topic_id,rep_id):
+	if not request.user.is_authenticated():
+		return HttpResponseRedirect("/agora/login")
+	parent_topic = Topic.objects.get(id=parent_topic_id)
+	new_rep = User.objects.get(id=rep_id)
+	#return render(request, 'agora/new_rep.html', {"parent_topic":parent_topic, "action":"/agora/topics/"+str(parent_topic_id)+"/newrep", "title":"Select Representative"})
+
+	# if this is a POST request we need to process the form data
 	if request.method == 'POST':
+		rep=Representation.objects.filter(topic=parent_topic_id, author=request.user).first()
 		form = RepForm(request.POST)
 		print form
 		if form.is_valid():
@@ -682,7 +691,8 @@ def new_rep(request, parent_topic_id):
 
 	# if a GET (or any other method) we'll create a blank form
 	else:
-		form = RepForm(initial={"topic_id":parent_topic_id})
+		return render(request, 'agora/new_rep_confirm.html', {"current_topic":parent_topic, "rep":new_rep})
+		#form = RepForm(initial={"topic_id":parent_topic_id})
 
 	parent_topic = None
 	if parent_topic_id:

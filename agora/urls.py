@@ -54,7 +54,9 @@ urlpatterns = [
     # ex: /agora/topics/new/
     url(r'^topics/new/(?P<parent_topic_id>[0-9]+)/$', views.new_topic, name='newtopic'),
     # ex: /agora/topics/5/newrep/
-    url(r'^topics/(?P<parent_topic_id>[0-9]+)/newrep$', views.new_rep, name='newrep'),
+    url(r'^topics/(?P<parent_topic_id>[0-9]+)/newrep/$', views.new_rep, name='newrep'),
+    # ex: /agora/topics/5/newrep/
+    url(r'^topics/(?P<parent_topic_id>[0-9]+)/newrep/(?P<rep_id>[0-9]+)/$', views.confirm_rep, name='newrep'),
     # ex: /agora/topics/5/subs/
     url(r'^topics/(?P<parent_topic_id>[0-9]+)/subs/', views.subscribe_topic, name='subs'),
     # ex: /agora/topics/sankey/
