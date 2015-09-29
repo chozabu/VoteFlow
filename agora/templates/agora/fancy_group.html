@@ -20,6 +20,10 @@
 
 {% block body_block %}
     <h3>New Group</h3>
+    {% if group %}
+    In Group:
+        {% include "agora/inc_group_mini.html" %}
+    {% endif %}
     <form action="newgroup_submit/" method="post">
         {% csrf_token %}
         <h2>Group Name:<input name="text" class="titleinput" type="text" value="title"/></h2>

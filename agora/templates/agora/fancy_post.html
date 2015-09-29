@@ -23,13 +23,12 @@
     {% if topic %}
     In Topic:
         {% include "agora/topicpath/fullpath_ul.html" %}
-    <h3>New <span id="title_type">Post</span></h3>
     {% endif %}
     {% if group %}
     In Group:
         {% include "agora/inc_group_mini.html" %}
-    <h3>New <span id="title_type">Post</span></h3>
     {% endif %}
+    <h3>New <span id="title_type">Post</span></h3>
     <form action="newpost_submit/" method="post">
         {% csrf_token %}
         <input name="topic_id" type="hidden" value="{{ topic.id }}"/>

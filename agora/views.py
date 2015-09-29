@@ -333,7 +333,8 @@ def group(request, group_id):
 
 
 def fancy_group(request, group_id=None):
-	group = Group.objects.filter(pk=group_id)
+	group_id = request.GET.get('group_id', group_id)
+	group = Group.objects.get(pk=group_id)
 	context = {}
 	if group:
 		context['group'] = group

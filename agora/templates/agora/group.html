@@ -17,7 +17,11 @@
     {{ group.groupextra.author.username }} </a> @ {{ group.groupextra.created_at }}</span>
 <br> <span>type: {{ group.groupextra.subtype }}</span>
 <br> <span>sub-groups: {{ group.group_set.all|length }} Posts {{ group.post_set.all|length }} </span>
-<br><a href="/agora/groups/new/">New Group</a>
+<br>
+    <a href="/agora/groups/new/?group_id={{ group.id }}">
+        <button type="button" class="btn btn-info">New Group
+        </button>
+    </a>
 
     <div>
     <h3 style="display: inline-block">Posts</h3>
