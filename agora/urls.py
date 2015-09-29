@@ -46,6 +46,10 @@ urlpatterns = [
     url(r'^users/$', views.view_users, name='users'),
     # ex: /agora/user/5/
     url(r'^user/(?P<user_id>[0-9]+)/$', views.view_user, name='user'),
+
+    url(r'^newpost/$', views.fancy_post, name='newpost'),
+    url(r'^newpost/newpost_submit/$', views.post_quick, name='newpost_submit'),
+
     # ex: /agora/topics/5/sort/sort-method
     #(?P<page_slug>[\w-]+)
     url(r'^topics/(?P<topic_id>[0-9]+)/sort/(?P<sort_method>[\w-]+)/$', views.topics, name='topics'),
@@ -69,9 +73,9 @@ urlpatterns = [
     # ex: /agora/topics/5/forcearrows/
     url(r'^topics/(?P<topic_id>[0-9]+)/forcearrows/', views.topic_forcearrows, name='topic_forcearrows'),
     # ex: /agora/topics/new/
-    url(r'^topics/(?P<parent_topic_id>[0-9]+)/old_newpost/$', views.new_post, name='oldnewpost'),
-    url(r'^topics/(?P<topic_id>[0-9]+)/newpost/$', views.fancy_post, name='newpost'),
-    url(r'^topics/(?P<topic_id>[0-9]+)/newpost/newpost_submit/$', views.post_quick, name='newpost_submit'),
+    #url(r'^topics/(?P<parent_topic_id>[0-9]+)/old_newpost/$', views.new_post, name='oldnewpost'),
+    #url(r'^topics/(?P<topic_id>[0-9]+)/newpost/$', views.fancy_post, name='newpost'),
+    #url(r'^topics/(?P<topic_id>[0-9]+)/newpost/newpost_submit/$', views.post_quick, name='newpost_submit'),
     # ex: /agora/topics/new/
     url(r'^topics/(?P<parent_topic_id>[0-9]+)/newpost/(?P<parent_post_id>[0-9]+)$', views.new_post, name='newpost'),
     # ex: /agora/topics/5/posts/5/

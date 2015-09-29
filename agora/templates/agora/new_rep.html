@@ -4,6 +4,7 @@ Pick Representative for {{ current_topic }}
 {% endblock %}
 
 {% block body_block %}
+        {% include "agora/topicpath/fullpath_ul.html" %}
 <h1>Pick Representative in: {{ current_topic }}</h1>
     {% if current_rep %}
         <div style="clear: both;"></div>

@@ -4,6 +4,7 @@ Pick {{ rep.username }} as Representative for {{ current_topic }}
 {% endblock %}
 
 {% block body_block %}
+    {% include "agora/topicpath/fullpath_ul.html" %}
     <h1>Confirm Representative</h1>
     <h4>Are you sure you want {{ rep.username }} to represent you for {{ current_topic }}</h4>
     {% include "agora/inc_user_micro.html" with user=rep %} {%  include "agora/inc_topic_micro.html" with topic=current_topic %}

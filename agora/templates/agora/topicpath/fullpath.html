@@ -1,0 +1,5 @@
+{% for p_topic in current_topic.full_path %}
+    <li>
+        <a href="/agora/topics/{{ p_topic.id }}/">{{ p_topic.name }}</a>
+    </li>
+{% endfor %}

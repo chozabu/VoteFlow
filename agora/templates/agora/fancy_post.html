@@ -20,6 +20,8 @@
 
 {% block body_block %}
     <div>
+    In Topic:
+        {% include "agora/topicpath/fullpath_ul.html" %}
     <h3>New <span id="title_type">Post</span></h3>
     <form action="newpost_submit/" method="post">
         {% csrf_token %}

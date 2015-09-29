@@ -4,6 +4,7 @@ Create Topic
 {% endblock %}
 
 {% block body_block %}
+        {% include "agora/topicpath/fullpath_ul.html" %}
     {% if form.errors %}
         <p class="error">FORM ERROR!!</p>
     {% endif %}

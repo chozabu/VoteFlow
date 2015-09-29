@@ -6,6 +6,7 @@
 
 
 {% block body_block %}
+    {% include "agora/topicpath/pathto_ul.html" %}
 
     <h1>{{ current_topic.name }}</h1>
 
@@ -15,15 +16,21 @@
         {% if sub %}
             <p>Subscribed! (<a href="/agora/topics/{{ current_topic.id }}/subs/">unsub</a>) </p>
         {% else %}
-            <p>(<a href="/agora/topics/{{ current_topic.id }}/subs/">Subscribe?</a>) </p>
+            <p><a href="/agora/topics/{{ current_topic.id }}/subs/"><button class="btn btn-info">Subscribe</button></a> </p>
         {% endif %}
+
         {% if rep %}
             Representitive: {{ rep.rep }}
+            <br>
+            <a href="/agora/topics/{{ current_topic.id }}/newrep">
+                <button class="btn btn-info">Change Representative</button>
+            </a>
         {% else %}
-            No rep - pick one?
+            <a href="/agora/topics/{{ current_topic.id }}/newrep">
+                <button class="btn btn-info">Pick Representative</button>
+            </a>
         {% endif %}
     {% endif %}
-    <a href="/agora/topics/{{ current_topic.id }}/newrep">Pick Representative</a>
     <h3>Sub Topics</h3>
 
     {% if topic_list %}
@@ -38,7 +45,8 @@
 
     <a href="/agora/topics/new/{{ current_topic.id }}/">
         <button id="prevbutton" type="button" class="btn btn-info">New Topic
-    </button></a>
+        </button>
+    </a>
 
     <h3>Posts</h3>
 
@@ -79,9 +87,10 @@
         </button>
     </div>
     {% if current_topic %}
-            <a href="/agora/topics/{{ current_topic.id }}/newpost/">
-        <button id="prevbutton" type="button" class="btn btn-info">New Post
-        </button></a>
+        <a href="/agora/topics/{{ current_topic.id }}/newpost/">
+            <button id="prevbutton" type="button" class="btn btn-info">New Post
+            </button>
+        </a>
     {% endif %}
 
     <script>

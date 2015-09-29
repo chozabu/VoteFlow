@@ -402,13 +402,24 @@ def tags(request, tag_id):
 		context['user_vote']=user_vote
 	return render(request, 'agora/tags.html', context)#, "replies":replies})
 
-def fancy_post(request, topic_id, post_id=None):
-	topic = get_object_or_404(Topic, pk=topic_id)
-	post = Post.objects.filter(pk=post_id)
+def fancy_post(request):
+	parent_id = request.GET.get("parent_id", None)
+	topic_id = request.GET.get("topic_id", None)
+	group_id = request.GET.get("group_id", None)
+	print topic_id
+	context={}
+	if parent_id:
+		parent = Post.objects.get(pk=parent_id)
+		context['parent'] = parent
+	if topic_id:
+		topic = Topic.objects.get(pk=topic_id)
+		context['topic'] = topic
+		context['current_topic'] = topic
+		print topic
+	if group_id:
+		group = Group.objects.get(pk=group_id)
+		context['group'] = group
 
-	context={"current_topic":topic}
-	if post:
-		context['post'] = post
 	return render(request, 'agora/fancy_post.html', context)#, "replies":replies})
 from compare_user import compareusers
 def view_user(request, user_id):

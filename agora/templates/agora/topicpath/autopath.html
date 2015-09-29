@@ -1,0 +1,5 @@
+{% if post %}
+    {% include "agora/topicpath/fullpath.html" %}
+{% elif current_topic %}
+    {% include "agora/topicpath/pathto.html" %}
+{% endif %}
