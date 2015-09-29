@@ -20,12 +20,20 @@
 
 {% block body_block %}
     <div>
+    {% if topic %}
     In Topic:
         {% include "agora/topicpath/fullpath_ul.html" %}
     <h3>New <span id="title_type">Post</span></h3>
+    {% endif %}
+    {% if group %}
+    In Group:
+        {% include "agora/inc_group_mini.html" %}
+    <h3>New <span id="title_type">Post</span></h3>
+    {% endif %}
     <form action="newpost_submit/" method="post">
         {% csrf_token %}
         <input name="topic_id" type="hidden" value="{{ topic.id }}"/>
+        <input name="group_id" type="hidden" value="{{ group.id }}"/>
     <div>
         <div class="radio" style="display: inline-block;">
           <label><input checked id="type_post" type="radio" value="post" name="subtype">Post</label>

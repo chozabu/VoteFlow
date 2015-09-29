@@ -19,4 +19,50 @@
 <br> <span>sub-groups: {{ group.group_set.all|length }} Posts {{ group.post_set.all|length }} </span>
 <br><a href="/agora/groups/new/">New Group</a>
 
+    <div>
+    <h3 style="display: inline-block">Posts</h3>
+        <a style="display: inline-block" href="/agora/newpost/?group_id={{ group.id }}">
+            <button id="newpostbutton" type="button" class="btn btn-info">New Post
+            </button>
+        </a>
+    </div>
+
+
+    <div class="postlistintopics" data-table="Post" data-rtype="html"
+         data-sortby="-liquid_sum" data-startat="0" data-template="api_post_list"
+         data-filter='{"topic":{{ current_topic.id }}, "parent":null }'>
+
+        Sorting <select name="SortMethods" id="sortbox">
+        <option value="-liquid_value">Rating</option>
+        <option value="-liquid_sum">Top</option>
+        <option value="-created_at">Newest</option>
+        <option value="created_at">Oldest</option>
+        <option value="-direct_value">Direct Rating</option>
+        <option value="-direct_sum">Direct Top</option>
+    </select>
+        <button id="completed_toggle" type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false"
+                autocomplete="off">
+            Completed
+        </button>
+        <button id="gobutton" type="button" class="btn btn-info">
+            Go
+        </button>
+        <ul id="topicslist" class="miniul">
+            {% if post_list %}
+                {% for post in post_list|dictsortreversed:sort_method %}
+                    <li>{% include "agora/inc_post_mini.html" with  post=post %}</li>
+                {% endfor %}
+            {% else %}
+                <p> no Posts Found </p>
+            {% endif %}
+        </ul>
+        <button id="prevbutton" type="button" class="btn btn-info">
+            Previous
+        </button>
+        <button id="nextbutton" type="button" class="btn btn-info">
+            Next
+        </button>
+    </div>
+    <div style="clear: both;"></div>
+
 {% endblock %}

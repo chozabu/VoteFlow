@@ -1,6 +1,6 @@
 {% extends 'agora/base_template.html' %}
 {% block title %}
-Root
+Social Representation
 {% endblock %}
 
 {% block body_block %}
@@ -16,20 +16,20 @@ Root
     <br>
     <br>
     <p>The core Idea is that you can pick representatives - for single topics. <br>
-        This is expanded with a tree of topics <br>
-    this is to allow your representatives to have representatives, who have representatives, etc.
+        Your Representatives can pick people to represent them in the same or subtopics <br>
+    Meaning your representatives have representatives, who have representatives, etc.
     <br>Particularly as you get deeper into sub-topics, a representative may be able to represent a massive number of people - through a chain of trust.
     <br>You are always able see what your representatives do, override their decisions - or replace them.
     </p>
     <h3>Shortcuts</h3>
     {% load staticfiles %}
     <div>
-        <div class="ilb"><a href="/agora/all_topics/"><h3>Topics</h3>
-            <hr><img src="{% static 'agora/img/topictree.png' %}" /></a></div>
         <div class="ilb"><a href="/agora/all_topics/forcearrows/"><h3>Representation Map</h3>
             <hr><img src="{% static 'agora/img/fullreps.png' %}" /></a></div>
         <div class="ilb"><a href="/agora/topics/6/posts/2/sankey/"><h3>Example Vote Results</h3>
             <hr><img src="{% static 'agora/img/physvote.png' %}" /></a></div>
+        <div class="ilb"><a href="/agora/all_topics/"><h3>Topics</h3>
+            <hr><img src="{% static 'agora/img/topictree.png' %}" /></a></div>
     </div>
 
     <h3>Friends</h3>
