@@ -11,7 +11,9 @@
 
 {% block body_block %}
     <h2><img src="{{ selected_user.userextra.image_url }}" />{{ selected_user }}</h2>
-
+    {% if similarity %}
+    <p>{{ similarity }}% similar votes to you over {{ compared_vote_count }} vote(s)</p>
+    {% endif %}
     {% if own_profile %}
         {% if fb_ss %}
             <p>Connected with FaceBook!</p>

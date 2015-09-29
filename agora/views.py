@@ -410,10 +410,11 @@ def fancy_post(request, topic_id, post_id=None):
 	if post:
 		context['post'] = post
 	return render(request, 'agora/fancy_post.html', context)#, "replies":replies})
-
+from compare_user import compareusers
 def view_user(request, user_id):
 	user = get_object_or_404(User, pk=user_id)
 	context={'selected_user': user}
+
 	repping = {}
 	for r in user.rep_from.all():
 		if r.topic not in repping:
@@ -429,11 +430,16 @@ def view_user(request, user_id):
 		reps[r.topic].append(r)
 	context['reps']=reps
 
-	if request.user.is_authenticated() and user==request.user:
-		context['own_profile'] = True
-		context['fb_ss'] = UserSocialAuth.objects.filter(user=request.user, provider="facebook")
-		context['goog_ss'] = UserSocialAuth.objects.filter(user=request.user, provider="google-oauth2")
-
+	if request.user.is_authenticated():
+		if user==request.user:
+			context['own_profile'] = True
+			context['fb_ss'] = UserSocialAuth.objects.filter(user=request.user, provider="facebook")
+			context['goog_ss'] = UserSocialAuth.objects.filter(user=request.user, provider="google-oauth2")
+		else:
+			usr_cmp = compareusers(user,request.user)
+			if usr_cmp:
+				context['similarity'] = usr_cmp[0]
+				context['compared_vote_count'] = usr_cmp[2]
 	return render(request, 'agora/user.html', context)#, "replies":replies})
 
 def view_users(request):
