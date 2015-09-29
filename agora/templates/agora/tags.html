@@ -19,7 +19,7 @@
         <ul id="post_path">
             {% for p_post in post.path %}
                 <li>
-                    <a href="/agora/topics/{{ post.topic.id }}/posts/{{ p_post.id }}">{{ p_post.name }}</a>
+                    <a href="/agora/posts/{{ p_post.id }}">{{ p_post.name }}</a>
                 </li>
             {% endfor %}
         </ul>

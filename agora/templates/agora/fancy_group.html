@@ -1,6 +1,6 @@
 {% extends 'agora/base_template.html' %}
 {% block title %}
-    {{ title }}
+    New Group
 {% endblock %}
 
 {% block head_block %}
@@ -26,6 +26,7 @@
     {% endif %}
     <form action="newgroup_submit/" method="post">
         {% csrf_token %}
+        <input type="hidden" name="group_id" value="{{ group.id }}" />
         <h2>Group Name:<input name="text" class="titleinput" type="text" value="title"/></h2>
         <br>
         <!--<article>

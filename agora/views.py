@@ -14,7 +14,7 @@ from .forms import TopicForm, PostForm, RepForm, PostVoteForm, TagForm, TagVoteF
 
 
 from django.contrib.auth.models import User, Group
-from .models import Notification, Topic, Post, Tag, \
+from .models import Notification, Topic, Post, Tag, GroupExtra, \
 	Representation, PostVote, TagVote, Subscription, UserRepCache
 
 import json
@@ -170,7 +170,7 @@ def search(request):
 
 
 
-def post_sankey(request, post_id, topic_id=None):
+def post_sankey(request, post_id):
 	#needs nodes - ordered list of users
 	#needs links - 2xuser index and vote value
 	post=Post.objects.get(pk=post_id)
@@ -322,13 +322,14 @@ def topics(request, topic_id=None, sort_method="liquid_value"):
 	return render(request, 'agora/topics.html', context)
 
 def groups(request):
-	group_list = Group.objects.filter()
+	group_list = Group.objects.filter(groupextra__parent=None)
 	context = {'group_list': group_list}
 	return render(request, 'agora/all_groups.html', context)
 
 def group(request, group_id):
 	group = get_object_or_404(Group, pk=group_id)
 	context = {'group': group}
+	context['group_list'] = Group.objects.filter(groupextra__parent=group)
 	return render(request, 'agora/group.html', context)
 
 
@@ -353,6 +354,9 @@ def group_quick(request,group_id=None):
 		newgroup.save()
 		gextra = newgroup.groupextra
 		gextra.author=request.user
+		parent_id=request.POST.get("group_id", None)
+		if parent_id:#could validate this..
+			gextra.parent_id = parent_id
 		gextra.save()
 		if group_id==None:
 			group_id=newgroup.id
@@ -383,9 +387,9 @@ def all_topics(request, sort_method="subscription_set"):
 
 	return render(request, 'agora/all_topics.html', context)
 
-def posts(request, topic_id, post_id, sort_method="direct_value"):
+def posts(request, post_id, sort_method="direct_value"):
 	post = get_object_or_404(Post, pk=post_id)
-	topic = get_object_or_404(Topic, pk=topic_id)
+	topic = post.topic
 	context={'post': post, "current_topic":topic}
 	if request.user.is_authenticated():
 		user_vote=PostVote.objects.filter(parent=post_id, author=request.user).first()
@@ -490,16 +494,22 @@ def new_topic(request, parent_topic_id=None):
 
 	return render(request, 'agora/newtopic.html', {'form': form, "parent_topic":parent_topic})
 
-def post_quick(request, topic_id=None, post_id=None, reply_type="comment"):
+def post_quick(request, post_id=None, reply_type="comment"):
+	topic_id=None
 	# if this is a POST request we need to process the form data
+	group_id = None
 	if not request.user.is_authenticated():
 		print "noauth in quickvote"
 		return HttpResponseRedirect("/agora/login")
 	if request.method == 'POST':
-		topic_id = request.POST.get('topic_id', topic_id)
-		post_id = request.POST.get('post_id', post_id)
-	if topic_id==None and post_id==None:
-		return HttpResponse("Need Post, or topic ID")
+		tid = request.POST.get('topic_id', topic_id)
+		if tid: topic_id = tid
+		pid = request.POST.get('post_id', post_id)
+		if pid: post_id = pid
+		gid = request.POST.get('group_id', group_id)
+		if gid: group_id = gid
+	if topic_id==None and post_id==None and group_id==None:
+		return HttpResponse("Need Post, group or topic ID"+str(group_id))
 	prnt = None
 	if post_id!=None:
 		prnt = Post.objects.get(id=post_id)
@@ -511,8 +521,9 @@ def post_quick(request, topic_id=None, post_id=None, reply_type="comment"):
 		print "FANCY_REPLY", ptext, btext
 		print "reply type:", reply_type
 		print request.POST
-		topic = Topic.objects.get(id=topic_id)
-		newpost = Post(text=btext, subtype=reply_type, name=ptext,topic=topic, parent=prnt, author=request.user)
+		print "topic_id: ", topic_id
+		#topic = Topic.objects.get(id=topic_id)
+		newpost = Post(text=btext, subtype=reply_type, name=ptext,topic_id=topic_id, group_id=group_id, parent=prnt, author=request.user)
 		newpost.save()
 		if post_id==None:
 			post_id=newpost.id
@@ -520,8 +531,8 @@ def post_quick(request, topic_id=None, post_id=None, reply_type="comment"):
 		if prnt:
 			newnotify = Notification(target=prnt.author, name="New Post", content_object=newpost, author=request.user)
 			newnotify.save()
-		return HttpResponseRedirect('/agora/topics/'+str(topic_id)+"/posts/"+str(post_id))
-	return HttpResponseRedirect('/agora/topics/'+str(topic_id)+"/posts/"+str(post_id))
+		return HttpResponseRedirect("/agora/posts/"+str(post_id))
+	return HttpResponseRedirect("/agora/posts/"+str(post_id))
 
 def reply_post_quick(request, topic_id, post_id, reply_type="comment"):
 	# if this is a POST request we need to process the form data
@@ -544,7 +555,7 @@ def reply_post_quick(request, topic_id, post_id, reply_type="comment"):
 	return HttpResponseRedirect('/agora/topics/'+str(topic_id)+"/posts/"+str(post_id))
 
 
-def vote_post_quick(request, topic_id, post_id):
+def vote_post_quick(request, post_id):
 	# if this is a POST request we need to process the form data
 	if not request.user.is_authenticated():
 		print "noauth in quick post"
@@ -562,10 +573,10 @@ def vote_post_quick(request, topic_id, post_id):
 			newrep = PostVote(value=voteval, author=request.user, parent=prnt)
 			newrep.save()
 		prnt.count_votes()
-	return HttpResponseRedirect('/agora/topics/'+str(topic_id)+"/posts/"+str(post_id))
+	return HttpResponseRedirect("/agora/posts/"+str(post_id))
 
 
-def unvote_post_quick(request, topic_id, post_id):
+def unvote_post_quick(request, post_id):
 	# if this is a POST request we need to process the form data
 	if not request.user.is_authenticated():
 		print "noauth in unvote"
@@ -573,7 +584,7 @@ def unvote_post_quick(request, topic_id, post_id):
 	PostVote.objects.filter(parent=post_id, author=request.user).delete()
 	prnt = Post.objects.get(id=post_id)
 	prnt.count_votes()
-	return HttpResponseRedirect('/agora/topics/'+str(topic_id)+"/posts/"+str(post_id))
+	return HttpResponseRedirect("/agora/posts/"+str(post_id))
 
 def vote_tag_quick(request, tag_id):
 	# if this is a POST request we need to process the form data
@@ -595,7 +606,7 @@ def vote_tag_quick(request, tag_id):
 		prnt.count_votes(TagVote)
 	return HttpResponseRedirect('/agora/tags/'+str(tag_id))
 
-def vote_post(request, topic_id, post_id):
+def vote_post(request, post_id):
 	# if this is a POST request we need to process the form data
 	if not request.user.is_authenticated():
 		return HttpResponseRedirect("/agora/login")
@@ -615,7 +626,7 @@ def vote_post(request, topic_id, post_id):
 				newrep = PostVote(value=data['value'], author=request.user, parent=prnt)
 				newrep.save()
 			prnt.count_votes()
-			return HttpResponseRedirect('/agora/topics/'+str(topic_id)+"/posts/"+str(post_id))
+			return HttpResponseRedirect('/agora/posts/'+str(post_id))
 
 	# if a GET (or any other method) we'll create a blank form
 	else:

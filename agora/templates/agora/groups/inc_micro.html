@@ -1,0 +1,9 @@
+<div class="topicmicroitem">
+    <div class="topicmicrotitle">
+    <a href="/agora/groups/{{ group.id }}/">
+        {{ group.name }}
+    </a>
+</div>
+    <br>
+    <span title="[subscriptions, sub-groups, posts]">[{{ group.subscription_set.all|length }}, {{ group.group_set.all|length }}, {{ group.post_set.all|length }}]</span>
+</div>

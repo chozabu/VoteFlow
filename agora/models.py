@@ -163,7 +163,7 @@ class Voteable(models.Model):
 	direct_heat = models.FloatField(default=0)
 	created_at = models.DateField(auto_now_add=True)
 	modified_at = models.DateField(auto_now=True)
-	topic = models.ForeignKey(Topic)
+	topic = models.ForeignKey(Topic, null = True, blank=True)
 
 	@property
 	def liquid_value_percent(self):
@@ -234,6 +234,7 @@ class Post(Voteable):
 	author = models.ForeignKey(User)
 	subtype = models.CharField(max_length=20, default="comment")
 	text = models.TextField(default="")
+	group = models.ForeignKey(Group, null = True, blank=True)
 	@property
 	def path(self):
 		list = []

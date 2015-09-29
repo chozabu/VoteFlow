@@ -18,6 +18,16 @@
 <br> <span>type: {{ group.groupextra.subtype }}</span>
 <br> <span>sub-groups: {{ group.group_set.all|length }} Posts {{ group.post_set.all|length }} </span>
 <br>
+        <h3>Sub Groups</h3>
+    {% if group_list %}
+        <div class="mincotopicholder">
+            {% for group in group_list %}
+                {% include "agora/groups/inc_micro.html" %}
+            {% endfor %}
+        </div>.<br>
+    {% else %}
+        <p>No sub-groups found...</p>
+    {% endif %}
     <a href="/agora/groups/new/?group_id={{ group.id }}">
         <button type="button" class="btn btn-info">New Group
         </button>

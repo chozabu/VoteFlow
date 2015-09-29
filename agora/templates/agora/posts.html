@@ -30,15 +30,15 @@
         <ul id="post_path">
             {% for p_post in post.path %}
                 <li>
-                    <a href="/agora/topics/{{ post.topic.id }}/posts/{{ p_post.id }}">{{ p_post.name }}</a>
+                    <a href="/agora/posts/{{ p_post.id }}">{{ p_post.name }}</a>
                 </li>
             {% endfor %}
         </ul>
 
         <h2>
-            <a href="/agora/topics/{{ post.topic.id }}/posts/{{ post.id }}">{{ post.name }}</a>
+            <a href="/agora/posts/{{ post.id }}">{{ post.name }}</a>
             -
-            <a href="/agora/topics/{{ post.topic.id }}/posts/{{ post.id }}/sankey/">
+            <a href="/agora/posts/{{ post.id }}/sankey/">
                 ({{ post.liquid_vote_count }} votes)
             </a>
         </h2>
@@ -71,7 +71,7 @@
         {% endif %}
 
         <p class="authorinfo">{% include "agora/inc_user_micro.html" with user=post.author %} @ {{ post.created_at }}<br> {{ post.subtype }} <div style="clear: both;"></div> </p>
-        <h4><a href="/agora/topics/{{ post.topic.id }}/posts/{{ post.id }}/sankey/">Representation Chart</a></h4>
+        <h4><a href="/agora/posts/{{ post.id }}/sankey/">Representation Chart</a></h4>
 
         <button title="(average|sum|count)" type="button" class="btn btn-info" data-toggle="collapse"
                 data-target="#basic-post-info">
@@ -99,7 +99,7 @@
         <!--
         <a href="/agora/topics/{{ post.topic.id }}/posts/{{ post.id }}/vote/">vote!</a><br>
         -->
-        <form action="/agora/topics/{{ post.topic.id }}/posts/{{ post.id }}/quickvote/" method="post">
+        <form action="/agora/posts/{{ post.id }}/quickvote/" method="post">
             {% csrf_token %}
             <input name="voteslider" value={{ user_vote.value_percent }} id="slider1" type="range" min="0" max="100"
                    step="10" style="position:relative; width:300px; height:20px; border:1px solid #cccccc;"/>
@@ -107,7 +107,7 @@
             <input type="submit" value="Vote"/>
         </form>
         {% if user_vote %}
-            <form action="/agora/topics/{{ post.topic.id }}/posts/{{ post.id }}/unvote/">
+            <form action="/agora/posts/{{ post.id }}/unvote/">
                 <input type="submit" value="Remove Vote"/>
             </form>
         {% endif %}
@@ -118,7 +118,7 @@
                 <span class="tagspan"><a href="/agora/tags/{{ tag.id }}/">{{ tag.name }}</a></span>
             {% endfor %}
         </div>
-        <a href="/agora/topics/{{ post.topic.id }}/posts/{{ post.id }}/newtag/">
+        <a href="/agora/posts/{{ post.id }}/newtag/">
             <button id="prevbutton" type="button" class="btn btn-info">Add Tag!
         </button></a><br>
 
@@ -156,9 +156,9 @@
         </div>
         <!--<a href="/agora/topics/{{ current_topic.id }}/newpost/{{ post.id }}">Reply to Post</a>-->
         <p>sort method: {{ sort_method }} (
-            <a href="/agora/topics/{{ current_topic.id }}/posts/{{ post.parent.id }}/sort/liquid_value/">liquid_value</a>
-            <a href="/agora/topics/{{ current_topic.id }}/posts/{{ post.parent.id }}/sort/direct_value/">direct_value</a>
-            <a href="/agora/topics/{{ current_topic.id }}/posts/{{ post.parent.id }}/sort/created_at/">created_at</a>
+            <a href="/agora/posts/{{ post.parent.id }}/sort/liquid_value/">liquid_value</a>
+            <a href="/agora/posts/{{ post.parent.id }}/sort/direct_value/">direct_value</a>
+            <a href="/agora/posts/{{ post.parent.id }}/sort/created_at/">created_at</a>
             )</p>
         <ul class="miniul">
             {% for child_post in post.get_comments|dictsortreversed:sort_method %}

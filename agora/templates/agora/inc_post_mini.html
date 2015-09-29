@@ -1,4 +1,4 @@
-<a class="postminititle" href="/agora/topics/{{ post.topic.id }}/posts/{{ post.id }}/">
+<a class="postminititle" href="/agora/posts/{{ post.id }}/">
     {{ post.name }}
 </a>
 
@@ -7,7 +7,7 @@
 <div class="postminicontent">
     {% include "agora/inc_user_micro.html" with user=post.author %}
     @ {{ post.created_at }}, with:
-    <a href="/agora/topics/{{ post.topic.id }}/posts/{{ post.id }}/">
+    <a href="/agora/posts/{{ post.id }}/">
     {{ post.post_set.all|length }} comments
         </a>
 <br>
