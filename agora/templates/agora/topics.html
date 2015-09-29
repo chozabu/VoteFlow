@@ -48,7 +48,15 @@
         </button>
     </a>
 
-    <h3>Posts</h3>
+    <div>
+    <h3 style="display: inline-block">Posts</h3>
+    {% if current_topic %}
+        <a style="display: inline-block" href="/agora/newpost/?topic_id={{ current_topic.id }}">
+            <button id="newpostbutton" type="button" class="btn btn-info">New Post
+            </button>
+        </a>
+    {% endif %}
+    </div>
 
 
     <div class="postlistintopics" data-table="Post" data-rtype="html"
@@ -86,12 +94,6 @@
             Next
         </button>
     </div>
-    {% if current_topic %}
-        <a href="/agora/topics/{{ current_topic.id }}/newpost/">
-            <button id="prevbutton" type="button" class="btn btn-info">New Post
-            </button>
-        </a>
-    {% endif %}
 
     <script>
         //#/agora/basic_api/?table=Post&template=api_post_list&rtype=html&sortby=-liquid_sum&startat=39
