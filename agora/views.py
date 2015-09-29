@@ -494,6 +494,9 @@ def post_quick(request, topic_id=None, post_id=None, reply_type="comment"):
 	if not request.user.is_authenticated():
 		print "noauth in quickvote"
 		return HttpResponseRedirect("/agora/login")
+	if request.method == 'POST':
+		topic_id = request.POST.get('topic_id', topic_id)
+		post_id = request.POST.get('post_id', post_id)
 	if topic_id==None and post_id==None:
 		return HttpResponse("Need Post, or topic ID")
 	prnt = None

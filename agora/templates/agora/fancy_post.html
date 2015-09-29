@@ -25,6 +25,7 @@
     <h3>New <span id="title_type">Post</span></h3>
     <form action="newpost_submit/" method="post">
         {% csrf_token %}
+        <input name="topic_id" type="hidden" value="{{ topic.id }}"/>
     <div>
         <div class="radio" style="display: inline-block;">
           <label><input checked id="type_post" type="radio" value="post" name="subtype">Post</label>
