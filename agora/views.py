@@ -326,10 +326,12 @@ def groups(request):
 	context = {'group_list': group_list}
 	return render(request, 'agora/all_groups.html', context)
 
-def group(request, group_id):
+def group(request, group_id, sort_method="liquid_value"):
 	group = get_object_or_404(Group, pk=group_id)
-	context = {'group': group}
+	context = {'group': group, "sort_method":sort_method}
 	context['group_list'] = Group.objects.filter(groupextra__parent=group)
+	context['post_list'] = Post.objects.filter(parent=None, group=group).exclude(tag__liquid_value__gte=-.1, tag__name="completed")[0:10]
+	print context
 	return render(request, 'agora/group.html', context)
 
 
