@@ -702,14 +702,14 @@ def new_rep(request, parent_topic_id):
 	if rep: context['current_rep']=rep
 	return render(request, 'agora/new_rep.html', context)
 def confirm_rep(request, parent_topic_id,rep_id):
-	if not request.user.is_authenticated():
-		return HttpResponseRedirect("/agora/login")
 	parent_topic = Topic.objects.get(id=parent_topic_id)
 	new_rep = User.objects.get(id=rep_id)
 	#return render(request, 'agora/new_rep.html', {"parent_topic":parent_topic, "action":"/agora/topics/"+str(parent_topic_id)+"/newrep", "title":"Select Representative"})
 
 	# if this is a POST request we need to process the form data
 	if request.method == 'POST':
+		if not request.user.is_authenticated():
+			return HttpResponseRedirect("/agora/login")
 		rep=Representation.objects.filter(topic=parent_topic_id, author=request.user).first()
 		form = RepForm(request.POST)
 		print form
