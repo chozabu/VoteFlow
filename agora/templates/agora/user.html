@@ -31,7 +31,8 @@
     <h4>Representees</h4>
     <ul class="miniul">
         {% for k, v in repping.items %}
-            <li>{{ k.name }} ({{ v.cache.rep_cache }}) <br>
+            <li>{{ k.name }} ({{ v.cache.rep_cache }})
+            <a href="/agora/topics/{{ k.id }}/newrep/{{ selected_user.id }}/"> <button>Represent Me!</button> </a> <br>
                 <ul class="miniul">
                     {% for i in v.people %}
                         <li>{% include "agora/inc_user_micro.html" with user=i.author %}
