@@ -516,6 +516,7 @@ def post_quick(request, post_id=None, reply_type="comment"):
 	if post_id!=None:
 		prnt = Post.objects.get(id=post_id)
 		topic_id=prnt.topic_id
+		group_id=prnt.group_id
 	if request.method == 'POST':
 		ptext = request.POST['text']
 		btext = request.POST.get('body_text', '')
