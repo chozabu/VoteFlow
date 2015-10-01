@@ -182,19 +182,21 @@
                 action: 'add_' + $(this)[0].id + '/',
                 method: 'post'
             });
-            {% if post.topic %}
             form.append(
+            {% if post.topic %}
                     $("<input/>", {
                         type: 'hidden',
                         value: "{{ post.topic_id }}",
                         name: 'topic'
-                    });
+                    })
             {% elif post.group  %}
                     $("<input/>", {
                         type: 'hidden',
                         value: "{{ post.group_id }}",
                         name: 'group'
-                    });            {%  endif %}
+                    })
+            {%  endif %}
+            );
             form.append(
                     $("<input/>", {
                         type: 'text',
