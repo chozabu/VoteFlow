@@ -25,7 +25,11 @@
 
 
 {% block body_block %}
+    {% if post.topic %}
         {% include "agora/topicpath/fullpath_ul.html" %}
+    {% elif post.group  %}
+        {% include "agora/grouppath/fullpath_ul.html" with group=post.group %}<br>
+    {%  endif %}
     {% if post %}
         <ul id="post_path">
             {% for p_post in post.path %}
@@ -178,6 +182,19 @@
                 action: 'add_' + $(this)[0].id + '/',
                 method: 'post'
             });
+            {% if post.topic %}
+            form.append(
+                    $("<input/>", {
+                        type: 'hidden',
+                        value: "{{ post.topic_id }}"",
+                        name: 'topic'
+                    }));
+            {% elif post.group  %}
+                    $("<input/>", {
+                        type: 'hidden',
+                        value: "{{ post.group_id }}"",
+                        name: 'group'
+                    }));            {%  endif %}
             form.append(
                     $("<input/>", {
                         type: 'text',

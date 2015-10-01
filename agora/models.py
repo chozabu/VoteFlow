@@ -40,6 +40,30 @@ class GroupExtra(models.Model):
 	created_at = models.DateField(auto_now_add=True)
 	modified_at = models.DateField(auto_now=True)
 	hidden = models.BooleanField(default=False)
+	def path(self):
+		list = []
+		cur_top = self.parent
+		print "top:",cur_top
+		while cur_top:
+			list.append(cur_top)
+			if cur_top.groupextra.parent:
+				cur_top=cur_top.groupextra.parent
+			else:cur_top=None
+		list.reverse()
+		return list
+	def full_path(self):
+		list = []
+		cur_top = self.group
+		print "---"
+		while cur_top:
+			print cur_top
+			list.append(cur_top)
+			if cur_top.groupextra.parent:
+				cur_top=cur_top.groupextra.parent
+			else:cur_top=None
+		print "==="
+		list.reverse()
+		return list
 
 
 @receiver(post_save, sender=Group)

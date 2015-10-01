@@ -1,0 +1,5 @@
+{% for p_group in group.groupextra.full_path %}
+    <li>
+        <a href="/agora/groups/{{ p_group.id }}/">{{ p_group.name }}</a>
+    </li>
+{% endfor %}
