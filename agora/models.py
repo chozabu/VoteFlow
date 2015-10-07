@@ -200,16 +200,20 @@ class Voteable(models.Model):
 		if table==None:
 			table=PostVote
 		print "======counting votes======"
+		nowtime = datetime.date.today()
 		#direct votes
 		votes = table.objects.filter(parent=self.id).all()
 		total = 0.0
+		heat = 0.0
 		voted={}
 		for v in votes:
 			total+=v.value
+			heat += (v.value)/((nowtime-v.created_at).days*0.1+1.)
 			voted[v.author]=True
 			print v.value
 		votelen=len(votes)
 		self.direct_sum = total
+		self.direct_heat = total
 		if votelen:
 			self.direct_value = total/votelen
 		else:
@@ -218,13 +222,15 @@ class Voteable(models.Model):
 			self.liquid_value=0
 			self.liquid_sum=0
 			self.liquid_vote_count=0
-		liquid_value=0.0
+		#liquid_value=0.0
 		liquid_sum=0
+		liquid_heat=0
 		liquid_v_count = 0
 		for v in votes:
 			lv=self.topic.getRepVotes(v.author, voted, notify=v)
 			liquid_v_count+=lv
 			liquid_sum += lv*v.value
+			liquid_heat += (lv*v.value)/((nowtime-v.created_at).days*0.1+1.)
 		if liquid_v_count<=0:
 			self.liquid_value = self.direct_value
 			self.liquid_vote_count = int(votelen)
@@ -233,7 +239,10 @@ class Voteable(models.Model):
 			self.liquid_value = (liquid_sum+total)/float(liquid_v_count+votelen)
 			self.liquid_vote_count = int(liquid_v_count)+votelen
 		self.liquid_sum = liquid_sum+total
+		self.liquid_heat = liquid_heat+heat
 		print liquid_sum, total
+		print "liquid heat: ", self.liquid_heat
+		print "heat: ", heat
 		self.save()
 	def get_liquid_voters_links(self):
 		votes = PostVote.objects.filter(parent=self.id).all()
