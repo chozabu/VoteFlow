@@ -32,7 +32,7 @@ def index(request):
 	#topic_list = Topic.objects
 	#context = {'topic_list': topic_list}
 	#return render(request, 'agora/index.html', context)
-	context = { 'pboxes':[
+	'''context = { 'pboxes':[
 		{"name":"High Rated Posts",
 		'items':Post.objects.filter(parent=None).order_by('-liquid_value')[:5]
 		},
@@ -51,7 +51,10 @@ def index(request):
 		{"name":"Top Comments",
 		'items':Post.objects.filter(parent__isnull=False).order_by('-liquid_sum')[:5],
 		},
-	]}
+	]}'''
+	context = {
+		 'items':Post.objects.filter(parent=None).order_by('-liquid_heat')[:10],
+		}
 	return render(request, 'agora/index.html', context)
 
 def notifications(request):
