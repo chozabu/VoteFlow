@@ -696,7 +696,7 @@ def new_tag(request, post_id, topic_id=None):
 	return render(request, 'agora/basic_form.html', {
 		'form': form,
 		"parent_topic":parent_topic,
-		"action":"/agora/topics/"+str(topic_id)+"/posts/"+str(post_id)+"/newtag/",
+		"action":"/agora/posts/"+str(post_id)+"/newtag/",
 		"title":"Create Tag"})
 
 def new_rep(request, parent_topic_id):
