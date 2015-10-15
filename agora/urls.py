@@ -40,6 +40,9 @@ urlpatterns = [
     url(r'^topics/(?P<topic_id>[0-9]+)/$', views.topics, name='topics'),
     # ex: /agora/tags/5/
     url(r'^tags/(?P<tag_id>[0-9]+)/$', views.tags, name='tags'),
+    # ex: /agora/alltags/completed/
+    #url(r'^alltags/(?P<tag_word>[\w-]+)/$', views.alltags, name='alltags'),
+    url(r'^alltags/(?P<tag_word>[\w+]+)/$', views.alltags, name='alltags'),
     # ex: /agora/tags/5/quickvote/
     url(r'^tags/(?P<tag_id>[0-9]+)/quickvote/$', views.vote_tag_quick, name='tagsvote'),
     # ex: /agora/users/

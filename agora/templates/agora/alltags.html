@@ -1,0 +1,25 @@
+{% extends 'agora/base_template.html' %}
+{% load cmarkdown %}
+{% block title %}
+    {% if current_topic %}
+        {{ current_topic.name }} : {{ post.name }} : {{ tag.name }}
+    {% else %}
+        Post
+    {% endif %}
+{% endblock %}
+
+{% block head_block %}
+
+{% endblock %}
+
+
+{% block body_block %}
+        <h2>
+            Tagged: {{ tag_word }}
+        </h2>
+        <ul id="topicslist" class="miniul">
+            {% for child_post in posts %}
+                <li>{% include "agora/inc_post_mini.html" with  post=child_post %}</li>
+            {% endfor %}
+        </ul>
+{% endblock %}

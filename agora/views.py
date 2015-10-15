@@ -412,6 +412,16 @@ def tags(request, tag_id):
 		context['user_vote']=user_vote
 	return render(request, 'agora/tags.html', context)#, "replies":replies})
 
+def alltags(request, tag_word):
+	#cfil['tag__liquid_value__gte'] = -.1;
+	#cfil['tag__name'] = "completed";
+	posts = Post.objects.filter(tag__name=tag_word)
+	context={'posts': posts, 'tag_word': tag_word}
+	#if request.user.is_authenticated():
+	#	user_vote=TagVote.objects.filter(parent=tag_id, author=request.user).first()
+	#	context['user_vote']=user_vote
+	return render(request, 'agora/alltags.html', context)#, "replies":replies})
+
 def fancy_post(request):
 	parent_id = request.GET.get("parent_id", None)
 	topic_id = request.GET.get("topic_id", None)
