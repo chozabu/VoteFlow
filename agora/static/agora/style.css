@@ -1,5 +1,6 @@
 body {
-	background: #ffffff;
+	background: url("http://chozabu.net/autopush/cloud_background.png") no-repeat center center fixed;
+	background-size: cover;
 }
 hr {
 	margin: 20px;
@@ -127,7 +128,7 @@ ul {
 	border-radius: 4px;
 	border: #bdb8b2 1px solid;
 	margin-left: 0.4em;
-	box-shadow: -4px 4px 5px rgba(50, 50, 50, 0.2);
+	box-shadow: -4px 4px 5px rgba(50, 50, 50, 0.05);
 }
 .postpreview {
 	text-align: center;
@@ -135,12 +136,13 @@ ul {
 }
 #mainContentPanel {
 	padding: 5px;
-	border-radius: 4px;
+	border-radius: 10px;
 	border: 1px solid rgb(189, 184, 178);
 	margin-left: auto;
-	box-shadow: -4px 4px 5px rgba(50, 50, 50, 0.2);
+	box-shadow: -4px 4px 5px rgba(50, 50, 50, 0.1);
 	margin-right: auto;
-	width: 90%;
+	width: 95%;
+	background-color: rgba(255, 255, 255, 0.82);
 }
 .floatonright {
 	padding: 5px;
@@ -154,13 +156,12 @@ ul {
 }
 h1,
 h2 {
-	background-color: #ffefc2;
+	background-color: rgba(117, 117, 117, 0.16);
 	color: #000000;
 	padding: 10px 20px;
-	text-decoration: none;
 	border-radius: 5px;
-	margin-left: -.2em;
-	box-shadow: -4px 4px 5px rgba(50, 50, 50, 0.2);
+	/* margin-left: -.2em; */
+	/* box-shadow: -4px 4px 5px rgba(50, 50, 50, 0.2); */
 }
 .tagspan {
 	background-color: #e2fff6;
