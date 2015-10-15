@@ -683,7 +683,7 @@ def new_tag(request, post_id, topic_id=None):
 			else:
 				newtag = Tag(name=data['tag_name'], parent=post, author=request.user, topic=post.topic)
 				newtag.save()
-			return HttpResponseRedirect('/agora/topics/'+str(topic_id)+"/posts/"+str(post.id))
+			return HttpResponseRedirect('/agora/posts/'+str(post.id))
 
 	# if a GET (or any other method) we'll create a blank form
 	else:
