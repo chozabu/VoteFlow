@@ -1,6 +1,7 @@
 body {
 	background: url("http://chozabu.net/autopush/cloud_background.png") no-repeat center center fixed;
 	background-size: cover;
+	font-family: verdana;
 }
 hr {
 	margin: 20px;
