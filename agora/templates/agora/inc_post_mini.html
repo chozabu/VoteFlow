@@ -1,9 +1,10 @@
+{% load cmarkdown %}
+{% if post.name %}
 <a class="postminititle" href="/agora/posts/{{ post.id }}/">
     {{ post.name }}
 </a>
-
 <br>
-
+{% endif %}
 <div class="postminicontent">
     {% include "agora/inc_user_micro.html" with user=post.author %}
     @ {{ post.created_at }}, with:
@@ -11,6 +12,11 @@
     {{ post.post_set.all|length }} comments
         </a>
 <br>
+	<div style="display:inline-block">
+                {% autoescape off %}
+                    {{ post.text|markdown }}
+                {% endautoescape %}
+			</div>
         <button title="(average|sum|count)" type="button" class="btn btn-info" data-toggle="collapse" data-target="#{{ post.id }}-post-info">
             ({{ post.liquid_value_percent|floatformat }}% | {{ post.liquid_sum|floatformat }} | {{ post.liquid_vote_count }})
             {% include "agora/inc_stars.html" with percent=post.liquid_value_percent %}
@@ -22,5 +28,8 @@
         full sum: {{ post.liquid_sum|floatformat }} <br>
         full vote count: {{ post.liquid_vote_count }} <br>
         </div>
+        
+<br>
+
 </div>
 
