@@ -278,6 +278,15 @@ class Post(Voteable):
 		list.reverse()
 		return list
 	@property
+	def full_path(self):
+		list = [self]
+		cur_top=self.parent
+		while cur_top:
+			list.append(cur_top)
+			cur_top=cur_top.parent
+		list.reverse()
+		return list
+	@property
 	def get_comments(self):
 		return self.post_set.filter(subtype='comment')
 	@property
