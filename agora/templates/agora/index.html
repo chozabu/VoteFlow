@@ -9,9 +9,11 @@
     </div>
 
     <div id="topicslist">
+    <ul class="miniul">
             {% for child_post in items %}
                 <li>{% include "agora/inc_post_mini.html" with  post=child_post %}</li>
             {% endfor %}
+    </ul>
     </div>
 
 {% endblock %}
