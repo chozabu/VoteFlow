@@ -38,6 +38,20 @@ h1 span {
 	border-radius: .1em;
 }
 
+span.topicsubsspan {
+    /* height: 30px; */
+    /* width: 60px; */
+    /* line-height: 60px; */
+    -moz-border-radius: 30px;/* or 50% */
+    border-radius: 30px;/* or 50% */
+    background-color: rgba(58, 187, 99, 0.78);
+    color: white;
+    text-align: center;
+    font-size: 1.3em;
+    padding-left: .3em;
+    padding-right: .3em;
+}
+
 #miniul:first-child {
     background-color: rgba(0, 255, 255, 0.48);
 }
