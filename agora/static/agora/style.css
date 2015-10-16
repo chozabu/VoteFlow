@@ -65,7 +65,7 @@ span.topicsubsspan {
 }
 .topicmicrotitle {
 	font-size: 150%;
-	background-color: #dfffdb;
+	/* background-color: rgba(178, 196, 212, 0.31); */
 	display: inline-block;
 	margin: .1em;
 	padding: .2em;
@@ -73,7 +73,7 @@ span.topicsubsspan {
 	text-align: center;
 }
 .topicmicroitem {
-	background-color: #dfffdb;
+	background-color: rgba(213, 111, 236, 0.31);
 	display: inline-block;
 	margin: .1em;
 	padding: .2em;
@@ -81,12 +81,12 @@ span.topicsubsspan {
 	text-align: center;
 }
 .mincotopicholder {
-	background-color: #f5f2ff;
+	background-color: rgba(245, 242, 255, 0);
 	margin: .1em;
 	padding: .2em;
-	border-radius: .5em;
+	/* border-radius: .7em; */
 	text-align: center;
-	display: inline-block;
+	/* display: inline-block; */
 }
 .postminititle {
 	font-size: 150%;
