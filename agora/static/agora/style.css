@@ -3,6 +3,9 @@ body {
 	background-size: cover;
 	font-family: verdana;
 }
+
+#mainContentPanel+ svg {
+10px: inherit;display: block;margin: auto;}
 hr {
 	margin: 20px;
 	border: none;
