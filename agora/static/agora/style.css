@@ -4,6 +4,10 @@ body {
 	font-family: verdana;
 }
 
+p {
+    margin: 10px 42px 10px;
+}
+
 #mainContentPanel+ svg {
 10px: inherit;display: block;margin: auto;}
 hr {
@@ -38,12 +42,30 @@ h1 span {
 	border-radius: .1em;
 }
 
+#topicslist > li > .topicminititle {
+    background-color: rgba(226, 96, 0, 0.23);
+}
+
+span.topicsubsspan {
+    /* height: 30px; */
+    /* width: 60px; */
+    /* line-height: 60px; */
+    -moz-border-radius: 30px;/* or 50% */
+    border-radius: 30px;/* or 50% */
+    background-color: rgba(58, 187, 99, 0.78);
+    color: white;
+    text-align: center;
+    font-size: 1.3em;
+    padding-left: .3em;
+    padding-right: .3em;
+}
+
 #miniul:first-child {
     background-color: rgba(0, 255, 255, 0.48);
 }
 .topicmicrotitle {
 	font-size: 150%;
-	background-color: #dfffdb;
+	/* background-color: rgba(178, 196, 212, 0.31); */
 	display: inline-block;
 	margin: .1em;
 	padding: .2em;
@@ -51,7 +73,7 @@ h1 span {
 	text-align: center;
 }
 .topicmicroitem {
-	background-color: #dfffdb;
+	background-color: rgba(213, 111, 236, 0.31);
 	display: inline-block;
 	margin: .1em;
 	padding: .2em;
@@ -59,12 +81,12 @@ h1 span {
 	text-align: center;
 }
 .mincotopicholder {
-	background-color: #f5f2ff;
+	background-color: rgba(245, 242, 255, 0);
 	margin: .1em;
 	padding: .2em;
-	border-radius: .5em;
+	/* border-radius: .7em; */
 	text-align: center;
-	display: inline-block;
+	/* display: inline-block; */
 }
 .postminititle {
 	font-size: 150%;
@@ -158,7 +180,8 @@ ul.miniul {
 	margin-left: auto;
 	box-shadow: -4px 4px 5px rgba(50, 50, 50, 0.1);
 	margin-right: auto;
-	width: 95%;
+	width: 80%;
+	min-width: 600px;
 	background-color: rgba(255, 255, 255, 0.82);
 }
 .floatonright {
