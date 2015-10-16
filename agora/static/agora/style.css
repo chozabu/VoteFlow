@@ -38,6 +38,10 @@ h1 span {
 	border-radius: .1em;
 }
 
+#topicslist > li > .topicminititle {
+    background-color: rgba(226, 96, 0, 0.23);
+}
+
 span.topicsubsspan {
     /* height: 30px; */
     /* width: 60px; */
