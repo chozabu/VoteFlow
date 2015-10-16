@@ -71,7 +71,7 @@ h1 span {
 	border: #bdb8b2 1px solid;
 	text-align: center;
 	margin-left: 0.4em;
-	box-shadow: -4px 4px 5px rgba(50, 50, 50, 0.2);
+	box-shadow: 0px 0px 50px rgba(29, 120, 144, 0.11);
 }
 .ilb h2 {
 	background-color: transparent;
@@ -159,9 +159,10 @@ ul {
 h1,
 h2 {
 	background-color: rgba(225, 230, 239, 0.43);
-	color: rgb(157, 210, 162);
+	color: #3B646B;
 	padding: 15px 200px;
 	border-radius: 2px;
+	text-align: center;
 	/* margin-left: -.2em; */
 	/* box-shadow: -4px 4px 5px rgba(50, 50, 50, 0.2); */
 }
