@@ -4,6 +4,10 @@ body {
 	font-family: verdana;
 }
 
+p {
+    margin: 10px 42px 10px;
+}
+
 #mainContentPanel+ svg {
 10px: inherit;display: block;margin: auto;}
 hr {
@@ -177,7 +181,7 @@ ul.miniul {
 	box-shadow: -4px 4px 5px rgba(50, 50, 50, 0.1);
 	margin-right: auto;
 	width: 80%;
-	min-width: 500px;
+	min-width: 600px;
 	background-color: rgba(255, 255, 255, 0.82);
 }
 .floatonright {
