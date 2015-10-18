@@ -309,6 +309,7 @@ def topics(request, topic_id=None, sort_method="liquid_value"):
 	topic_list = Topic.objects.filter(parent=topic_id)
 	post_list = Post.objects.filter(parent=None, topic=topic_id).exclude(tag__liquid_value__gte=-.1, tag__name="completed")[0:10]
 	context = {'topic_list': topic_list,'post_list': post_list, "sort_method":sort_method}
+	context['postfilter']='{"topic":'+str(topic_id)+', "parent":null }'
 	if topic_id:
 		current_topic = Topic.objects.get(id=topic_id)
 		context['current_topic'] = current_topic
