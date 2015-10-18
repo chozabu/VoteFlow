@@ -6,7 +6,7 @@ Currently in early stages - expect some uglyness and broken bits.
 
 Previously known as "MeshDemocracy: Agora"
 
-Live Demo: [Click here - very pre-alpha!](http://voteflow.new/)
+Live Demo: [Click here - very pre-alpha!](http://voteflow.net/)
 
 ###Topic Tree
 The topic tree is a central component - anyone can create a topic as a subtopic of any other topic - or top-level
@@ -55,16 +55,16 @@ dependencies:
 install
 
     #Install Dependencies then
-    git clone https://github.com/chozabu/MeshDemocAgora.git #Clone the project
-    cd MeshDemocAgora #enter project
+    git clone https://github.com/chozabu/VoteFlow.git #Clone the project
+    cd VoteFlow #enter project
     python manage.py migrate #create DB
     python manage.py runserver #Run Server
     firefox http://127.0.0.1:8000/agora/ #Try it out!
     
 or in a virtualenv
 
-    git clone https://github.com/chozabu/MeshDemocAgora
-    cd MeshDemocAgora/
+    git clone https://github.com/chozabu/VoteFlow
+    cd VoteFlow/
     virtualenv env
     source env/bin/activate
     #Install Dependencies HERE
