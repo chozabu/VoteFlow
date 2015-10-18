@@ -274,6 +274,7 @@ ul#post_path li a:hover {
 }
 a {
 	color: #3E302E;
+	text-shadow: 0 0 2px rgba(200, 200, 255, 128);
 }
 a:hover {
 	color: #3783ff;
