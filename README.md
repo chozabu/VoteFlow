@@ -1,12 +1,12 @@
-MeshDemocracy: Agora
+Voteflow
 ==============================
-MeshDemocracy is a decentralised system, to let people discuss, select representitives, and organise on a massive scale through representation chains. Currently on hold while developing Agora.
 
-#Agora
-MD: Agora is a website/app built on django to test out the  concepts behind MD.  
+VoteFlow is a website/app built on django to try out a LiquidDemocracy-like system.  
 Currently in early stages - expect some uglyness and broken bits.  
 
-Live Demo: [Click here - very pre-alpha!](http://meshdemocracy.org/)
+Previously known as "MeshDemocracy: Agora"
+
+Live Demo: [Click here - very pre-alpha!](http://voteflow.new/)
 
 ###Topic Tree
 The topic tree is a central component - anyone can create a topic as a subtopic of any other topic - or top-level
