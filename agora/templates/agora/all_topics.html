@@ -7,9 +7,9 @@
 
 {% block body_block %}
 
-    <h2>Topics</h2>
+    <h2 id="topicstitle">Topics</h2>
 
-<p><a href="forcearrows">Representation Map</a><br>
+<p id="topicsp"><a href="forcearrows">Representation Map</a><br>
         <a href="/agora/all_topics/sunburst/">Show Sunburst Map</a></p>
     <p>
     {% if recur %}
@@ -19,14 +19,14 @@
     {% endif %}
     </p>
 
-<p>sort method: {{ sort_method }} (
+<p id="sortmethods">sort method: {{ sort_method }} (
     <a href="/agora/{{ tpage }}/sort/created_at/">created_at</a>
     <a href="/agora/{{ tpage }}/sort/subscription_set/">subscription_set</a>
     <a href="/agora/{{ tpage }}/sort/post_set/">post_set</a>
     )</p>
 
 {% if topic_list %}
-    <ul class="miniul">
+    <ul class="miniul" id="topicslist">
         {% for topic in topic_list %}
             <li>
                 {% if recur %}
@@ -41,6 +41,10 @@
     <p>No sub-topics found...</p>
 {% endif %}
 
-    <a href="/agora/topics/new/">New Topic</a>
+    <a id="newtopiclink" href="/agora/topics/new/">
+                <button id="newtopicbutton" type="button" class="btn btn-info">New Topic
+        </button>
+    </a>
+
 
 {% endblock %}

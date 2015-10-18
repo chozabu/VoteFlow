@@ -1,5 +1,5 @@
 {% include "agora/inc_topic_mini.html" %}
-    <ul class="miniul">
+    <ul class="miniul topicrecurlist">
         {% for child_topic in topic.sorted_subs %}
             <li>{% include "agora/inc_topic_mini_recur.html" with  topic=child_topic %}</li>
         {% endfor %}

@@ -8,7 +8,7 @@
 {% block body_block %}
     {% include "agora/topicpath/pathto_ul.html" %}
 
-    <h1>{{ current_topic.name }}</h1>
+    <h1 id="topicstitle">{{ current_topic.name }}</h1>
 
 
 
@@ -16,17 +16,17 @@
         {% if sub %}
             <p>Subscribed! (<a href="/agora/topics/{{ current_topic.id }}/subs/">unsub</a>) </p>
         {% else %}
-            <p><a href="/agora/topics/{{ current_topic.id }}/subs/"><button class="btn btn-info">Subscribe</button></a> </p>
+            <p><a id="subscribeblink" href="/agora/topics/{{ current_topic.id }}/subs/"><button class="btn btn-info">Subscribe</button></a> </p>
         {% endif %}
 
         {% if rep %}
             Representitive: {{ rep.rep }}
             <br>
-            <a href="/agora/topics/{{ current_topic.id }}/newrep">
+            <a id="newreplink" href="/agora/topics/{{ current_topic.id }}/newrep">
                 <button class="btn btn-info">Change Representative</button>
             </a>
         {% else %}
-            <a href="/agora/topics/{{ current_topic.id }}/newrep">
+            <a id="newreplink" href="/agora/topics/{{ current_topic.id }}/newrep">
                 <button class="btn btn-info">Pick Representative</button>
             </a>
         {% endif %}
@@ -43,7 +43,7 @@
         <p>No sub-topics found...</p>
     {% endif %}
 
-    <a href="/agora/topics/new/{{ current_topic.id }}/">
+    <a id="newtopiclink" href="/agora/topics/new/{{ current_topic.id }}/">
         <button id="newtopicbutton" type="button" class="btn btn-info">New Topic
         </button>
     </a>
@@ -51,7 +51,7 @@
     <div>
     <h3 style="display: inline-block">Posts</h3>
     {% if current_topic %}
-        <a style="display: inline-block" href="/agora/newpost/?topic_id={{ current_topic.id }}">
+        <a id="newpostlink" style="display: inline-block" href="/agora/newpost/?topic_id={{ current_topic.id }}">
             <button id="newpostbutton" type="button" class="btn btn-info">New Post
             </button>
         </a>

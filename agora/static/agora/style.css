@@ -3,6 +3,13 @@ body {
 	background-size: cover;
 	font-family: verdana;
 }
+
+p {
+    margin: 10px 42px 10px;
+}
+
+#mainContentPanel+ svg {
+10px: inherit;display: block;margin: auto;}
 hr {
 	margin: 20px;
 	border: none;
@@ -25,17 +32,40 @@ h1 span {
 }
 .topicminititle {
 	font-size: 150%;
-	background-color: #c2cde6;
+	background-color: rgba(222, 226, 234, 0.48);
 	display: inline-block;
 	width: 100%;
 	margin: .1em;
-	margin-left: -.3em;
-	padding: .1em;
-	border-radius: .5em;
+	margin-left: -.45em;
+	/* margin-right: -.8em; */
+	padding: .3em;
+	border-radius: .1em;
+}
+
+#topicslist > li > .topicminititle {
+    background-color: rgba(226, 96, 0, 0.23);
+}
+
+span.topicsubsspan {
+    /* height: 30px; */
+    /* width: 60px; */
+    /* line-height: 60px; */
+    -moz-border-radius: 30px;/* or 50% */
+    border-radius: 30px;/* or 50% */
+    background-color: rgba(58, 187, 99, 0.78);
+    color: white;
+    text-align: center;
+    font-size: 1.3em;
+    padding-left: .3em;
+    padding-right: .3em;
+}
+
+#miniul:first-child {
+    background-color: rgba(0, 255, 255, 0.48);
 }
 .topicmicrotitle {
 	font-size: 150%;
-	background-color: #dfffdb;
+	/* background-color: rgba(178, 196, 212, 0.31); */
 	display: inline-block;
 	margin: .1em;
 	padding: .2em;
@@ -43,7 +73,7 @@ h1 span {
 	text-align: center;
 }
 .topicmicroitem {
-	background-color: #dfffdb;
+	background-color: rgba(213, 111, 236, 0.31);
 	display: inline-block;
 	margin: .1em;
 	padding: .2em;
@@ -51,12 +81,12 @@ h1 span {
 	text-align: center;
 }
 .mincotopicholder {
-	background-color: #f5f2ff;
+	background-color: rgba(245, 242, 255, 0);
 	margin: .1em;
 	padding: .2em;
-	border-radius: .5em;
+	/* border-radius: .7em; */
 	text-align: center;
-	display: inline-block;
+	/* display: inline-block; */
 }
 .postminititle {
 	font-size: 150%;
@@ -71,7 +101,7 @@ h1 span {
 	border: #bdb8b2 1px solid;
 	text-align: center;
 	margin-left: 0.4em;
-	box-shadow: -4px 4px 5px rgba(50, 50, 50, 0.2);
+	box-shadow: 0px 0px 50px rgba(29, 120, 144, 0.11);
 }
 .ilb h2 {
 	background-color: transparent;
@@ -121,15 +151,23 @@ h1 span {
 }
 ul {
 	list-style-type: none;
+	margin-top: 10px;
+}
+
+ul.miniul {
+    margin-right: -.2%;
+    /* margin-right: 10px; */
 }
 .miniul li,
 .postpreview {
-	padding: 5px;
-	margin-left: 2px;
+	padding: 9px;
+	padding-right: 0px;
+	/* margin-left: 2px; */
 	border-radius: 4px;
-	border: #bdb8b2 1px solid;
-	margin-left: 0.4em;
-	box-shadow: -4px 4px 5px rgba(50, 50, 50, 0.05);
+	/* border: #FFFFFF 1px solid; */
+	/* margin-left: 0.4em; */
+	box-shadow: 0px 0px 2px rgba(50, 50, 50, 0.22);
+	/* margin-right: -.1px; */
 }
 .postpreview {
 	text-align: center;
@@ -142,7 +180,8 @@ ul {
 	margin-left: auto;
 	box-shadow: -4px 4px 5px rgba(50, 50, 50, 0.1);
 	margin-right: auto;
-	width: 95%;
+	width: 80%;
+	min-width: 600px;
 	background-color: rgba(255, 255, 255, 0.82);
 }
 .floatonright {
@@ -157,12 +196,23 @@ ul {
 }
 h1,
 h2 {
-	background-color: rgba(117, 117, 117, 0.16);
-	color: #000000;
-	padding: 10px 20px;
-	border-radius: 5px;
+	background-color: rgba(225, 230, 239, 0.43);
+	color: #3B646B;
+	padding: 15px 16%;
+	border-radius: 2px;
+	text-align: center;
 	/* margin-left: -.2em; */
 	/* box-shadow: -4px 4px 5px rgba(50, 50, 50, 0.2); */
+}
+
+h2 {
+    font-size: 26px;
+    text-align: center;
+    /* color: aqua; */
+}
+
+h2 a {
+    color: #3B646B;
 }
 .tagspan {
 	background-color: #e2fff6;
@@ -187,7 +237,7 @@ ul#topic_path li::after {
 	content: "⇒";
 }
 ul#topic_path li a {
-	background-color: #dfffdb;
+	background-color: #ECF3EB;
 	color: #000000;
 	margin-top: -10px;
 	padding: 10px 20px;
@@ -223,7 +273,7 @@ ul#post_path li a:hover {
 	margin-top: 2em padding: 1em;
 }
 a {
-	color: #2773ff;
+	color: #3E302E;
 }
 a:hover {
 	color: #3783ff;
