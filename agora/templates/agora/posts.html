@@ -186,8 +186,6 @@
     {% else %}
         <p> post not found </p>
     {% endif %}
-        <script>
-    $('.svg').inlineSVG();</script>
     <script>
     function voteclick(event){
         var voteint = parseInt($(this)[0].id[4])
@@ -343,10 +341,10 @@
         $('a.add_concern_link').click(reply_link_click);
         $('a.add_benefit_link').click(reply_link_click);
         $('a.add_comment_link').click(reply_link_click);
-        function explode() {
-            console.log( "ready!" );
-            $('.svg').click(voteclick);
-        };
-        setTimeout(explode, 500);
+        $('.svg').inlineSVG({allAfter: function () {
+                console.log('All elements is replaced');
+                $('.svg').click(voteclick);
+            }
+        });
     </script>
 {% endblock %}
