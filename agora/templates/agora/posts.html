@@ -125,7 +125,7 @@
             <input type="submit" value="Vote"/> <span id="voterinfospan">
                     {% if user.is_authenticated %}
                         {% if user_vote %}
-                            your vote: {{ user_vote.value_percent }}%
+                            your vote: {{ user_vote.value_percent|floatformat }}%
                         {% else %}
                             Not yet Voted.
                         {% endif %}
