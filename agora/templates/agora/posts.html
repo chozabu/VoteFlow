@@ -49,7 +49,7 @@
             </a>
         </h2>
 
-        <div class="container-fluid">
+        <div class="container-fluid post-main">
         {% if post.subtype == "proposal" %}
     <div id="post_left" class="post_left col-md-4">
         <h2>Benefits</h2>
@@ -76,7 +76,10 @@
             </div>
         {% endif %}
 
-        <p class="authorinfo">{% include "agora/inc_user_micro.html" with user=post.author %} @ {{ post.created_at }}<br> {{ post.subtype }} <div style="clear: both;"></div> </p>
+
+        <div class="authorinfo">
+            {% include "agora/inc_user_micro.html" with user=post.author %} @ {{ post.created_at }}<br> {{ post.subtype }} <div style="clear: both;"></div>
+        </div>
         <h4><a href="/agora/posts/{{ post.id }}/sankey/">Representation Chart</a></h4>
 
         <button title="(average|sum|count)" type="button" class="btn btn-info" data-toggle="collapse"
