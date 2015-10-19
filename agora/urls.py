@@ -91,6 +91,7 @@ urlpatterns = [
     url(r'^posts/(?P<post_id>[0-9]+)/sankey/$', views.post_sankey, name='post_sankey'),
     # ex: /agora/topics/5/posts/5/quickvote/
     url(r'^posts/(?P<post_id>[0-9]+)/quickvote/$', views.vote_post_quick, name='quickvote'),
+    url(r'^posts/(?P<post_id>[0-9]+)/easyvote/$', views.vote_post_easy, name='easyvote'),
     # ex: /agora/topics/5/posts/5/quickvote/
     url(r'^posts/(?P<post_id>[0-9]+)/unvote/$', views.unvote_post_quick, name='quickunvote'),
     # ex: /agora/topics/5/posts/5/add_option/

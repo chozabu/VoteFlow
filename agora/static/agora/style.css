@@ -284,3 +284,69 @@ a:hover {
 	width: 32px;
 	float: left;
 }
+
+#post_middle{
+}
+
+.votepics {
+	    width:intrinsic; /* For Safari, see https://developer.mozilla.org/en-US/docs/CSS/width */
+    width:-moz-fit-content;
+    width:-webkit-fit-content;
+    width:fit-content;
+    margin:0 auto;
+    overflow:hidden; /* Contain the floated li elements */
+}
+.votepics svg {
+	width: 50px;
+	height: 50px;
+    -webkit-transition: width .2s; /* Safari */
+    transition: width .2s;
+}
+.votepics svg:hover {
+    -webkit-filter: drop-shadow( -0px -0px 5px #77F );
+            filter: drop-shadow( -0px -0px 5px #AAF ); /* Same syntax as box-shadow */
+
+}
+    .svgwrapper {
+	width: 50px;
+	height: 50px;
+        position: relative;
+        z-index: 100;
+    }
+
+
+#svgr1 * {
+
+	stroke: red !important;
+}
+#svgr2 * {
+
+	stroke: #DC154C !important;
+}
+#svgr3 * {
+
+	stroke: #B81ACC !important;
+}
+#svgr4 * {
+
+	stroke: #1319E0 !important;
+}
+#svgr5 * {
+
+	stroke: #328FC5 !important;
+}
+#svgr6 * {
+
+	stroke: green !important;
+}
+#svgr7 * {
+
+	stroke: #00D600 !important;
+}
+
+.voteslider{
+	width: 300px;
+	position:relative;
+	 height:20px;
+	 border:1px solid #cccccc;
+}

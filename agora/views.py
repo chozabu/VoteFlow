@@ -592,6 +592,26 @@ def vote_post_quick(request, post_id):
 		prnt.count_votes()
 	return HttpResponseRedirect("/agora/posts/"+str(post_id))
 
+def vote_post_easy(request, post_id):
+	# if this is a POST request we need to process the form data
+	if not request.user.is_authenticated():
+		print "noauth in quick post"
+		return HttpResponseRedirect("/agora/login")
+	if request.method == 'GET':
+		#covert (0 ... 100) to (-1 ... 1)
+		voteval = float(request.GET['voteslider'])*.02-1.
+		print "QUICKVOTE", voteval
+		vote=PostVote.objects.filter(parent=post_id, author=request.user).first()
+		prnt = Post.objects.get(id=post_id)
+		if vote:
+			vote.value = voteval
+			vote.save()
+		else:
+			newrep = PostVote(value=voteval, author=request.user, parent=prnt)
+			newrep.save()
+		prnt.count_votes()
+	return HttpResponseRedirect("/agora/posts/"+str(post_id))
+
 
 def unvote_post_quick(request, post_id):
 	# if this is a POST request we need to process the form data

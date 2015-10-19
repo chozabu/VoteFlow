@@ -20,6 +20,8 @@
     <script src="{% static 'agora/js/hallo-min.js' %}"></script>
     <script src="{% static 'agora/js/showdown.js' %}"></script>
     <script src="{% static 'agora/js/to-markdown.js' %}"></script>
+    <script src="{% static 'agora/js/inlinesvg.min.js' %}"></script>
+
 
 {% endblock %}
 
@@ -103,13 +105,24 @@
         <!--
         <a href="/agora/topics/{{ post.topic.id }}/posts/{{ post.id }}/vote/">vote!</a><br>
         -->
-        <form action="/agora/posts/{{ post.id }}/quickvote/" method="post">
+
+        <div class="votepics">
+            <img class="svgi1 svg" src="{% static 'agora/img/ratings/1.svg' %}" />
+            <img class="svg" src="{% static 'agora/img/ratings/2.svg' %}" />
+            <img class="svg" src="{% static 'agora/img/ratings/3.svg' %}" />
+            <img class="svg" src="{% static 'agora/img/ratings/4.svg' %}" />
+            <img class="svg" src="{% static 'agora/img/ratings/5.svg' %}" />
+            <img class="svg" src="{% static 'agora/img/ratings/6.svg' %}" />
+            <img class="svg" src="{% static 'agora/img/ratings/7.svg' %}" >
+                <form action="/agora/posts/{{ post.id }}/quickvote/" method="post">
             {% csrf_token %}
-            <input name="voteslider" value={{ user_vote.value_percent }} id="slider1" type="range" min="0" max="100"
-                   step="10" style="position:relative; width:300px; height:20px; border:1px solid #cccccc;"/>
+            <input class="voteslider" name="voteslider" value={{ user_vote.value_percent }} id="slider1" type="range" min="0" max="100"
+                   step="10" />
 
             <input type="submit" value="Vote"/>
         </form>
+        </div>
+
         {% if user_vote %}
             <form action="/agora/posts/{{ post.id }}/unvote/">
                 <input type="submit" value="Remove Vote"/>
@@ -173,7 +186,25 @@
     {% else %}
         <p> post not found </p>
     {% endif %}
+        <script>
+    $('.svg').inlineSVG();</script>
     <script>
+    function voteclick(event){
+        var voteint = parseInt($(this)[0].id[4])
+        console.log(voteint);
+        var perc = (voteint-1)/6.0*100.0;
+        console.log(perc);
+        var token = $("{% csrf_token %}");
+        console.log(token);
+        console.log(token[0]["value"]);
+        $.get( "/agora/posts/{{ post.id }}/easyvote/", {
+            "voteslider":perc,
+            "csrfmiddlewaretoken":token[0]["value"]
+            }, function( data ) {
+          //$( ":root" ).html( data );
+          location.reload();
+        });
+    }
         function reply_link_click() {
             console.log($(this)[0].id);
             console.log($(this));
@@ -312,5 +343,10 @@
         $('a.add_concern_link').click(reply_link_click);
         $('a.add_benefit_link').click(reply_link_click);
         $('a.add_comment_link').click(reply_link_click);
+        function explode() {
+            console.log( "ready!" );
+            $('.svg').click(voteclick);
+        };
+        setTimeout(explode, 500);
     </script>
 {% endblock %}

@@ -1,0 +1,30 @@
+
+#svgr1 * {
+
+	stroke: red !important;
+}
+#svgr2 * {
+
+	stroke: #DC154C !important;
+}
+#svgr3 * {
+
+	stroke: #B81ACC !important;
+}
+#svgr4 * {
+
+	stroke: #1319E0 !important;
+}
+#svgr5 * {
+
+	stroke: #328FC5 !important;
+}
+#svgr6 * {
+
+	stroke: green !important;
+}
+#svgr7 * {
+
+	stroke: #00D600 !important;
+}
+
