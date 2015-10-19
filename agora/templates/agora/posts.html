@@ -119,15 +119,25 @@
             <input class="voteslider" name="voteslider" value={{ user_vote.value_percent }} id="slider1" type="range" min="0" max="100"
                    step="10" />
 
-            <input type="submit" value="Vote"/>
+            <input type="submit" value="Vote"/> <span id="voterinfospan">
+                    {% if user.is_authenticated %}
+                        {% if user_vote %}
+                            your vote: {{ user_vote.value }}
+                        {% else %}
+                            Not yet Voted.
+                        {% endif %}
+                    {% else %}
+                        Login to vote!
+                    {% endif %}
+                    </span>
         </form>
-        </div>
-
         {% if user_vote %}
             <form action="/agora/posts/{{ post.id }}/unvote/">
                 <input type="submit" value="Remove Vote"/>
             </form>
         {% endif %}
+        </div>
+
         <br>
         <h4>Tags:</h4>
         <div id="tagcontainer">
