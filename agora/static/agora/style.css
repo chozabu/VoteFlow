@@ -348,5 +348,7 @@ a:hover {
 	width: 300px;
 	position:relative;
 	 height:20px;
-	 border:1px solid #cccccc;
+	/* border:1px solid #cccccc; */
+	width:90% !important;
+	margin: auto;
 }
