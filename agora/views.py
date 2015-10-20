@@ -53,7 +53,7 @@ def index(request):
 		},
 	]}'''
 	context = {
-		 'items':Post.objects.filter(parent=None).order_by('-liquid_heat')[:10],
+		 'items':Post.objects.filter(parent=None).exclude(tag__liquid_value__gte=-.1, tag__name="completed").order_by('-liquid_heat')[:10],
 		}
 	return render(request, 'agora/index.html', context)
 
