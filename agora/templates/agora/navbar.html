@@ -43,8 +43,10 @@
         <button type="submit" class="btn btn-default">Go</button>
       </form>
       <ul class="nav navbar-nav navbar-right">
-        <li ><a href="/agora/notifications/">Notifications</a></li>
-          {% include "agora/inc_user_li.html" with  post=child_post %}
+        {% if user.is_authenticated %}
+        <li ><a href="/agora/notifications/"><span class="notifications-number" >({{ user.notifications.all|length }})</span> Notifications</a></li>
+        {% endif %}
+        {% include "agora/inc_user_li.html" with  post=child_post %}
       </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
