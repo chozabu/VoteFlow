@@ -25,6 +25,12 @@ class UserExtra(models.Model):
 			return self.photo.url
 		else:
 			return '/static/agora/img/default_profile_pic.png'
+	@property
+	def unseen_notifications(self):
+		return self.user.notifications.filter(seen=False)
+	@property
+	def seen_notifications(self):
+		return self.user.notifications.filter(seen=True)
 
 
 @receiver(post_save, sender=User)

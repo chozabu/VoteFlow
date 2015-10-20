@@ -44,7 +44,7 @@
       </form>
       <ul class="nav navbar-nav navbar-right">
         {% if user.is_authenticated %}
-        <li ><a href="/agora/notifications/"><span class="notifications-number" >({{ user.notifications.all|length }})</span> Notifications</a></li>
+        <li ><a href="/agora/notifications/"><span class="notifications-number" >({{ user.userextra.unseen_notifications|length }})</span> Notifications</a></li>
         {% endif %}
         {% include "agora/inc_user_li.html" with  post=child_post %}
       </ul>
