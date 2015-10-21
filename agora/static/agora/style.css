@@ -383,3 +383,7 @@ a:hover {
 .authorinfo {
 	display:inline-block;
 }
+
+.popover{
+    max-width: 100%; /* Max Width of the popover (depending on the container!) */
+}
