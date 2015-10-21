@@ -25,9 +25,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.7"
-     inkscape:cx="130.60828"
-     inkscape:cy="-8.1308338"
+     inkscape:zoom="7.9195959"
+     inkscape:cx="-1.2736547"
+     inkscape:cy="17.69176"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -62,24 +62,25 @@
     <g
        id="g5917"
        inkscape:label="svgl1"
-       transform="matrix(0.06985463,0,0,0.07062705,330.86598,649.43729)">
+       transform="matrix(0.06878716,0,0,0.06974428,331.11943,649.99103)"
+       style="stroke:#cd0000;stroke-opacity:1">
       <ellipse
          ry="322.98737"
          rx="326.55881"
          cy="698.79083"
          cx="355.71426"
          id="path4690"
-         style="opacity:1;fill:none;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:62.31098175;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:39.94890976;stroke-opacity:1" />
+         style="opacity:1;fill:none;fill-opacity:1;fill-rule:nonzero;stroke:#cd0000;stroke-width:62.31098175;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:39.94890976;stroke-opacity:1" />
       <path
          inkscape:connector-curvature="0"
          id="path4139"
          d="M 162.01667,883.45379 537.52432,512.05289"
-         style="opacity:1;fill:none;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:31.15549088;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:39.94890976;stroke-opacity:1" />
+         style="opacity:1;fill:none;fill-opacity:1;fill-rule:nonzero;stroke:#cd0000;stroke-width:31.15549088;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:39.94890976;stroke-opacity:1" />
       <path
          inkscape:connector-curvature="0"
          id="path4137"
          d="M 164.81374,512.74452 535.42651,879.30405"
-         style="opacity:1;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:31.15549088;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:39.94890976;stroke-opacity:1" />
+         style="opacity:1;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:#cd0000;stroke-width:31.15549088;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:39.94890976;stroke-opacity:1" />
     </g>
   </g>
 </svg>

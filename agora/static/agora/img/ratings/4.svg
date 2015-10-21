@@ -25,9 +25,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.7"
-     inkscape:cx="-593.39145"
-     inkscape:cy="-7.903379"
+     inkscape:zoom="5.6"
+     inkscape:cx="-57.684767"
+     inkscape:cy="2.0447126"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -48,7 +48,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -57,29 +57,30 @@
      inkscape:groupmode="layer"
      id="layer1"
      transform="translate(-330,-673.07654)">
-    <circle
-       style="opacity:1;fill:none;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:4.37670946;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:39.94890976;stroke-opacity:1"
+    <ellipse
+       style="opacity:1;fill:none;fill-opacity:1;fill-rule:nonzero;stroke:#1319e0;stroke-width:4.29073048;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:39.94890976;stroke-opacity:1"
        id="path4690"
        cx="355"
-       cy="698.07654"
-       r="22.811646" />
+       cy="697.98724"
+       rx="22.318922"
+       ry="22.408207" />
     <ellipse
-       style="opacity:1;fill:none;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:4.37670946;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:39.94890976;stroke-opacity:1"
+       style="opacity:1;fill:none;fill-opacity:1;fill-rule:nonzero;stroke:#1319e0;stroke-width:4.29073048;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:39.94890976;stroke-opacity:1"
        id="path4692"
-       cx="348.55219"
-       cy="693.82684"
-       rx="2.1981242"
-       ry="2.2469714" />
+       cx="348.69147"
+       cy="693.81268"
+       rx="2.1506455"
+       ry="2.207232" />
     <ellipse
-       style="opacity:1;fill:none;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:4.37670946;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:39.94890976;stroke-opacity:1"
+       style="opacity:1;fill:none;fill-opacity:1;fill-rule:nonzero;stroke:#1319e0;stroke-width:4.29073048;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:39.94890976;stroke-opacity:1"
        id="path4692-1"
-       cx="367.74911"
-       cy="693.82684"
-       rx="2.1981242"
-       ry="2.2469714" />
+       cx="367.47375"
+       cy="693.81268"
+       rx="2.1506455"
+       ry="2.207232" />
     <path
-       style="opacity:1;fill:none;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:4.37670946;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:39.94890976;stroke-opacity:1"
-       d="m 340.29699,705.35477 c 13.48183,0.48847 19.53888,0.58617 29.89449,0.58617"
+       style="opacity:1;fill:none;fill-opacity:1;fill-rule:nonzero;stroke:#1319e0;stroke-width:4.29073048;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:39.94890976;stroke-opacity:1"
+       d="m 340.61457,705.13676 c 13.19063,0.47984 19.11685,0.57581 29.24878,0.57581"
        id="path4711"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cc" />
