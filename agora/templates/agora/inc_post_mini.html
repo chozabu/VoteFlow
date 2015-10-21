@@ -21,6 +21,8 @@
             ({{ post.liquid_value_percent|floatformat }}% | {{ post.liquid_sum|floatformat }} | {{ post.liquid_vote_count }})
             {% include "agora/inc_stars.html" with percent=post.liquid_value_percent %}
         </button>
+        <span id="votelink" data-postid="{{ post.id }}">
+                <a class="quickvotelink">Vote</a></span>
 
         <div id="{{ post.id }}-post-info" class="collapse">
 

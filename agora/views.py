@@ -145,6 +145,9 @@ def db_query(request):
 	if rtype=="html":
 		print "returning html", len(objs)
 		context = {table:objs, "total_num":o_count, "got_num":r_count, "start_at":startat}
+		if sortby:
+			if sortby[0]=="-":sortby=sortby[1:]#TODO allow reverse sorting in API!!
+			context['sort_method']=sortby
 		return render(request, 'agora/' + r_get.get("template") + '.html', context)
 
 	retr = []

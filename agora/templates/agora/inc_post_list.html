@@ -1,6 +1,7 @@
 <!--postfilter
 {"parent":null }
 -->
+    {% load staticfiles %}
 <div id="{{ divid }}" class="postlistintopics" data-table="Post" data-rtype="html"
 		data-sortby="-liquid_sum" data-startat="0" data-template="api_post_list"
 		data-filter='{{ postfilter }}'>
@@ -15,17 +16,23 @@
 	<option value="-direct_value">Direct Rating</option>
 	<option value="-direct_sum">Direct Top</option>
 </select>
+	{% if not hidecompleted %}
 	<button id="completed_toggle" type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false"
 			autocomplete="off">
 		Completed
 	</button>
+	{% endif %}
 	<button id="gobutton" type="button" class="btn btn-info">
 		Go
 	</button>
 	<ul id="topicslist" class="miniul">
 	{% if items %}
 		{% for child_post in items %}
-			<li>{% include "agora/inc_post_mini.html" with  post=child_post %}</li>
+			{% if recur_posts %}
+				<li>{% include "agora/inc_post_mini_recur.html" with  post=child_post %}</li>
+			{% else %}
+				<li>{% include "agora/inc_post_mini.html" with  post=child_post %}</li>
+			{% endif %}
 		{% endfor %}
 	{% endif %}
 	</ul>
@@ -35,8 +42,73 @@
 	<button id="nextbutton" type="button" class="btn btn-info">
 		Next
 	</button>
+          <div id="popoverVoteContent" style="display: none">
+			  <div class="votepics">
+            <img onclick="dovote(this)" class="notsvg" src="{% static 'agora/img/ratings/1.svg' %}" />
+            <img onclick="dovote(this)" class="notsvg" src="{% static 'agora/img/ratings/2.svg' %}" />
+            <img onclick="dovote(this)" class="notsvg" src="{% static 'agora/img/ratings/3.svg' %}" />
+            <img onclick="dovote(this)" class="notsvg" src="{% static 'agora/img/ratings/4.svg' %}" />
+            <img onclick="dovote(this)" class="notsvg" src="{% static 'agora/img/ratings/5.svg' %}" />
+            <img onclick="dovote(this)" class="notsvg" src="{% static 'agora/img/ratings/6.svg' %}" />
+            <img onclick="dovote(this)" class="notsvg" src="{% static 'agora/img/ratings/7.svg' %}" >
+				</div>
+              <div> <span class="customvotecontent"></span></div>
 </div>
 
+              <script>
+              function dovote(item){
+              console.log("-------");
+              console.log(item);
+        var voteint = parseInt(item.src.split("/").pop().split(".")[0])
+        console.log(voteint);
+        var perc = (voteint-1)/6.0*100.0;
+        console.log(perc);
+
+        var pid = parseInt(item.parentNode.getAttribute("postid"));
+        console.log(pid);
+
+        //var token = $("{% csrf_token %}");
+        //console.log(token);
+        //console.log(token[0]["value"]);
+        $.get( "/agora/posts/"+pid+"/easyvote/", {
+            "voteslider":perc//,
+            //"csrfmiddlewaretoken":token[0]["value"]
+            }, function( data ) {
+          //$( ":root" ).html( data );
+          location.reload();
+        });
+              }
+    console.log($(".quickvotelink"));
+    function setup_vote_popovers(){
+		$(".quickvotelink").popover({
+			html : true,
+			content: function() {
+			  var a = $('#popoverVoteContent')[0];
+				console.log(a);
+				//b = a.getElementsByClassName("customvotecontent")[0];
+				//c = a.parent
+				//get title and id of post here
+				//b.textContent = $(this).text()
+				//console.log($(this).text());
+				//setTimeout(
+				var votepicsdiv = a.getElementsByClassName("votepics")[0];
+				console.log($(this));
+				var postid = $(this)[0].parentElement.dataset['postid']
+				votepicsdiv.setAttribute("postid", postid)
+			  return $('#popoverVoteContent').html();
+			},
+
+			title: function() {
+			var a = $(this)[0];
+			console.log(a);
+			b=a.parentElement.parentElement.parentElement.getElementsByClassName("postminititle")[0]
+			  return "Vote on: "+b.textContent;
+			}
+		});
+	};
+	setup_vote_popovers();
+
+              </script>
 <script>
 	//#/agora/basic_api/?table=Post&template=api_post_list&rtype=html&sortby=-liquid_sum&startat=39
 
@@ -47,10 +119,19 @@
 		datain['table'] = pbox.data('table');
 		console.log(pbox);
 		datain['sortby'] = pbox.find("#sortbox")[0].value;
+		console.log("---sortby---");
+		console.log(datain['sortby']);
 		datain['startat'] = pbox.data('startat');
 		datain['rtype'] = pbox.data('rtype');
-		datain['template'] = pbox.data('template');
+		console.log("--data-template---");
+		console.log("{{ datatemplate }}");
+		{% if datatemplate %}
+			datain['template'] = "{{ datatemplate }}";
+		{% else %}
+			datain['template'] = pbox.data('template');
+		{% endif %}
 		var filter = [pbox.data('filter')];
+	{% if not hidecompleted %}
 		cbox = pbox.find("#completed_toggle")[0]
 		console.log(cbox)
 		//filter={};
@@ -70,6 +151,18 @@
 			console.log("EXCLUDE");
 			console.log(exclude)
 		}
+	{% endif %}
+	{% if filtertopic %}
+			tfil = {}
+			tfil['topic'] = {{ filtertopic.id }};
+			filter.push(tfil)
+	{% endif %}
+	{% if parentpost %}
+			pfil = {}
+			pfil['parent'] = "{{ parentpost.id }}";
+			filter.push(pfil)
+	{% endif %}
+
 		console.log("FILTER");
 		console.log(filter);
 
@@ -83,6 +176,8 @@
 				if (result.length > 200) {
 					console.log($(this))
 					$(this).find("#topicslist").html(result);
+					setup_vote_popovers();
+                	$('.notsvg').click(pvoteclick);
 				} else {
 					$(this).find("#topicslist").html(result);
 					console.log("RESULT TOO SMALL - empty")

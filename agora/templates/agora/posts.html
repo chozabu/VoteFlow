@@ -184,23 +184,15 @@
                 <button id="prevbutton" type="button" class="btn btn-info">Reply to Post
             </button></a>
         </div>
-        <!--<a href="/agora/topics/{{ current_topic.id }}/newpost/{{ post.id }}">Reply to Post</a>-->
-        <p>sort method: {{ sort_method }} (
-            <a href="/agora/posts/{{ post.parent.id }}/sort/liquid_value/">liquid_value</a>
-            <a href="/agora/posts/{{ post.parent.id }}/sort/direct_value/">direct_value</a>
-            <a href="/agora/posts/{{ post.parent.id }}/sort/created_at/">created_at</a>
-            )</p>
-        <ul class="miniul">
-            {% for child_post in post.get_comments|dictsortreversed:sort_method %}
-                <li>{% include "agora/inc_post_mini_recur.html" with  post=child_post %}</li>
-            {% endfor %}
-        </ul>
+
+
+    {% include 'agora/inc_post_list.html' with divid='mainpostlist' hidecompleted=1 parentpost=post datatemplate="api_post_list_recur" %}
 
     {% else %}
         <p> post not found </p>
     {% endif %}
     <script>
-    function voteclick(event){
+    function pvoteclick(event){
         var voteint = parseInt($(this)[0].id[4])
         console.log(voteint);
         var perc = (voteint-1)/6.0*100.0;
@@ -356,7 +348,7 @@
         $('a.add_comment_link').click(reply_link_click);
         $('.svg').inlineSVG({allAfter: function () {
                 console.log('All elements is replaced');
-                $('.svg').click(voteclick);
+                $('.svg').click(pvoteclick);
             }
         });
     </script>
