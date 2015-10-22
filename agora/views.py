@@ -344,10 +344,10 @@ def group(request, group_id, sort_method="liquid_value"):
 
 def fancy_group(request, group_id=None):
 	group_id = request.GET.get('group_id', group_id)
-	group = Group.objects.get(pk=group_id)
+	group = Group.objects.filter(pk=group_id)
 	context = {}
 	if group:
-		context['group'] = group
+		context['group'] = group[0]
 	return render(request, 'agora/fancy_group.html', context)#, "replies":replies})
 
 def group_quick(request,group_id=None):
