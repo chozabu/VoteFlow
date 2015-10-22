@@ -61,7 +61,7 @@ class DGroup(models.Model):
 		return list
 	def full_path(self):
 		list = []
-		cur_top = self.group
+		cur_top = self
 		print "---"
 		while cur_top:
 			print cur_top
