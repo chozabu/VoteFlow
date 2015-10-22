@@ -15,8 +15,8 @@
     <span>{{ group.subscription_set.all|length }} members</span>
 </div>
 <br><span> author: <a href="/agora/user/{{ group.author.pk }}/">
-    {{ group.groupextra.author.username }} </a> @ {{ group.groupextra.created_at }}</span>
-<br> <span>type: {{ group.groupextra.subtype }}</span>
+    {{ group.author.username }} </a> @ {{ group.created_at }}</span>
+<br> <span>type: {{ group.subtype }}</span>
 <br> <span>sub-groups: {{ group.group_set.all|length }} Posts {{ group.post_set.all|length }} </span>
 <br>
         <h3>Sub Groups</h3>

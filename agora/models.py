@@ -1,6 +1,6 @@
 import datetime
 from django.db import models
-from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import User
 from django.utils import timezone
 from django.db.models.functions import Length
 
@@ -38,10 +38,12 @@ def create_user_extra(sender, instance, created, **kwargs):
 	if created:
 		UserExtra.objects.create(user=instance)
 
-class GroupExtra(models.Model):
-	group = models.OneToOneField(Group)
+
+class DGroup(models.Model):
+	name = models.CharField(max_length=80)
+	#desc
 	author = models.ForeignKey(User, null=True, blank=True)
-	parent = models.ForeignKey(Group, null=True, blank=True, related_name='children')
+	parent = models.ForeignKey("DGroup", null=True, blank=True, related_name='children')
 	subtype = models.CharField(max_length=20, default="public")
 	created_at = models.DateField(auto_now_add=True)
 	modified_at = models.DateField(auto_now=True)
@@ -52,8 +54,8 @@ class GroupExtra(models.Model):
 		print "top:",cur_top
 		while cur_top:
 			list.append(cur_top)
-			if cur_top.groupextra.parent:
-				cur_top=cur_top.groupextra.parent
+			if cur_top.parent:
+				cur_top=cur_top.parent
 			else:cur_top=None
 		list.reverse()
 		return list
@@ -64,18 +66,37 @@ class GroupExtra(models.Model):
 		while cur_top:
 			print cur_top
 			list.append(cur_top)
-			if cur_top.groupextra.parent:
-				cur_top=cur_top.groupextra.parent
+			if cur_top.parent:
+				cur_top=cur_top.parent
 			else:cur_top=None
 		print "==="
 		list.reverse()
 		return list
 
 
-@receiver(post_save, sender=Group)
+'''@receiver(post_save, sender=Group)
 def create_group_extra(sender, instance, created, **kwargs):
 	if created:
-		GroupExtra.objects.create(group=instance)
+		GroupExtra.objects.create(group=instance)'''
+
+
+class GroupPermissionReq(models.Model):
+	group = models.ForeignKey(DGroup)
+	author = models.ForeignKey(User)
+	created_at = models.DateField(auto_now_add=True)
+	modified_at = models.DateField(auto_now=True)
+	level = models.FloatField(default=1)
+class GroupMembership(models.Model):
+	group = models.ForeignKey(DGroup)
+	author = models.ForeignKey(User)
+	created_at = models.DateField(auto_now_add=True)
+	modified_at = models.DateField(auto_now=True)
+	level = models.FloatField(default=1)
+class GroupApplication(models.Model):
+	group = models.ForeignKey(DGroup)
+	author = models.ForeignKey(User)
+	created_at = models.DateField(auto_now_add=True)
+	modified_at = models.DateField(auto_now=True)
 
 class Notification(models.Model):
 	name = models.CharField(max_length=200, null=True, blank=True)
@@ -273,7 +294,7 @@ class Post(Voteable):
 	author = models.ForeignKey(User)
 	subtype = models.CharField(max_length=20, default="comment")
 	text = models.TextField(default="")
-	group = models.ForeignKey(Group, null = True, blank=True)
+	group = models.ForeignKey(DGroup, null = True, blank=True)
 	@property
 	def path(self):
 		list = []

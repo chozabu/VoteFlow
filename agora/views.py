@@ -13,8 +13,8 @@ from social.apps.django_app.default.models import UserSocialAuth
 from .forms import TopicForm, PostForm, RepForm, PostVoteForm, TagForm, TagVoteForm
 
 
-from django.contrib.auth.models import User, Group
-from .models import Notification, Topic, Post, Tag, GroupExtra, \
+from django.contrib.auth.models import User
+from .models import Notification, Topic, Post, Tag, DGroup, \
 	Representation, PostVote, TagVote, Subscription, UserRepCache
 
 import json
@@ -329,14 +329,14 @@ def topics(request, topic_id=None, sort_method="liquid_value"):
 	return render(request, 'agora/topics.html', context)
 
 def groups(request):
-	group_list = Group.objects.filter(groupextra__parent=None)
+	group_list = DGroup.objects.filter(parent=None)
 	context = {'group_list': group_list}
 	return render(request, 'agora/all_groups.html', context)
 
 def group(request, group_id, sort_method="liquid_value"):
-	group = get_object_or_404(Group, pk=group_id)
+	group = get_object_or_404(DGroup, pk=group_id)
 	context = {'group': group, "sort_method":sort_method}
-	context['group_list'] = Group.objects.filter(groupextra__parent=group)
+	context['group_list'] = DGroup.objects.filter(parent=group)
 	context['post_list'] = Post.objects.filter(parent=None, group=group).exclude(tag__liquid_value__gte=-.1, tag__name="completed")[0:10]
 	print context
 	return render(request, 'agora/group.html', context)
@@ -344,7 +344,7 @@ def group(request, group_id, sort_method="liquid_value"):
 
 def fancy_group(request, group_id=None):
 	group_id = request.GET.get('group_id', group_id)
-	group = Group.objects.filter(pk=group_id)
+	group = DGroup.objects.filter(pk=group_id)
 	context = {}
 	if group:
 		context['group'] = group[0]
@@ -359,14 +359,11 @@ def group_quick(request,group_id=None):
 		ptext = request.POST['text']
 		#btext = request.POST.get('body_text', '')
 		print "fancy_group", ptext
-		newgroup = Group(name=ptext)
-		newgroup.save()
-		gextra = newgroup.groupextra
-		gextra.author=request.user
+		newgroup = DGroup(name=ptext, author=request.user)
 		parent_id=request.POST.get("group_id", None)
 		if parent_id:#could validate this..
-			gextra.parent_id = parent_id
-		gextra.save()
+			newgroup.parent_id = parent_id
+		newgroup.save()
 		if group_id==None:
 			group_id=newgroup.id
 		return HttpResponseRedirect('/agora/groups/'+str(group_id))
@@ -441,7 +438,7 @@ def fancy_post(request):
 		context['current_topic'] = topic
 		print topic
 	if group_id:
-		group = Group.objects.get(pk=group_id)
+		group = DGroup.objects.get(pk=group_id)
 		context['group'] = group
 
 	return render(request, 'agora/fancy_post.html', context)#, "replies":replies})
