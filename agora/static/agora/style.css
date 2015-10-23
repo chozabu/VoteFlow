@@ -53,7 +53,7 @@ h1 span {
 	display:inline-block;
 	text-align: left;
 }
-.topicminititle {
+.topicminititle, .groupminititle {
 	font-size: 150%;
 	background-color: rgba(222, 226, 234, 0.48);
 	display: inline-block;

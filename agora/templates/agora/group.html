@@ -7,14 +7,13 @@
 
 {% block body_block %}
         {% include "agora/grouppath/pathto_ul.html" %}
-<div class="groupminititle">
-<h1>
+<div class="group_top_part">
+<h2>
     <a href="/agora/groups/{{ group.id }}/">
         {{ group.name }}
-    </a></h1>
+    </a></h2>
     {% if membership %}
         You are a member of this group. Your level is: {{ membership.level }}
-    <a>Leave Group?</a>
             <button type="button" class="btn btn-info" data-toggle="collapse"
                 data-target="#lg-colap">
             Leave Group.

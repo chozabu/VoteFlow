@@ -6,7 +6,7 @@
 
 
 {% block body_block %}
-    <h3>Groups</h3>
+    <h2>Groups</h2>
     {% if group_list %}
         <ul class="miniul">
             {% for group in group_list %}
@@ -16,7 +16,7 @@
             {% endfor %}
         </ul>
     {% else %}
-        <p>No sub-groups found...</p>
+        <p>No groups found...</p>
     {% endif %}
 
     <a href="/agora/groups/new/">New Group</a>
