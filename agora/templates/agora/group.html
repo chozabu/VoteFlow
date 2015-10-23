@@ -12,7 +12,28 @@
     <a href="/agora/groups/{{ group.id }}/">
         {{ group.name }}
     </a></h1>
-    <span><a href="members/">{{ group.memberships.all|length }} Members</a></span><br>
+    {% if membership %}
+        You are a member of this group. Your level is: {{ membership.level }}
+    <a>Leave Group?</a>
+            <button type="button" class="btn btn-info" data-toggle="collapse"
+                data-target="#lg-colap">
+            Leave Group.
+        </button>
+        <a href="join_group/">
+        <div id="lg-colap" class="collapse">
+            <button type="button" class="btn btn-info aquitgroupbutton">Confirm. I really want to leave the group.</button>
+        </div>
+            </a>
+    {% else %}
+        {% if pending_membership %}
+            You have requested to join this group. <a href="join_group/">Cancel</a>
+        {% else %}
+            You are not a member of this group. <a href="join_group/">Join Group</a>
+        {% endif %}
+    {% endif %}
+    <br>
+    <span><a href="members/">{{ group.memberships.all|length }} Members</a> <a href="pending_members/">({{ group.applications.all|length }} Pending)</a></span><br>
+
     <span><a href="rules/">{{ group.permission_reqs.all|length }} Rules</a></span><br>
 </div>
 <br><span> author: <a href="/agora/user/{{ group.author.pk }}/">
@@ -80,5 +101,26 @@
         </button>
     </div>
     <div style="clear: both;"></div>
+
+
+    <script>
+    function quickgroupclick(event){
+        var voteint = parseInt($(this)[0].id[4])
+        console.log(voteint);
+        var perc = (voteint-1)/6.0*100.0;
+        console.log(perc);
+        var token = $("{% csrf_token %}");
+        console.log(token);
+        console.log(token[0]["value"]);
+        $.get( "/agora/posts/{{ post.id }}/easyvote/", {
+            "voteslider":perc,
+            "csrfmiddlewaretoken":token[0]["value"]
+            }, function( data ) {
+          //$( ":root" ).html( data );
+          location.reload();
+        });
+    }
+        $('.quitgroupbutton').click(quickgroupclick);
+    </script>
 
 {% endblock %}

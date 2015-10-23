@@ -1,0 +1,17 @@
+{% extends 'agora/base_template.html' %}
+
+{% block title %}
+    {{ group.name }} Members
+{% endblock %}
+
+
+{% block body_block %}
+
+        {% include "agora/grouppath/pathto_ul.html" %}
+<h1>
+    <a href="/agora/groups/{{ group.id }}/">
+        {{ group.name }}
+    </a> Pending Members</h1>
+    {% include 'agora/groups/api_pending_members_list.html' with User=group.pending_members %}
+
+{% endblock %}

@@ -75,9 +75,13 @@ class DGroup(models.Model):
 	@property
 	def members(self):
 		return User.objects.filter(group_memberships__group=self)
+	@property
+	def pending_members(self):
+		return User.objects.filter(group_applications__group=self)
 	def user_has_permission(self, user, permission):
+		own_membership = GroupMembership.objects.filter(group=self, author=user).first()
+		if not own_membership: return False
 		rule_check = GroupPermissionReq.objects.get(group=self, name=permission)
-		own_membership = GroupMembership.objects.get(group=self, author=user)
 		return own_membership.level >= rule_check.level
 
 

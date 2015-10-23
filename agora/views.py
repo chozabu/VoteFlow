@@ -337,6 +337,14 @@ def groups(request):
 def group(request, group_id, sort_method="liquid_value"):
 	group = get_object_or_404(DGroup, pk=group_id)
 	context = {'group': group, "sort_method":sort_method}
+	membership=None
+	if request.user.is_authenticated():
+		pending_membership = GroupApplication.objects.filter(group=group, author=request.user).first()
+		membership = GroupMembership.objects.filter(group=group, author=request.user).first()
+	if membership:
+		context['membership']=membership
+	if pending_membership:
+		context['pending_membership']=pending_membership
 	context['group_list'] = DGroup.objects.filter(parent=group)
 	context['post_list'] = Post.objects.filter(parent=None, group=group).exclude(tag__liquid_value__gte=-.1, tag__name="completed")[0:10]
 	print context
@@ -356,6 +364,28 @@ def group_members(request, group_id):
 	group = DGroup.objects.get(pk=group_id)
 	context = {'group':group}
 	return render(request, 'agora/groups/members_list.html', context)#, "replies":replies})
+
+def group_pending_member_answer(request, group_id, user_id, rtype):
+	if not request.user.is_authenticated():
+		print "noauth in approve pending group member"
+		return HttpResponseRedirect("/agora/login")
+	group = DGroup.objects.get(pk=group_id)
+	if not group.user_has_permission(request.user, "approve_application"):
+		return HttpResponse("Access denied. You need to be higher level to approve applications.")
+	application = GroupApplication.objects.get(group=group, author_id=user_id)
+	if int(rtype)==1:
+		membership = GroupMembership(group=group, author=application.author)
+		membership.save()
+		print membership
+	GroupApplication.objects.get(group=group, author_id=user_id).delete()
+	context = {'group':group}
+	return HttpResponseRedirect('/agora/groups/'+str(group_id)+'/pending_members/')
+
+def group_pending_members(request, group_id):
+	#group_id = request.GET.get('group_id', group_id)
+	group = DGroup.objects.get(pk=group_id)
+	context = {'group':group}
+	return render(request, 'agora/groups/pending_members_list.html', context)#, "replies":replies})
 
 def group_rules(request, group_id):
 	#group_id = request.GET.get('group_id', group_id)
@@ -382,6 +412,22 @@ def group_rules_quick(request,group_id):
 		rule.level=rule_level
 		rule.save()
 	return HttpResponseRedirect('/agora/groups/'+str(group_id)+'/rules/')
+
+def join_group(request, group_id):
+	if not request.user.is_authenticated():
+		return HttpResponseRedirect("/agora/login")
+	membership = GroupMembership.objects.filter(group_id=group_id, author=request.user).first()
+	application = GroupApplication.objects.filter(group_id=group_id, author=request.user).first()
+	if membership or application:
+		GroupMembership.objects.filter(group_id=group_id, author=request.user).delete()
+		GroupApplication.objects.filter(group_id=group_id, author=request.user).delete()
+	else:
+		application = GroupApplication(group_id=group_id, author=request.user)
+		application.save()
+		#TODO send notifications to members who can approve
+	return HttpResponseRedirect('/agora/groups/'+str(group_id)+"/")
+
+
 def group_quick(request,group_id=None):
 	# if this is a POST request we need to process the form data
 	if not request.user.is_authenticated():
@@ -396,7 +442,9 @@ def group_quick(request,group_id=None):
 			parent_id = int(parent_id)
 			parent_group = DGroup.objects.get(id=parent_id)
 			rule_check = GroupPermissionReq.objects.get(group=parent_group, name="add_subgroup")
-			own_membership = GroupMembership.objects.get(group=parent_group, author=request.user)
+			own_membership = GroupMembership.objects.filter(group=parent_group, author=request.user).first()
+			if not own_membership:
+				return HttpResponse("Access denied. You need to join the group.")
 			if own_membership.level < rule_check.level:
 				return HttpResponse("Access denied. You need to be at least level" + str(rule_check.level) + " but you are level" + str(own_membership.level))
 
@@ -592,7 +640,9 @@ def post_quick(request, post_id=None, reply_type="comment"):
 		if group_id != None:
 			parent_group = DGroup.objects.get(id=group_id)
 			rule_check = GroupPermissionReq.objects.get(group=parent_group, name="add_post")
-			own_membership = GroupMembership.objects.get(group=parent_group, author=request.user)
+			own_membership = GroupMembership.objects.filter(group=parent_group, author=request.user).first()
+			if not own_membership:
+				return HttpResponse("Access denied. You need to join the group.")
 			if own_membership.level < rule_check.level:
 				return HttpResponse("Access denied. You need to be at least level" + str(rule_check.level) + " but you are level" + str(own_membership.level))
 

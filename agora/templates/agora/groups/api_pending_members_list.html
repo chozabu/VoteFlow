@@ -1,0 +1,10 @@
+<ul class="miniul">
+    {% for user in User %}
+        <li>
+            <a href="/agora/user/{{ user.id }}/"><img class="userimage" src="{{ user.userextra.image_url }}" />{{ user.username }}</a>
+        <br>
+        <a href="{{ user.id }}/1/" >approve</a> / <a href="{{ user.id }}/0/" >refuse</a>
+            <div style="clear: both;"></div>
+        </li>
+    {% endfor %}
+</ul>
