@@ -271,11 +271,12 @@ class Voteable(models.Model):
 		liquid_sum=0
 		liquid_heat=0
 		liquid_v_count = 0
-		for v in votes:
-			lv=self.topic.getRepVotes(v.author, voted, notify=v)
-			liquid_v_count+=lv
-			liquid_sum += lv*v.value
-			liquid_heat += (lv*v.value)/((nowtime-v.created_at).days*0.1+1.)
+		if self.topic:
+			for v in votes:
+				lv=self.topic.getRepVotes(v.author, voted, notify=v)
+				liquid_v_count+=lv
+				liquid_sum += lv*v.value
+				liquid_heat += (lv*v.value)/((nowtime-v.created_at).days*0.1+1.)
 		if liquid_v_count<=0:
 			self.liquid_value = self.direct_value
 			self.liquid_vote_count = int(votelen)
