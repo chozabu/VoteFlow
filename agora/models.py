@@ -72,6 +72,13 @@ class DGroup(models.Model):
 		print "==="
 		list.reverse()
 		return list
+	@property
+	def members(self):
+		return User.objects.filter(group_memberships__group=self)
+	def user_has_permission(self, user, permission):
+		rule_check = GroupPermissionReq.objects.get(group=self, name=permission)
+		own_membership = GroupMembership.objects.get(group=self, author=user)
+		return own_membership.level >= rule_check.level
 
 
 '''@receiver(post_save, sender=Group)
@@ -81,22 +88,29 @@ def create_group_extra(sender, instance, created, **kwargs):
 
 
 class GroupPermissionReq(models.Model):
-	group = models.ForeignKey(DGroup)
+	name = models.CharField(max_length=200)
+	group = models.ForeignKey(DGroup, related_name='permission_reqs')
 	author = models.ForeignKey(User)
 	created_at = models.DateField(auto_now_add=True)
 	modified_at = models.DateField(auto_now=True)
 	level = models.FloatField(default=1)
+	def __unicode__(self):
+		return str(self.name) + "(+"+str(self.level)+")"
 class GroupMembership(models.Model):
-	group = models.ForeignKey(DGroup)
-	author = models.ForeignKey(User)
+	group = models.ForeignKey(DGroup, related_name='memberships')
+	author = models.ForeignKey(User, related_name='group_memberships')
 	created_at = models.DateField(auto_now_add=True)
 	modified_at = models.DateField(auto_now=True)
 	level = models.FloatField(default=1)
+	def __unicode__(self):
+		return str(self.author) + "(+"+str(self.level)+")@"+self.group.name
 class GroupApplication(models.Model):
-	group = models.ForeignKey(DGroup)
-	author = models.ForeignKey(User)
+	group = models.ForeignKey(DGroup, related_name='applications')
+	author = models.ForeignKey(User, related_name='group_applications')
 	created_at = models.DateField(auto_now_add=True)
 	modified_at = models.DateField(auto_now=True)
+	def __unicode__(self):
+		return str(self.author) +"@"+self.group.name
 
 class Notification(models.Model):
 	name = models.CharField(max_length=200, null=True, blank=True)

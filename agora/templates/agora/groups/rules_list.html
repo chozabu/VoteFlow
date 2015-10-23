@@ -1,0 +1,33 @@
+{% extends 'agora/base_template.html' %}
+
+{% block title %}
+{{ group.name }} Members
+{% endblock %}
+
+
+{% block body_block %}
+
+{% include "agora/grouppath/pathto_ul.html" %}
+<h1>
+    <a href="/agora/groups/{{ group.id }}/">
+        {{ group.name }}
+    </a> Rules</h1>
+
+
+{% for rule in group.permission_reqs.all %}
+{{ rule.name }} requires level {{ rule.level }} <br>
+{% endfor %}
+<form action="setrule_submit/" method="post" role="form">{% csrf_token %}
+    <select name="rule">
+        <option value="add_post">New Post</option>
+        <option value="add_subgroup">New SubGroup</option>
+        <option value="approve_application">Approve Membership Application</option>
+        <option value="edit_rules">Edit Rules</option>
+    </select>
+    requires level:
+    <input name="level" type="number">
+    <input type="submit" value="Set"/>
+</form>
+
+
+{% endblock %}

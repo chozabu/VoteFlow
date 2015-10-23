@@ -1,0 +1,17 @@
+{% extends 'agora/base_template.html' %}
+
+{% block title %}
+    {{ group.name }} Members
+{% endblock %}
+
+
+{% block body_block %}
+
+        {% include "agora/grouppath/pathto_ul.html" %}
+<h1>
+    <a href="/agora/groups/{{ group.id }}/">
+        {{ group.name }}
+    </a> Members</h1>
+    {% include 'agora/api_user_list.html' with User=group.members %}
+
+{% endblock %}

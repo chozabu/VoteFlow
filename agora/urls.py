@@ -28,6 +28,9 @@ urlpatterns = [
     # ex: /agora/groups/5/
     url(r'^groups/(?P<group_id>[0-9]+)/$', views.group, name='group'),
     url(r'^groups/(?P<group_id>[0-9]+)/new/$', views.fancy_group, name='newgroup'),
+    url(r'^groups/(?P<group_id>[0-9]+)/members/$', views.group_members, name='groupmembers'),
+    url(r'^groups/(?P<group_id>[0-9]+)/rules/$', views.group_rules, name='grouprules'),
+    url(r'^groups/(?P<group_id>[0-9]+)/rules/setrule_submit/$', views.group_rules_quick, name='setgrouprule'),
     url(r'^groups/(?P<group_id>[0-9]+)/new/newgroup_submit/$', views.group_quick, name='newgroup_submit'),
     url(r'^groups/new/$', views.fancy_group, name='newgroup'),
     url(r'^groups/new/newgroup_submit/$', views.group_quick, name='newgroup_submit'),

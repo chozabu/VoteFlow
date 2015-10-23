@@ -15,7 +15,8 @@ from .forms import TopicForm, PostForm, RepForm, PostVoteForm, TagForm, TagVoteF
 
 from django.contrib.auth.models import User
 from .models import Notification, Topic, Post, Tag, DGroup, \
-	Representation, PostVote, TagVote, Subscription, UserRepCache
+	Representation, PostVote, TagVote, Subscription, UserRepCache, \
+	GroupPermissionReq, GroupApplication, GroupMembership
 
 import json
 
@@ -350,20 +351,68 @@ def fancy_group(request, group_id=None):
 		context['group'] = group[0]
 	return render(request, 'agora/fancy_group.html', context)#, "replies":replies})
 
+def group_members(request, group_id):
+	#group_id = request.GET.get('group_id', group_id)
+	group = DGroup.objects.get(pk=group_id)
+	context = {'group':group}
+	return render(request, 'agora/groups/members_list.html', context)#, "replies":replies})
+
+def group_rules(request, group_id):
+	#group_id = request.GET.get('group_id', group_id)
+	group = DGroup.objects.get(pk=group_id)
+	context = {'group':group}
+	return render(request, 'agora/groups/rules_list.html', context)#, "replies":replies})
+def group_rules_quick(request,group_id):
+	# if this is a POST request we need to process the form data
+	if not request.user.is_authenticated():
+		print "noauth in newgroup"
+		return HttpResponseRedirect("/agora/login")
+	if request.method == 'POST':
+		group = DGroup.objects.get(pk=group_id)
+		if not group.user_has_permission(request.user, "edit_rules"):
+			return HttpResponse("Access denied. You need to be higher level to edit rules.")
+		rule_name=request.POST.get("rule")
+		rule_level=float(request.POST.get("level"))
+		rules = GroupPermissionReq.objects.filter(name=rule_name,group=group)
+		if rules:
+			rule=rules[0]
+			rule.author=request.user
+		else:
+			rule=GroupPermissionReq(name=rule_name,group=group, author=request.user)
+		rule.level=rule_level
+		rule.save()
+	return HttpResponseRedirect('/agora/groups/'+str(group_id)+'/rules/')
 def group_quick(request,group_id=None):
 	# if this is a POST request we need to process the form data
 	if not request.user.is_authenticated():
 		print "noauth in newgroup"
 		return HttpResponseRedirect("/agora/login")
 	if request.method == 'POST':
+		print request.POST
+		parent_id=request.POST.get("group_id", None)
+		if parent_id:
+			print "---parent_id---"
+			print parent_id
+			parent_id = int(parent_id)
+			parent_group = DGroup.objects.get(id=parent_id)
+			rule_check = GroupPermissionReq.objects.get(group=parent_group, name="add_subgroup")
+			own_membership = GroupMembership.objects.get(group=parent_group, author=request.user)
+			if own_membership.level < rule_check.level:
+				return HttpResponse("Access denied. You need to be at least level" + str(rule_check.level) + " but you are level" + str(own_membership.level))
+
 		ptext = request.POST['text']
 		#btext = request.POST.get('body_text', '')
 		print "fancy_group", ptext
 		newgroup = DGroup(name=ptext, author=request.user)
-		parent_id=request.POST.get("group_id", None)
 		if parent_id:#could validate this..
-			newgroup.parent_id = parent_id
+			newgroup.parent = parent_group
 		newgroup.save()
+		gms = GroupMembership(group=newgroup, author=request.user,level=100)
+		gms.save()
+		GroupPermissionReq(name="add_post", group=newgroup, author=request.user,level=1).save()
+		GroupPermissionReq(name="add_subgroup", group=newgroup, author=request.user,level=5).save()
+		GroupPermissionReq(name="approve_application", group=newgroup, author=request.user,level=10).save()
+		GroupPermissionReq(name="edit_rules", group=newgroup, author=request.user,level=30).save()
 		if group_id==None:
 			group_id=newgroup.id
 		return HttpResponseRedirect('/agora/groups/'+str(group_id))
@@ -540,6 +589,13 @@ def post_quick(request, post_id=None, reply_type="comment"):
 		print request.POST
 		print "topic_id: ", topic_id
 		#topic = Topic.objects.get(id=topic_id)
+		if group_id != None:
+			parent_group = DGroup.objects.get(id=group_id)
+			rule_check = GroupPermissionReq.objects.get(group=parent_group, name="add_post")
+			own_membership = GroupMembership.objects.get(group=parent_group, author=request.user)
+			if own_membership.level < rule_check.level:
+				return HttpResponse("Access denied. You need to be at least level" + str(rule_check.level) + " but you are level" + str(own_membership.level))
+
 		newpost = Post(text=btext, subtype=reply_type, name=ptext,topic_id=topic_id, group_id=group_id, parent=prnt, author=request.user)
 		newpost.save()
 		if post_id==None:
