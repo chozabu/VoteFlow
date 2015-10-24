@@ -5,5 +5,5 @@
     </a>
 </div>
     <br>
-    <span title="[subscriptions, sub-groups, posts]">[{{ group.subscription_set.all|length }}, {{ group.group_set.all|length }}, {{ group.post_set.all|length }}]</span>
+    <span title="[members, sub-groups, posts]">[{{ group.memberships.all|length }}, {{ group.group_set.all|length }}, {{ group.post_set.all|length }}]</span>
 </div>
