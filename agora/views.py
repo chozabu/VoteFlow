@@ -338,6 +338,7 @@ def group(request, group_id, sort_method="liquid_value"):
 	group = get_object_or_404(DGroup, pk=group_id)
 	context = {'group': group, "sort_method":sort_method}
 	membership=None
+	pending_membership=None
 	if request.user.is_authenticated():
 		pending_membership = GroupApplication.objects.filter(group=group, author=request.user).first()
 		membership = GroupMembership.objects.filter(group=group, author=request.user).first()
