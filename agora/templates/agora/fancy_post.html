@@ -33,16 +33,16 @@
         {% csrf_token %}
         <input name="topic_id" type="hidden" value="{{ topic.id }}"/>
         <input name="group_id" type="hidden" value="{{ group.id }}"/>
-    <div>
-        <div class="radio" style="display: inline-block;">
-          <label><input checked id="type_post" type="radio" value="post" name="subtype">Post</label>
-        </div>
-        <div class="radio" style="display: inline-block;">
-          <label><input id="type_poll" type="radio" value="poll" name="subtype">Poll</label>
-        </div>
-        <div class="radio" style="display: inline-block;">
-          <label><input id="type_prop" type="radio" value="proposal" name="subtype">Proposal</label>
-        </div>
+        <div>
+            <div class="radio" style="display: inline-block;">
+              <label><input checked id="type_post" type="radio" value="post" name="subtype">Post</label>
+            </div>
+            <div class="radio" style="display: inline-block;">
+              <label><input id="type_poll" type="radio" value="poll" name="subtype">Poll</label>
+            </div>
+            <div class="radio" style="display: inline-block;">
+              <label><input id="type_prop" type="radio" value="proposal" name="subtype">Proposal</label>
+            </div>
         </div>
 
         <h2><input name="text" class="titleinput" type="text" value="title"/></h2>

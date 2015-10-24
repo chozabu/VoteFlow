@@ -450,9 +450,10 @@ def group_quick(request,group_id=None):
 				return HttpResponse("Access denied. You need to be at least level" + str(rule_check.level) + " but you are level" + str(own_membership.level))
 
 		ptext = request.POST['text']
+		subtype = request.POST['subtype']
 		#btext = request.POST.get('body_text', '')
 		print "fancy_group", ptext
-		newgroup = DGroup(name=ptext, author=request.user)
+		newgroup = DGroup(name=ptext, author=request.user, subtype=subtype)
 		if parent_id:#could validate this..
 			newgroup.parent = parent_group
 		newgroup.save()

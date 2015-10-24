@@ -29,6 +29,18 @@
         <input type="hidden" name="group_id" value="{{ group.id }}" />
         <h2>Group Name:<input name="text" class="titleinput" type="text" value="title"/></h2>
         <br>
+        <div>
+            <h4>Group Type:</h4>
+            <div class="radio" style="display: inline-block;">
+              <label><input checked id="type_curated" type="radio" value="curated" name="subtype">Curated</label>
+            </div>
+            <!--<div class="radio" style="display: inline-block;">
+              <label><input id="type_democratic" type="radio" value="democratic" name="subtype">Democratic</label>
+            </div>
+            <div class="radio" style="display: inline-block;">
+              <label><input id="type_public" type="radio" value="public" name="subtype">Public</label>
+            </div>-->
+        </div>
         <!--<article>
             Text:
             <div class="editable postpreview">
