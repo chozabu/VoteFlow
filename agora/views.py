@@ -419,12 +419,17 @@ def join_group(request, group_id):
 		return HttpResponseRedirect("/agora/login")
 	membership = GroupMembership.objects.filter(group_id=group_id, author=request.user).first()
 	application = GroupApplication.objects.filter(group_id=group_id, author=request.user).first()
+	group = DGroup.objects.get(pk=group_id)
 	if membership or application:
-		GroupMembership.objects.filter(group_id=group_id, author=request.user).delete()
-		GroupApplication.objects.filter(group_id=group_id, author=request.user).delete()
+		GroupMembership.objects.filter(group=group, author=request.user).delete()
+		GroupApplication.objects.filter(group=group, author=request.user).delete()
 	else:
-		application = GroupApplication(group_id=group_id, author=request.user)
-		application.save()
+		if group.subtype == "public":
+			membership = GroupMembership(group=group, author=request.user)
+			membership.save()
+		else:
+			application = GroupApplication(group=group, author=request.user)
+			application.save()
 		#TODO send notifications to members who can approve
 	return HttpResponseRedirect('/agora/groups/'+str(group_id)+"/")
 
