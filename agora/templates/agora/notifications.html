@@ -19,7 +19,7 @@
         {% endif %}
         {% if n.content_type.name == "post vote" %}
             {% include "agora/posts/autopath.html" with post=n.content_object.parent %}
-            {% include "agora/inc_vote_mini.html" with  v=n.content_object %}
+            {% include "agora/inc_vote_notification.html" with  v=n.content_object %}
         {% endif %}
         </div>
     {% endfor %}

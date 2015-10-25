@@ -1,0 +1,8 @@
+<li>
+    {% include 'agora/inc_user_micro.html' with user=v.author %}<br>
+    {{ v.value }} @
+    <a href="/agora/posts/{{ v.parent.id }}/">{{ v.parent.name }}</a>
+    in
+    <a href="/agora/topics/{{ v.parent.topic.id }}/">{{ v.parent.topic.name }}</a>
+    <div style="clear: both;" />
+</li>
