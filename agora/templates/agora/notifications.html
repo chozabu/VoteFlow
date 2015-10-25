@@ -7,11 +7,14 @@
     <a href="?markall=true">Mark all as Read</a><br>
     {% for n in notifications %}
         <div class="ilb">
-        {{ n.content_type.name }} <br>
-        {{ n.name }} <br>
+        <!--{{ n.content_type.name }} <br>-->
+        {{ n.name }}
         {% if n.content_type.name == "post" %}
-                <li>{% include "agora/inc_post_mini.html" with  post=n.content_object.parent %}</li>
-                <li>{% include "agora/inc_post_mini.html" with  post=n.content_object %}</li>
+        {% include "agora/posts/autopath.html" with post=n.content_object %}
+            {% if n.content_object.parent %}
+                <li>{% include "agora/inc_post_mini.html" with post=n.content_object.parent %}</li>
+            {% endif %}
+                <li>{% include "agora/inc_post_mini.html" with post=n.content_object %}</li>
         {% endif %}
         {% if n.content_type.name == "post vote" %}
             {% include "agora/inc_vote_mini.html" with  v=n.content_object %}

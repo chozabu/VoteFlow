@@ -27,19 +27,8 @@
 
 
 {% block body_block %}
-    {% if post.topic %}
-        {% include "agora/topicpath/fullpath_ul.html" %}
-    {% elif post.group  %}
-        {% include "agora/grouppath/fullpath_ul.html" with group=post.group %}
-    {%  endif %}
+        {% include "agora/posts/autopath.html" %}
     {% if post %}
-        <ul id="post_path">
-            {% for p_post in post.path %}
-                <li>
-                    <a href="/agora/posts/{{ p_post.id }}">{{ p_post.name }}</a>
-                </li>
-            {% endfor %}
-        </ul>
 
         <h2>
             <a href="/agora/posts/{{ post.id }}">{{ post.name }}</a>

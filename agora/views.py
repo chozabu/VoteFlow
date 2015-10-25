@@ -682,6 +682,14 @@ def post_quick(request, post_id=None, reply_type="comment"):
 		if prnt:
 			newnotify = Notification(target=prnt.author, name="New Post", content_object=newpost, author=request.user)
 			newnotify.save()
+		if newpost.topic:
+			for subs in newpost.topic.subscription_set.all():
+				newnotify = Notification(target=subs.author, name="New Post", content_object=newpost, author=request.user)
+				newnotify.save()
+		if newpost.group:
+			for user in newpost.group.members:
+				newnotify = Notification(target=user, name="New Post", content_object=newpost, author=request.user)
+				newnotify.save()
 		return HttpResponseRedirect("/agora/posts/"+str(post_id))
 	return HttpResponseRedirect("/agora/posts/"+str(post_id))
 

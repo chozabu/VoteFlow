@@ -1,0 +1,12 @@
+{% if post.topic %}
+{% include "agora/topicpath/fullpath_ul.html" with current_topic=post.topic %}
+{% elif post.group  %}
+{% include "agora/grouppath/fullpath_ul.html" with group=post.group %}
+{%  endif %}
+<ul id="post_path">
+    {% for p_post in post.path %}
+    <li>
+        <a href="/agora/posts/{{ p_post.id }}">{{ p_post.name }}</a>
+    </li>
+    {% endfor %}
+</ul>
