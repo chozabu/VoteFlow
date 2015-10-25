@@ -6,17 +6,7 @@
 {% block head_block %}
     {% load staticfiles %}
     <link rel="stylesheet" type="text/css" href="{% static 'agora/fontawesome/css/font-awesome.css' %}"/>
-    <link rel="stylesheet" type="text/css" href="{% static 'agora/css/hallo.css' %}"/>
-    <link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.11.3/themes/smoothness/jquery-ui.css"/>
-    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js"></script>
-    <script src="http://rangy.googlecode.com/svn/trunk/currentrelease/rangy-core.js"></script>
-    <script src="http://rangy.googlecode.com/svn/trunk/currentrelease/rangy-selectionsaverestore.js"></script>
-
-    <link rel="stylesheet" type="text/css" href="{% static 'agora/fontawesome/css/font-awesome.css' %}"/>
-    <script src="{% static 'agora/js/hallo-min.js' %}"></script>
-    <script src="{% static 'agora/js/showdown.js' %}"></script>
-    <script src="{% static 'agora/js/to-markdown.js' %}"></script>
-    <script src="{% static 'agora/js/jquery.htmlClean.min.js' %}"></script>
+    {% include 'agora/util/hallohead.html' %}
 
 
 {% endblock %}
@@ -88,51 +78,9 @@
     <script>
         jQuery(document).ready(function () {
             // Enable Hallo editor
-            jQuery('.editable').hallo({
-                plugins: {
-                    'halloformat': {},
-                    'halloheadings': {},
-                    'hallolists': {},
-                    //'halloblacklist': {"tags":["div"]},
-                    'hallo-image-insert-edit': {},
-                    'hallolink': {},
-                    'halloreundo': {},
-                    'hallocleanhtml': {
-                      format: false,
-                      allowedTags: [
-                        'p',
-                        'em',
-                        'strong',
-                        'br',
-                        'h1',
-                        'h2',
-                        'h3',
-                        'h4',
-                        'ol',
-                        'ul',
-                        'li',
-                        'img',
-                        'a'],
-                      allowedAttributes: ['style']
-                    }
-                },
-                toolbar: 'halloToolbarFixed'
-            });
+            jQuery('.editable').hallo(hallosettings
+                );
 
-            var markdownize = function (content) {
-                var html = content.split("\n").map($.trim).filter(function (line) {
-                    return line != "";
-                }).join("\n");
-                //next line for chrome...
-                html = html.replace(/\<div\>/g, "<br>").replace(/\<\/div\>/g, "");
-                //console.log(html)
-                return toMarkdown(html);
-            };
-
-            var converter = new Showdown.converter();
-            var htmlize = function (content) {
-                return converter.makeHtml(content);
-            };
 
             // Method that converts the HTML contents to Markdown
             var showSource = function (content) {
@@ -160,7 +108,11 @@
                 updateHtml(this.value);
             });
             showSource(jQuery('.editable').html());
+        });
 
+
+
+        jQuery(document).ready(function () {
             function set_subtype() {
                 var pbox = $(this).parent();
                 console.log("pbox");
