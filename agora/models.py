@@ -308,7 +308,7 @@ class Voteable(models.Model):
 
 	class Meta:
 		abstract = True
-
+from django.utils.html import escape
 #post
 class Post(Voteable):
 	name = models.CharField(max_length=200)
@@ -317,6 +317,9 @@ class Post(Voteable):
 	subtype = models.CharField(max_length=20, default="comment")
 	text = models.TextField(default="")
 	group = models.ForeignKey(DGroup, null = True, blank=True)
+	@property
+	def safetext(self):
+		return escape(self.text)
 	@property
 	def path(self):
 		list = []

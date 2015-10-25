@@ -13,9 +13,7 @@
         </a>
 <br>
 	<div style="display:inline-block">
-                {% autoescape off %}
-                    {{ post.text|markdown }}
-                {% endautoescape %}
+                    {{ post.safetext|markdown }}
 			</div>
         <button title="(average|sum|count)" type="button" class="btn btn-info" data-toggle="collapse" data-target="#{{ post.id }}-post-info">
             ({{ post.liquid_value_percent|floatformat }}% | {{ post.liquid_sum|floatformat }} | {{ post.liquid_vote_count }})

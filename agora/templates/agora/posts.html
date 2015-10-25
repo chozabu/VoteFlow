@@ -59,9 +59,7 @@
         {% endif %}
         {% if post.text %}
             <div class="postpreview">
-                {% autoescape off %}
-                    {{ post.text|markdown }}
-                {% endautoescape %}
+                {{ post.safetext|markdown }}
             </div>
         {% endif %}
 
