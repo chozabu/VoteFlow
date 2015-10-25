@@ -65,6 +65,14 @@ h1 span {
 	border-radius: .1em;
 }
 
+.align-mid {
+	text-align: center;
+}
+
+.notificationbox{
+	margin: 5px;
+}
+
 #topicslist > li > .topicminititle {
     background-color: rgba(226, 96, 0, 0.23);
 }

@@ -4,9 +4,10 @@
 {% endblock %}
 
 {% block body_block %}
+        <div class="align-mid">
     <a href="?markall=true">Mark all as Read</a><br>
     {% for n in notifications %}
-        <div class="ilb">
+        <div class="ilb notificationbox">
         <!--{{ n.content_type.name }} <br>-->
         {{ n.name }}
         {% if n.content_type.name == "post" %}
@@ -22,5 +23,5 @@
         {% endif %}
         </div>
     {% endfor %}
-
+</div>
 {% endblock %}
