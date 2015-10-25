@@ -1,0 +1,52 @@
+<article>
+    <div id="editable-{{ itemid }}" class="editable postpreview">
+        <p>
+            {{ initial_text }}
+        </p>
+    </div>
+</article>
+<button type="button" class="btn btn-info" data-toggle="collapse"
+        data-target="#post-source-panel">
+    Show Source
+</button>
+<div id="post-source-panel" class="collapse">
+    Source:<br>
+    <textarea id="source-{{ itemid }}" name="{{ rname }}">
+    </textarea>
+</div>
+
+<script>
+        jQuery(document).ready(function () {
+            // Enable Hallo editor
+            jQuery('#editable-{{ itemid }}').hallo(hallosettings
+                );
+
+
+            // Method that converts the HTML contents to Markdown
+            var showSource = function (content) {
+                var markdown = markdownize(content);
+                if (jQuery('#source-{{ itemid }}').get(0).value == markdown) {
+                    return;
+                }
+                jQuery('#source-{{ itemid }}').get(0).value = markdown;
+            };
+
+
+            var updateHtml = function (content) {
+                if (markdownize(jQuery('#editable-{{ itemid }}').html()) == content) {
+                    return;
+                }
+                var html = htmlize(content);
+                jQuery('#editable-{{ itemid }}').html(html);
+            };
+
+            // Update Markdown every time content is modified
+            jQuery('#editable-{{ itemid }}').bind('hallomodified', function (event, data) {
+                showSource(data.content);
+            });
+            jQuery('#source-{{ itemid }}').bind('keyup', function () {
+                updateHtml(this.value);
+            });
+            showSource(jQuery('#editable-{{ itemid }}').html());
+        });
+</script>

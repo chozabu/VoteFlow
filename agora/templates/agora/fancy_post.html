@@ -45,22 +45,8 @@
         </div>
     <div id="post_middle" class="post_middle col-md-12">
         <br>
-        <article>
-            <div class="editable postpreview">
-                <p>
-                    text
-                </p>
-            </div>
-        </article>
-        <button type="button" class="btn btn-info" data-toggle="collapse"
-                data-target="#post-source-panel">
-            Show Source
-        </button>
-        <div id="post-source-panel" class="collapse">
-            Source:<br>
-    <textarea name="body_text" id="source">
-    </textarea>
-        </div>
+
+        {% include "agora/util/halloitem.html" with itemid=post rname="body_text" initial_text="Type Post Body Here." %}
 
         <br>
         <br>
@@ -75,42 +61,9 @@
         <input type="submit" value="Submit"/>
     </form>
 </div>
-    <script>
-        jQuery(document).ready(function () {
-            // Enable Hallo editor
-            jQuery('.editable').hallo(hallosettings
-                );
 
 
-            // Method that converts the HTML contents to Markdown
-            var showSource = function (content) {
-                var markdown = markdownize(content);
-                if (jQuery('#source').get(0).value == markdown) {
-                    return;
-                }
-                jQuery('#source').get(0).value = markdown;
-            };
-
-
-            var updateHtml = function (content) {
-                if (markdownize(jQuery('.editable').html()) == content) {
-                    return;
-                }
-                var html = htmlize(content);
-                jQuery('.editable').html(html);
-            };
-
-            // Update Markdown every time content is modified
-            jQuery('.editable').bind('hallomodified', function (event, data) {
-                showSource(data.content);
-            });
-            jQuery('#source').bind('keyup', function () {
-                updateHtml(this.value);
-            });
-            showSource(jQuery('.editable').html());
-        });
-
-
+<script>
 
         jQuery(document).ready(function () {
             function set_subtype() {

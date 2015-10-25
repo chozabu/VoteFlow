@@ -10,6 +10,8 @@ from django.contrib.contenttypes.models import ContentType
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
+from django.utils.html import escape
+
 class UserExtra(models.Model):
 	user = models.OneToOneField(User)
 	photo = models.ImageField(null=True, blank=True)
@@ -41,13 +43,16 @@ def create_user_extra(sender, instance, created, **kwargs):
 
 class DGroup(models.Model):
 	name = models.CharField(max_length=80)
-	#desc
+	text = models.TextField(default="")
 	author = models.ForeignKey(User, null=True, blank=True)
 	parent = models.ForeignKey("DGroup", null=True, blank=True, related_name='children')
 	subtype = models.CharField(max_length=20, default="public")
 	created_at = models.DateField(auto_now_add=True)
 	modified_at = models.DateField(auto_now=True)
 	hidden = models.BooleanField(default=False)
+	@property
+	def safetext(self):
+		return escape(self.text)
 	def path(self):
 		list = []
 		cur_top = self.parent
@@ -308,7 +313,7 @@ class Voteable(models.Model):
 
 	class Meta:
 		abstract = True
-from django.utils.html import escape
+
 #post
 class Post(Voteable):
 	name = models.CharField(max_length=200)
