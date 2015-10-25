@@ -29,6 +29,7 @@ urlpatterns = [
     url(r'^groups/(?P<group_id>[0-9]+)/$', views.group, name='group'),
     url(r'^groups/(?P<group_id>[0-9]+)/new/$', views.fancy_group, name='newgroup'),
     url(r'^groups/(?P<group_id>[0-9]+)/members/$', views.group_members, name='groupmembers'),
+    url(r'^groups/(?P<group_id>[0-9]+)/members/setlevel_submit/$', views.group_member_setlevel_submit, name='groupsetmemberlevel'),
     url(r'^groups/(?P<group_id>[0-9]+)/rules/$', views.group_rules, name='grouprules'),
     url(r'^groups/(?P<group_id>[0-9]+)/pending_members/$', views.group_pending_members, name='grouppending_members'),
     url(r'^groups/(?P<group_id>[0-9]+)/pending_members/(?P<user_id>[0-9]+)/(?P<rtype>[0-9]+)/$', views.group_pending_member_answer, name='group_pending_member_answer'),

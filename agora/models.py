@@ -80,9 +80,12 @@ class DGroup(models.Model):
 		return User.objects.filter(group_applications__group=self)
 	def user_has_permission(self, user, permission):
 		own_membership = GroupMembership.objects.filter(group=self, author=user).first()
-		if not own_membership: return False
-		rule_check = GroupPermissionReq.objects.get(group=self, name=permission)
-		return own_membership.level >= rule_check.level
+		if not own_membership: return False, "not a member of this group " + self.name
+		rule_check = GroupPermissionReq.objects.filter(group=self, name=permission).first()
+		if not rule_check: return False, "rule" + str(permission) + " does not exist in " + self.name
+		if own_membership.level >= rule_check.level:
+			return True, "Membership level higher than Rule"
+		return False, "You don't have Permission to " + str(permission) + " in " + self.name
 
 
 '''@receiver(post_save, sender=Group)

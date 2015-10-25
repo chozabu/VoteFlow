@@ -366,13 +366,33 @@ def group_members(request, group_id):
 	context = {'group':group}
 	return render(request, 'agora/groups/members_list.html', context)#, "replies":replies})
 
+def group_member_setlevel_submit(request, group_id):
+	# if this is a POST request we need to process the form data
+	if not request.user.is_authenticated():
+		print "noauth in newgroup"
+		return HttpResponseRedirect("/agora/login")
+	if request.method == 'POST':
+		group = DGroup.objects.get(pk=group_id)
+		print request.POST
+		permission, reason = group.user_has_permission(request.user, "edit_member_levels")
+		if not permission:return HttpResponse(reason)
+		userid=request.POST.get("userid")
+		level=float(request.POST.get("level"))
+		membership = GroupMembership.objects.filter(group=group,author_id=userid).first()
+		if membership:
+			membership.level=level
+			membership.save()
+	return HttpResponseRedirect('/agora/groups/'+str(group_id)+'/members/')
+
+
+
 def group_pending_member_answer(request, group_id, user_id, rtype):
 	if not request.user.is_authenticated():
 		print "noauth in approve pending group member"
 		return HttpResponseRedirect("/agora/login")
 	group = DGroup.objects.get(pk=group_id)
-	if not group.user_has_permission(request.user, "approve_application"):
-		return HttpResponse("Access denied. You need to be higher level to approve applications.")
+	permission, reason = group.user_has_permission(request.user, "approve_application")
+	if not permission:return HttpResponse(reason)
 	application = GroupApplication.objects.get(group=group, author_id=user_id)
 	if int(rtype)==1:
 		membership = GroupMembership(group=group, author=application.author)
@@ -400,8 +420,8 @@ def group_rules_quick(request,group_id):
 		return HttpResponseRedirect("/agora/login")
 	if request.method == 'POST':
 		group = DGroup.objects.get(pk=group_id)
-		if not group.user_has_permission(request.user, "edit_rules"):
-			return HttpResponse("Access denied. You need to be higher level to edit rules.")
+		permission, reason = group.user_has_permission(request.user, "edit_rules")
+		if not permission:return HttpResponse(reason)
 		rule_name=request.POST.get("rule")
 		rule_level=float(request.POST.get("level"))
 		rules = GroupPermissionReq.objects.filter(name=rule_name,group=group)
@@ -468,6 +488,7 @@ def group_quick(request,group_id=None):
 		GroupPermissionReq(name="add_subgroup", group=newgroup, author=request.user,level=5).save()
 		GroupPermissionReq(name="approve_application", group=newgroup, author=request.user,level=10).save()
 		GroupPermissionReq(name="edit_rules", group=newgroup, author=request.user,level=30).save()
+		GroupPermissionReq(name="edit_member_levels", group=newgroup, author=request.user,level=30).save()
 		if group_id==None:
 			group_id=newgroup.id
 		return HttpResponseRedirect('/agora/groups/'+str(group_id))
