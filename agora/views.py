@@ -713,6 +713,18 @@ def reply_post_quick(request, topic_id, post_id, reply_type="comment"):
 		return HttpResponseRedirect('/agora/topics/'+str(topic_id)+"/posts/"+str(post_id))
 	return HttpResponseRedirect('/agora/topics/'+str(topic_id)+"/posts/"+str(post_id))
 
+def votepost(vote, prnt, user, voteval):
+	if vote:
+		vote.value = voteval
+		vote.save()
+		nprefix = "New"
+	else:
+		vote = PostVote(value=voteval, author=user, parent=prnt)
+		vote.save()
+		nprefix = "Updated"
+	prnt.count_votes()
+	newnotify = Notification(target=prnt.author, name=nprefix+" vote on your post", content_object=vote, author=vote.author)
+	newnotify.save()
 
 def vote_post_quick(request, post_id):
 	# if this is a POST request we need to process the form data
@@ -725,13 +737,7 @@ def vote_post_quick(request, post_id):
 		print "QUICKVOTE", voteval
 		vote=PostVote.objects.filter(parent=post_id, author=request.user).first()
 		prnt = Post.objects.get(id=post_id)
-		if vote:
-			vote.value = voteval
-			vote.save()
-		else:
-			newrep = PostVote(value=voteval, author=request.user, parent=prnt)
-			newrep.save()
-		prnt.count_votes()
+		votepost(vote, prnt, request.user, voteval)
 	return HttpResponseRedirect("/agora/posts/"+str(post_id))
 
 def vote_post_easy(request, post_id):
@@ -745,13 +751,7 @@ def vote_post_easy(request, post_id):
 		print "QUICKVOTE", voteval
 		vote=PostVote.objects.filter(parent=post_id, author=request.user).first()
 		prnt = Post.objects.get(id=post_id)
-		if vote:
-			vote.value = voteval
-			vote.save()
-		else:
-			newrep = PostVote(value=voteval, author=request.user, parent=prnt)
-			newrep.save()
-		prnt.count_votes()
+		votepost(vote, prnt, request.user, voteval)
 	return HttpResponseRedirect("/agora/posts/"+str(post_id))
 
 
