@@ -23,7 +23,7 @@
         </button>
         <a href="join_group/">
         <div id="lg-colap" class="collapse">
-            <button type="button" class="btn btn-info aquitgroupbutton">Confirm. I really want to leave the group.</button>
+            <button type="button" class="btn btn-info quitgroupbutton">Confirm. I really want to leave the group.</button>
         </div>
             </a>
     {% else %}
@@ -66,47 +66,13 @@
         </a>
     </div>
 
+    {% include 'agora/inc_post_list.html' with divid='mainpostlist' %}
 
-    <div class="postlistintopics" data-table="Post" data-rtype="html"
-         data-sortby="-liquid_sum" data-startat="0" data-template="api_post_list"
-         data-filter='{"group":{{ group.id }}, "parent":null }'>
-
-        Sorting <select name="SortMethods" id="sortbox">
-        <option value="-liquid_value">Rating</option>
-        <option value="-liquid_sum">Top</option>
-        <option value="-created_at">Newest</option>
-        <option value="created_at">Oldest</option>
-        <option value="-direct_value">Direct Rating</option>
-        <option value="-direct_sum">Direct Top</option>
-    </select>
-        <button id="completed_toggle" type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false"
-                autocomplete="off">
-            Completed
-        </button>
-        <button id="gobutton" type="button" class="btn btn-info">
-            Go
-        </button>
-        <ul id="topicslist" class="miniul">
-            {% if post_list %}
-                {% for post in post_list|dictsortreversed:sort_method %}
-                    <li>{% include "agora/inc_post_mini.html" with  post=post %}</li>
-                {% endfor %}
-            {% else %}
-                <p> no Posts Found </p>
-            {% endif %}
-        </ul>
-        <button id="prevbutton" type="button" class="btn btn-info">
-            Previous
-        </button>
-        <button id="nextbutton" type="button" class="btn btn-info">
-            Next
-        </button>
-    </div>
     <div style="clear: both;"></div>
 
 
     <script>
-    function quickgroupclick(event){
+    /*function quickgroupclick(event){
         var voteint = parseInt($(this)[0].id[4])
         console.log(voteint);
         var perc = (voteint-1)/6.0*100.0;
@@ -122,7 +88,7 @@
           location.reload();
         });
     }
-        $('.quitgroupbutton').click(quickgroupclick);
+        $('.quitgroupbutton').click(quickgroupclick);*/
     </script>
 
 {% endblock %}

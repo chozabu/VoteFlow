@@ -346,6 +346,7 @@ def group(request, group_id, sort_method="liquid_value"):
 		context['membership']=membership
 	if pending_membership:
 		context['pending_membership']=pending_membership
+	context['postfilter']='{"group":'+str(group_id)+', "parent":null }'
 	context['group_list'] = DGroup.objects.filter(parent=group)
 	context['post_list'] = Post.objects.filter(parent=None, group=group).exclude(tag__liquid_value__gte=-.1, tag__name="completed")[0:10]
 	print context
