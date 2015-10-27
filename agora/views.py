@@ -438,6 +438,9 @@ def group_rules_quick(request,group_id):
 def join_group(request, group_id):
 	if not request.user.is_authenticated():
 		return HttpResponseRedirect("/agora/login")
+
+	if request.method != 'POST':
+		return HttpResponse("Error. Complain about this!")
 	membership = GroupMembership.objects.filter(group_id=group_id, author=request.user).first()
 	application = GroupApplication.objects.filter(group_id=group_id, author=request.user).first()
 	group = DGroup.objects.get(pk=group_id)

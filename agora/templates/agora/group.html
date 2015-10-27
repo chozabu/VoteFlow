@@ -21,16 +21,16 @@
                 data-target="#lg-colap">
             Leave Group.
         </button>
-        <a href="join_group/">
         <div id="lg-colap" class="collapse">
-            <button type="button" class="btn btn-info quitgroupbutton">Confirm. I really want to leave the group.</button>
+        <a href="#" class="quitgroupbutton">
+            <button type="button" class="btn btn-info">Confirm. I really want to leave the group.</button>
+        </a>
         </div>
-            </a>
     {% else %}
         {% if pending_membership %}
-            You have requested to join this group. <a href="join_group/">Cancel</a>
+            You have requested to join this group. <a href="#" class="quitgroupbutton">Cancel</a>
         {% else %}
-            You are not a member of this group. <a href="join_group/">Join Group</a>
+            You are not a member of this group. <a href="#" class="quitgroupbutton">Join Group</a>
         {% endif %}
     {% endif %}
     <br>
@@ -72,19 +72,13 @@
 
 
     <script>
-    /*function quickgroupclick(event){
-        var voteint = parseInt($(this)[0].id[4])
-        console.log(voteint);
-        var perc = (voteint-1)/6.0*100.0;
-        console.log(perc);
-        $.post( "/agora/posts/{{ post.id }}/easyvote/", {
-            "voteslider":perc
+    function quickgroupclick(event){
+        $.post( "join_group/", {
             }, function( data ) {
-          //$( ":root" ).html( data );
           location.reload();
         });
     }
-        $('.quitgroupbutton').click(quickgroupclick);*/
+        $('.quitgroupbutton').click(quickgroupclick);
     </script>
 
 {% endblock %}
