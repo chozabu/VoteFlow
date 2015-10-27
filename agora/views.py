@@ -28,31 +28,6 @@ def home(request):
                              context_instance=context)
 
 def index(request):
-	#return HttpResponse("Hello, world. You're at the agora index.")
-	#'''
-	#topic_list = Topic.objects
-	#context = {'topic_list': topic_list}
-	#return render(request, 'agora/index.html', context)
-	'''context = { 'pboxes':[
-		{"name":"High Rated Posts",
-		'items':Post.objects.filter(parent=None).order_by('-liquid_value')[:5]
-		},
-		{"name":"Recent Posts",
-		'items':Post.objects.filter(parent=None).order_by('-created_at')[:5]
-		},
-		{"name":"Top Posts",
-		'items':Post.objects.filter(parent=None).order_by('-liquid_sum')[:5]
-		},
-		{"name":"High Rated Comments",
-		'items':Post.objects.filter(parent__isnull=False).order_by('-liquid_value')[:5],
-		},
-		{"name":"Recent Comments",
-		'items':Post.objects.filter(parent__isnull=False).order_by('-created_at')[:5],
-		},
-		{"name":"Top Comments",
-		'items':Post.objects.filter(parent__isnull=False).order_by('-liquid_sum')[:5],
-		},
-	]}'''
 	context = {
 		 'items':Post.objects.filter(parent=None).exclude(tag__liquid_value__gte=-.1, tag__name="completed").order_by('-liquid_heat')[:10],
 		}
@@ -69,12 +44,8 @@ def notifications(request):
 			n.seen = True
 			n.save()
 	return render(request, 'agora/notifications.html', {"notifications":nlist})
+
 def root(request):
-	#return HttpResponse("Hello, world. You're at the agora index.")
-	#'''
-	#topic_list = Topic.objects
-	#context = {'topic_list': topic_list}
-	#return render(request, 'agora/index.html', context)
 	return render(request, 'agora/root.html')
 
 #basic API
@@ -304,12 +275,6 @@ def topic_sunburst(request, topic_id=None):
 
 
 def topics(request, topic_id=None, sort_method="liquid_value"):
-	#try:
-	#	question = Question.objects.get(pk=question_id)
-	#except Question.DoesNotExist:
-	#	raise Http404("Question does not exist")
-	#return render(request, 'agora/detail.html', {'question': question})#
-	#question = get_object_or_404(Question, pk=question_id)
 	topic_list = Topic.objects.filter(parent=topic_id)
 	post_list = Post.objects.filter(parent=None, topic=topic_id).exclude(tag__liquid_value__gte=-.1, tag__name="completed")[0:10]
 	context = {'topic_list': topic_list,'post_list': post_list, "sort_method":sort_method}
@@ -733,20 +698,6 @@ def votepost(vote, prnt, user, voteval):
 	newnotify.save()
 
 def vote_post_quick(request, post_id):
-	# if this is a POST request we need to process the form data
-	if not request.user.is_authenticated():
-		print "noauth in quick post"
-		return HttpResponseRedirect("/agora/login")
-	if request.method == 'POST':
-		#covert (0 ... 100) to (-1 ... 1)
-		voteval = float(request.POST['voteslider'])*.02-1.
-		print "QUICKVOTE", voteval
-		vote=PostVote.objects.filter(parent=post_id, author=request.user).first()
-		prnt = Post.objects.get(id=post_id)
-		votepost(vote, prnt, request.user, voteval)
-	return HttpResponseRedirect("/agora/posts/"+str(post_id))
-
-def vote_post_easy(request, post_id):
 	# if this is a POST request we need to process the form data
 	if not request.user.is_authenticated():
 		print "noauth in quick post"

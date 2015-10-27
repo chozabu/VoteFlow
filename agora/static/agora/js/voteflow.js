@@ -11,7 +11,7 @@ function castvote(item){
 	var pid = parseInt(item.parentNode.getAttribute("postid"));
 	console.log(pid);
 
-	$.post( "/agora/posts/"+pid+"/easyvote/", {
+	$.post( "/agora/posts/"+pid+"/quickvote/", {
 			"voteslider":perc
 		}, function( data ) {
 		location.reload();
