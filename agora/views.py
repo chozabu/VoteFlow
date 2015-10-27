@@ -748,9 +748,9 @@ def vote_post_easy(request, post_id):
 	if not request.user.is_authenticated():
 		print "noauth in quick post"
 		return HttpResponseRedirect("/agora/login")
-	if request.method == 'GET':
+	if request.method == 'POST':
 		#covert (0 ... 100) to (-1 ... 1)
-		voteval = float(request.GET['voteslider'])*.02-1.
+		voteval = float(request.POST['voteslider'])*.02-1.
 		print "QUICKVOTE", voteval
 		vote=PostVote.objects.filter(parent=post_id, author=request.user).first()
 		prnt = Post.objects.get(id=post_id)

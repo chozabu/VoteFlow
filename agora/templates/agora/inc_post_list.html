@@ -43,47 +43,19 @@
 		Next
 	</button>
           <div id="popoverVoteContent" style="display: none">
-			  <div class="votepics">
-            <img onclick="dovote(this)" class="notsvg" src="{% static 'agora/img/ratings/1.svg' %}" />
-            <img onclick="dovote(this)" class="notsvg" src="{% static 'agora/img/ratings/2.svg' %}" />
-            <img onclick="dovote(this)" class="notsvg" src="{% static 'agora/img/ratings/3.svg' %}" />
-            <img onclick="dovote(this)" class="notsvg" src="{% static 'agora/img/ratings/4.svg' %}" />
-            <img onclick="dovote(this)" class="notsvg" src="{% static 'agora/img/ratings/5.svg' %}" />
-            <img onclick="dovote(this)" class="notsvg" src="{% static 'agora/img/ratings/6.svg' %}" />
-            <img onclick="dovote(this)" class="notsvg" src="{% static 'agora/img/ratings/7.svg' %}" >
-				</div>
+
+            {% include 'agora/ratings/mixed7.html' %}
               <div> <span class="customvotecontent"></span></div>
 </div>
 
-              <script>
-              function dovote(item){
-              console.log("-------");
-              console.log(item);
-        var voteint = parseInt(item.src.split("/").pop().split(".")[0])
-        console.log(voteint);
-        var perc = (voteint-1)/6.0*100.0;
-        console.log(perc);
-
-        var pid = parseInt(item.parentNode.getAttribute("postid"));
-        console.log(pid);
-
-        //var token = $("{% csrf_token %}");
-        //console.log(token);
-        //console.log(token[0]["value"]);
-        $.get( "/agora/posts/"+pid+"/easyvote/", {
-            "voteslider":perc//,
-            //"csrfmiddlewaretoken":token[0]["value"]
-            }, function( data ) {
-          //$( ":root" ).html( data );
-          location.reload();
-        });
-              }
+<script>
     console.log($(".quickvotelink"));
     function setup_vote_popovers(){
 		$(".quickvotelink").popover({
 			html : true,
 			content: function() {
 			  var a = $('#popoverVoteContent')[0];
+				console.log("a=");
 				console.log(a);
 				//b = a.getElementsByClassName("customvotecontent")[0];
 				//c = a.parent
@@ -91,7 +63,7 @@
 				//b.textContent = $(this).text()
 				//console.log($(this).text());
 				//setTimeout(
-				var votepicsdiv = a.getElementsByClassName("votepics")[0];
+				var votepicsdiv = a.getElementsByClassName("votepicsinner")[0];
 				console.log($(this));
 				var postid = $(this)[0].parentElement.dataset['postid']
 				votepicsdiv.setAttribute("postid", postid)
@@ -106,7 +78,9 @@
 			}
 		});
 	};
+        //$('img.svg').inlineSVG();
 	setup_vote_popovers();
+
 
               </script>
 <script>
@@ -177,7 +151,6 @@
 					console.log($(this))
 					$(this).find("#topicslist").html(result);
 					setup_vote_popovers();
-                	//$('.notsvg').click(pvoteclick);
 				} else {
 					$(this).find("#topicslist").html(result);
 					console.log("RESULT TOO SMALL - empty")

@@ -77,12 +77,8 @@
         console.log(voteint);
         var perc = (voteint-1)/6.0*100.0;
         console.log(perc);
-        var token = $("{% csrf_token %}");
-        console.log(token);
-        console.log(token[0]["value"]);
-        $.get( "/agora/posts/{{ post.id }}/easyvote/", {
-            "voteslider":perc,
-            "csrfmiddlewaretoken":token[0]["value"]
+        $.post( "/agora/posts/{{ post.id }}/easyvote/", {
+            "voteslider":perc
             }, function( data ) {
           //$( ":root" ).html( data );
           location.reload();

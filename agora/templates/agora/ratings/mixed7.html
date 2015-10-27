@@ -1,0 +1,11 @@
+{% load staticfiles %}
+<div class="votepicsinner" postid="{{ post.id }}">
+    <a onclick="castvote(this)" class="votelink" vval="0"><img vval="0" class="svgi1 svg" src="{% static 'agora/img/ratings/1.svg' %}"/>
+    </a><a onclick="castvote(this)" class="votelink" vval="1"><img class="svg" src="{% static 'agora/img/ratings/2.svg' %}"/>
+</a><a onclick="castvote(this)" class="votelink" vval="2"><img class="svg" src="{% static 'agora/img/ratings/3.svg' %}"/>
+</a><a onclick="castvote(this)" class="votelink" vval="3"><img class="svg" src="{% static 'agora/img/ratings/4.svg' %}"/>
+</a><a onclick="castvote(this)" class="votelink" vval="4"><img class="svg" src="{% static 'agora/img/ratings/5.svg' %}"/>
+</a><a onclick="castvote(this)" class="votelink" vval="5"><img class="svg" src="{% static 'agora/img/ratings/6.svg' %}"/>
+</a><a onclick="castvote(this)" class="votelink" vval="6"><img class="svg" src="{% static 'agora/img/ratings/7.svg' %}"/>
+</a>
+</div>
