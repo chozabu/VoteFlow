@@ -48,6 +48,9 @@ def notifications(request):
 def root(request):
 	return render(request, 'agora/root.html')
 
+def filtertest(request):
+	return render(request, 'agora/posts/filtering.html')
+
 #basic API
 #/agora/basic_api/?table=Post&template=api_post_list&rtype=html&sortby=-liquid_sum&startat=39
 def db_query(request):

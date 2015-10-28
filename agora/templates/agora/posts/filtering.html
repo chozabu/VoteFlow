@@ -1,0 +1,225 @@
+{% extends 'agora/base_template.html' %}
+
+{% block title %}
+    {{ group.name }}
+{% endblock %}
+{% load cmarkdown %}
+
+{% block body_block %}
+<div id="filterproto" class="filteritem ilb">
+    <select name="postfilterbox" id="postfilterbox">
+        <option value="name">Name</option>
+        <option value="text">Text</option>
+        <option value="liquid_value">Rating</option>
+        <option value="liquid_sum">Sum</option>
+        <option value="created_at">Date</option>
+        <option value="direct_value">Direct Rating</option>
+        <option value="direct_sum">Direct Sum</option>
+        <option value="tag">Tags ...</option>
+        <option value="liquid_value">Name ...</option>
+    </select>
+
+    <select name="tagfilterbox" id="tagfilterbox">
+        <option value="name">Name ...</option>
+        <option value="liquid_value">Rating</option>
+        <option value="liquid_sum">Sum</option>
+        <option value="created_at">Date</option>
+        <option value="direct_value">Direct Rating</option>
+        <option value="direct_sum">Direct Sum</option>
+    </select>
+
+    <span id="strfiltercontainer">
+    <select name="strfilterbox" id="strfilterbox">
+        <option value="">is</option>
+        <option value="__iexact">contains</option>
+    </select>
+        <input type="text" id="strfilterval" />
+    </span>
+
+
+    <span id="floatfiltercontainer">
+    <select name="floatfilterbox" id="floatfilterbox">
+        <option value="">is</option>
+        <option value="__gt">greater than</option>
+        <option value="__lt">less than</option>
+    </select>
+        <input type="number" id="floatfilterval" />
+    </span>
+
+
+    <span id="datefiltercontainer">
+    <select name="datefilterbox" id="datefilterbox">
+        <option value="">is</option>
+        <option value="__gt">greater than</option>
+        <option value="__lt">less than</option>
+    </select>
+        <input type="datetime-local" id="datefilterval" />
+    </span>
+
+    <div>
+        <button id="check" >check</button>
+        <span id="outbox" ></span>
+
+    </div>
+</div>
+
+<button id="newfilterbutton">New Filter</button>
+
+<div id="currentfiltersbox">
+</div>
+
+    <script>
+    function quickgroupclick(event){
+        $.post( "join_group/", {
+            }, function( data ) {
+          location.reload();
+        });
+    }
+    function getfilteritem(achild){
+        var mainbox = $(this).parentsUntil(".filteritem").parent();
+        if (mainbox.length == 0)return achild.parent();
+        return mainbox;
+
+    }
+    function postfilterbox_changed(event){
+        console.log("---")
+        console.log($(this));
+        //floatbox.hide();
+        var mainbox = getfilteritem($(this))
+        //var mainbox = $(this).parentsUntil(".filteritem").parent();
+        //console.log(mainbox)
+        //console.log($(this).parent())
+        //console.log($(this).parentsUntil("body"))
+        var newval = $(this)[0].value;
+        console.log(newval);
+        var floatbox = mainbox.find('#floatfiltercontainer');
+        var datebox = mainbox.find('#datefiltercontainer');
+        var strbox = mainbox.find('#strfiltercontainer');
+        var tagbox = mainbox.find('#tagfilterbox');
+        console.log(floatbox);
+        if( $.inArray( newval, [ "liquid_value", "liquid_sum",
+        "direct_value", "direct_sum" ] ) != -1){
+            floatbox.show();
+            datebox.hide();
+            strbox.hide();
+            tagbox.hide();
+        }
+        if( $.inArray( newval, [ "name", "text" ] ) != -1){
+            floatbox.hide();
+            datebox.hide();
+            strbox.show();
+            tagbox.hide();
+        }
+        if( $.inArray( newval, [ "created_at" ] ) != -1){
+            floatbox.hide();
+            datebox.show();
+            strbox.hide();
+            tagbox.hide();
+        }
+        if( $.inArray( newval, [ "tag" ] ) != -1){
+            floatbox.hide();
+            datebox.hide();
+            strbox.hide();
+            tagbox.show();
+        }
+    }
+    function tagfilterbox_changed(event){
+        //floatbox.hide();
+        var mainbox = $(this).parentsUntil(".filteritem").parent();
+        var newval = $(this)[0].value;
+        var floatbox = mainbox.find('#floatfiltercontainer');
+        var datebox = mainbox.find('#datefiltercontainer');
+        var strbox = mainbox.find('#strfiltercontainer');
+        var tagbox = mainbox.find('#tagfilterbox');
+        console.log(newval);
+        if( $.inArray( newval, [ "liquid_value", "liquid_sum",
+        "direct_value", "direct_sum" ] ) != -1){
+            floatbox.show();
+            datebox.hide();
+            strbox.hide();
+        }
+        else if( $.inArray( newval, [ "name", "text" ] ) != -1){
+            floatbox.hide();
+            datebox.hide();
+            strbox.show();
+        }
+        else if( $.inArray( newval, [ "created_at" ] ) != -1){
+            floatbox.hide();
+            datebox.show();
+            strbox.hide();
+        }
+    }
+    function setout(val){
+        console.log(val);
+        $('#outbox')[0].textContent=val;
+    }
+    function print_filter(event){
+        var mainbox = $(this).parentsUntil(".filteritem").parent();
+        filter = get_filter(mainbox);
+        console.log(filter);
+        $('#outbox')[0].textContent=JSON.stringify(filter);
+    }
+    function get_filter(mainbox){
+        
+        var first = mainbox.find('#postfilterbox')[0].value;
+        if( $.inArray( first, [ "liquid_value", "liquid_sum",
+        "direct_value", "direct_sum" ] ) != -1){
+            var second = mainbox.find('#floatfilterbox')[0].value;
+            var filterval = mainbox.find('#floatfilterval')[0].value;
+        }
+        else if( $.inArray( first, [ "name", "text" ] ) != -1){
+            var second = mainbox.find('#strfilterbox')[0].value;
+            var filterval = mainbox.find('#strfilterval')[0].value;
+        }
+        else if( $.inArray( first, [ "created_at" ] ) != -1){
+            var second = mainbox.find('#datefilterbox')[0].value;
+            var filterval = mainbox.find('#datefilterval')[0].value;
+        }
+        else if( $.inArray( first, [ "tag" ] ) != -1){
+            var second = mainbox.find('#tagfilterbox')[0].value;
+            //var filterval = mainbox.find('#datefilterval')[0].value;
+            //setout(first+second:filterval};
+            if( $.inArray( second, [ "liquid_value", "liquid_sum",
+            "direct_value", "direct_sum" ] ) != -1){
+                var third = mainbox.find('#floatfilterbox')[0].value;
+                var filterval = mainbox.find('#floatfilterval')[0].value;
+            }
+            else if( $.inArray( second, [ "name", "text" ] ) != -1){
+                var third = mainbox.find('#strfilterbox')[0].value;
+                var filterval = mainbox.find('#strfilterval')[0].value;
+            }
+            else if( $.inArray( second, [ "created_at" ] ) != -1){
+                var third = mainbox.find('#datefilterbox')[0].value;
+                var filterval = mainbox.find('#datefilterval')[0].value;
+            }
+            rval = {}
+            rval[first+"__"+second+third]=filterval
+            return rval;
+        }
+        else {
+            rval = {}
+            rval[first]="?";
+            return rval;
+        }
+        rval = {}
+        rval[first+second]=filterval
+        return rval;
+    }
+        $('#check').click(print_filter);
+        $('#postfilterbox').change(postfilterbox_changed);
+        $('#tagfilterbox').change(tagfilterbox_changed);
+
+
+        function new_filter(event){
+        console.log("new filter");
+        console.log($('#filterproto'));
+            var newfilter = $('#filterproto').clone(true);
+            newfilter[0].id="afilter";
+            newfilter.show();
+            $('#currentfiltersbox').append(newfilter);
+        }
+        $('#newfilterbutton').click(new_filter);
+        $('#filterproto').hide();
+    </script>
+
+{% endblock %}
