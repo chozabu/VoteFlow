@@ -10,13 +10,15 @@
     <select name="postfilterbox" id="postfilterbox">
         <option value="name">Name</option>
         <option value="text">Text</option>
+        <option value="text">author</option>
         <option value="liquid_value">Rating</option>
         <option value="liquid_sum">Sum</option>
         <option value="created_at">Date</option>
         <option value="direct_value">Direct Rating</option>
         <option value="direct_sum">Direct Sum</option>
         <option value="tag">Tags ...</option>
-        <option value="liquid_value">Name ...</option>
+        <option value="group">Group ...</option>
+        <option value="topic">Topic ...</option>
     </select>
 
     <select name="tagfilterbox" id="tagfilterbox">
@@ -76,20 +78,15 @@
         });
     }
     function getfilteritem(achild){
-        var mainbox = $(this).parentsUntil(".filteritem").parent();
+        var mainbox = $(this).parentsUntil(".filteritem");
         if (mainbox.length == 0)return achild.parent();
-        return mainbox;
+        return mainbox.parent();
 
     }
     function postfilterbox_changed(event){
         console.log("---")
         console.log($(this));
-        //floatbox.hide();
         var mainbox = getfilteritem($(this))
-        //var mainbox = $(this).parentsUntil(".filteritem").parent();
-        //console.log(mainbox)
-        //console.log($(this).parent())
-        //console.log($(this).parentsUntil("body"))
         var newval = $(this)[0].value;
         console.log(newval);
         var floatbox = mainbox.find('#floatfiltercontainer');
@@ -125,7 +122,7 @@
     }
     function tagfilterbox_changed(event){
         //floatbox.hide();
-        var mainbox = $(this).parentsUntil(".filteritem").parent();
+        var mainbox = getfilteritem($(this))
         var newval = $(this)[0].value;
         var floatbox = mainbox.find('#floatfiltercontainer');
         var datebox = mainbox.find('#datefiltercontainer');
@@ -154,12 +151,15 @@
         $('#outbox')[0].textContent=val;
     }
     function print_filter(event){
-        var mainbox = $(this).parentsUntil(".filteritem").parent();
+        var mainbox = getfilteritem($(this))
         filter = get_filter(mainbox);
         console.log(filter);
-        $('#outbox')[0].textContent=JSON.stringify(filter);
+        mainbox.find('#outbox'mainbox)[0].textContent=JSON.stringify(filter);
     }
     function get_filter(mainbox){
+        console.log("mainbox");
+        console.log(mainbox);
+        console.log(mainbox.find('#postfilterbox'));
         
         var first = mainbox.find('#postfilterbox')[0].value;
         if( $.inArray( first, [ "liquid_value", "liquid_sum",
