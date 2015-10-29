@@ -1,0 +1,67 @@
+<div id="{{ filterdivid }}">
+<div id="filterproto" class="filteritem ilb">
+    <select name="postfilterbox" id="postfilterbox">
+        <option value="name">Name</option>
+        <option value="text">Text</option>
+        <option value="text">author</option>
+        <option value="liquid_value">Rating</option>
+        <option value="liquid_sum">Sum</option>
+        <option value="created_at">Date</option>
+        <option value="direct_value">Direct Rating</option>
+        <option value="direct_sum">Direct Sum</option>
+        <option value="tag">Tags ...</option>
+        <option value="group">Group ...</option>
+        <option value="topic">Topic ...</option>
+    </select>
+
+    <select name="tagfilterbox" id="tagfilterbox">
+        <option value="name">Name ...</option>
+        <option value="liquid_value">Rating</option>
+        <option value="liquid_sum">Sum</option>
+        <option value="created_at">Date</option>
+        <option value="direct_value">Direct Rating</option>
+        <option value="direct_sum">Direct Sum</option>
+    </select>
+
+    <span id="strfiltercontainer">
+    <select name="strfilterbox" id="strfilterbox">
+        <option value="">is</option>
+        <option value="__icontains">contains</option>
+    </select>
+        <input type="text" id="strfilterval" />
+    </span>
+
+
+    <span id="floatfiltercontainer">
+    <select name="floatfilterbox" id="floatfilterbox">
+        <option value="">is</option>
+        <option value="__gt">greater than</option>
+        <option value="__lt">less than</option>
+    </select>
+        <input type="number" id="floatfilterval" />
+    </span>
+
+
+    <span id="datefiltercontainer">
+    <select name="datefilterbox" id="datefilterbox">
+        <option value="">is</option>
+        <option value="__gt">greater than</option>
+        <option value="__lt">less than</option>
+    </select>
+        <input type="datetime-local" id="datefilterval" />
+    </span>
+
+    <div>
+        <button id="check" >check</button>
+        <span id="outbox" ></span>
+
+    </div>
+</div>
+
+<button id="newfilterbutton">New Filter</button>
+
+<div id="currentfiltersbox">
+</div>
+{% load staticfiles %}
+    <script src="{% static 'agora/js/filtering.js' %}"></script>
+</div>

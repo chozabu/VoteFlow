@@ -43,6 +43,10 @@ function postfilterbox_changed(event){
         datebox.hide();
         strbox.hide();
         tagbox.show();
+        console.log("doing TAG change")
+        tagbox.find('#tagfilterbox').change();
+        $('#tagfilterbox').change();
+        console.log("doing TAG change")
     }
 }
 function tagfilterbox_changed(event){
@@ -74,6 +78,19 @@ function tagfilterbox_changed(event){
 function setout(val){
     console.log(val);
     $('#outbox')[0].textContent=val;
+}
+function get_filters(fcontainername){
+    var fbox = $(fcontainername).find("#currentfiltersbox").children();
+    var filters = [];
+    for (var fi = 0;fi<fbox.length;fi++){
+        //console.log("loop");
+        //console.log(fbox[fi]);
+        //console.log($(fbox[fi]));
+        filters.push(get_filter($(fbox[fi])));
+    }
+    //console.log(filters);
+    return filters;
+    //  mainbox.find('#outbox')[0].textContent=JSON.stringify(filter);
 }
 function print_filter(event){
     var mainbox = $(this).parent().parent()
@@ -139,6 +156,18 @@ $('#tagfilterbox').change(tagfilterbox_changed);
 function new_filter(event){
     console.log("new filter");
     console.log($('#filterproto'));
+    var newfilter = $('#filterproto').clone(true);
+    newfilter.find('#postfilterbox').change();
+    newfilter[0].id="afilter";
+    newfilter.show();
+    $('#currentfiltersbox').append(newfilter);
+}
+function new_filter_from_json(jin){
+    console.log("new filter");
+    console.log($('#filterproto'));
+    //get the key and value object
+    //split key by __s?
+    //same structure as getfilter, but setting values
     var newfilter = $('#filterproto').clone(true);
     newfilter.find('#postfilterbox').change();
     newfilter[0].id="afilter";

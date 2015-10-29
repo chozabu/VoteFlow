@@ -8,6 +8,10 @@
         <option value="User">People</option>
     </select>
 <br>
+
+{% include 'agora/posts/inc_filter.html' with filterdivid="searchfilter" %}
+
+    <br>
         Sorting <select name="SortMethods" id="sortbox">
         <option value="-liquid_value">Rating</option>
         <option value="-liquid_sum">Top</option>
@@ -64,6 +68,12 @@
             datain['template'] = tinfo[taval];
             //var filter = [pbox.data('filter')];
             var filter = [finfo[taval]];
+
+            customfilters = get_filters("#searchfilter");
+            for (f in customfilters){
+                filter.push(customfilters[f]);
+            }
+
             cbox = pbox.find("#completed_toggle")[0]
             console.log(cbox)
             //filter={};
