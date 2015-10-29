@@ -44,9 +44,7 @@ function postfilterbox_changed(event){
         strbox.hide();
         tagbox.show();
         console.log("doing TAG change")
-        //tagbox.find('#tagfilterbox').change();
-        tagbox.find('#tagfilterbox').trigger('change');
-        //$('#tagfilterbox').change();
+        tagbox.trigger('change');
         console.log("done TAG change")
     }
 }
@@ -186,6 +184,7 @@ function set_filter(mainbox, items, value){
     }
     else if( $.inArray( first, [ "tag" ] ) != -1){
         mainbox.find('#tagfilterbox')[0].value = second;
+        mainbox.find('#tagfilterbox').trigger('change');
         //mainbox.find('#datefilterval')[0].value;
         //setout(first+second:filterval};
         if( $.inArray( second, [ "liquid_value", "liquid_sum",
