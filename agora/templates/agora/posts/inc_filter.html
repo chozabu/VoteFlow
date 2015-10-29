@@ -56,6 +56,7 @@
         <span id="outbox" ></span>
 
     </div>-->
+    <button id="removefilter" >X</button>
 </div>
 
 <button id="newfilterbutton">New Filter</button>
@@ -69,4 +70,9 @@
 </div>
 {% load staticfiles %}
     <script src="{% static 'agora/js/filtering.js' %}"></script>
+    {% if searchtext %}
+    <script>
+        new_filter_from_json({"name__icontains":"{{ searchtext }}"});
+     </script>
+    {% endif %}
 </div>
