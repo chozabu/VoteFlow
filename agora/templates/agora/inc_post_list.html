@@ -105,6 +105,8 @@
 			datain['template'] = pbox.data('template');
 		{% endif %}
 		var filter = [pbox.data('filter')];
+		var exclude = [];
+
 	{% if not hidecompleted %}
 		cbox = pbox.find("#completed_toggle")[0]
 		console.log(cbox)
@@ -118,9 +120,10 @@
 			console.log(filter)
 		} else {
 			console.log("EMPTY");
-			exclude = {}
-			exclude['tag__liquid_value__gte'] = -.1;
-			exclude['tag__name'] = "completed";
+			cexclude = {}
+			cexclude['tag__liquid_value__gte'] = -.1;
+			cexclude['tag__name'] = "completed";
+			exclude.push(cexclude)
 			datain['exclude'] = JSON.stringify(exclude);
 			console.log("EXCLUDE");
 			console.log(exclude)

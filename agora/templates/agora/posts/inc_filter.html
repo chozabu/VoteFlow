@@ -15,7 +15,7 @@
     </select>
 
     <select name="tagfilterbox" id="tagfilterbox">
-        <option value="name">Name ...</option>
+        <option value="name">Name</option>
         <option value="liquid_value">Rating</option>
         <option value="liquid_sum">Sum</option>
         <option value="created_at">Date</option>
@@ -25,8 +25,8 @@
 
     <span id="strfiltercontainer">
     <select name="strfilterbox" id="strfilterbox">
+        <option value="icontains">contains</option>
         <option value="">is</option>
-        <option value="__icontains">contains</option>
     </select>
         <input type="text" id="strfilterval" />
     </span>
@@ -34,9 +34,9 @@
 
     <span id="floatfiltercontainer">
     <select name="floatfilterbox" id="floatfilterbox">
+        <option value="gt">greater than</option>
+        <option value="lt">less than</option>
         <option value="">is</option>
-        <option value="__gt">greater than</option>
-        <option value="__lt">less than</option>
     </select>
         <input type="number" id="floatfilterval" />
     </span>
@@ -45,22 +45,27 @@
     <span id="datefiltercontainer">
     <select name="datefilterbox" id="datefilterbox">
         <option value="">is</option>
-        <option value="__gt">greater than</option>
-        <option value="__lt">less than</option>
+        <option value="gt">greater than</option>
+        <option value="lt">less than</option>
     </select>
         <input type="datetime-local" id="datefilterval" />
     </span>
 
-    <div>
+    <!--<div>
         <button id="check" >check</button>
         <span id="outbox" ></span>
 
-    </div>
+    </div>-->
 </div>
 
 <button id="newfilterbutton">New Filter</button>
+<button id="newexcludebutton">New Exclude</button>
 
+    <br>Filters:
 <div id="currentfiltersbox">
+</div>
+    Excludes:
+<div id="currentexcludesbox">
 </div>
 {% load staticfiles %}
     <script src="{% static 'agora/js/filtering.js' %}"></script>

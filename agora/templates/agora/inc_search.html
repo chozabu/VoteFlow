@@ -67,14 +67,20 @@
             datain['rtype'] = pbox.data('rtype');
             datain['template'] = tinfo[taval];
             //var filter = [pbox.data('filter')];
-            var filter = [finfo[taval]];
+            var filter = [];//finfo[taval]];
+            var exclude = [];
 
-            customfilters = get_filters("#searchfilter");
+            customfilters = get_filters("#searchfilter", "#currentfiltersbox");
             for (f in customfilters){
                 filter.push(customfilters[f]);
             }
 
-            cbox = pbox.find("#completed_toggle")[0]
+            customexcludes = get_filters("#searchfilter", "#currentexcludesbox");
+            for (e in customexcludes){
+                exclude.push(customexcludes[e]);
+            }
+
+            /*cbox = pbox.find("#completed_toggle")[0]
             console.log(cbox)
             //filter={};
             if(taval=="Post")
@@ -93,11 +99,12 @@
                 datain['exclude'] = JSON.stringify(exclude);
                 console.log("EXCLUDE");
                 console.log(exclude)
-            }
+            }*/
             console.log("FILTER");
             console.log(filter);
 
             datain['filter'] = JSON.stringify(filter);
+            datain['exclude'] = JSON.stringify(exclude);
             console.log(datain['filter']);
             console.log("REQUESTING");
             console.log(datain);

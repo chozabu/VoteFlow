@@ -81,13 +81,23 @@ def db_query(request):
 		print "@filter"
 		print vfilter
 		objs = objs.filter(**vfilter)
+	
+	excludes=r_get.get("exclude", '[]')
+	if not excludes:excludes="[]"
+	excludes=json.loads(excludes)
+	print excludes
+	for vexclude in excludes:
+		if not vexclude:continue
+		print "@exclude"
+		print vexclude
+		objs = objs.exclude(**vexclude)
 
-	exclude=r_get.get("exclude")
+	'''exclude=r_get.get("exclude")
 	if exclude:
 		print "@exclude"
 		ve = json.loads(exclude)
 		print ve
-		objs = objs.exclude(**ve)
+		objs = objs.exclude(**ve)'''
 
 	sortby=r_get.get("sortby")
 	if sortby:

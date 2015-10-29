@@ -79,8 +79,8 @@ function setout(val){
     console.log(val);
     $('#outbox')[0].textContent=val;
 }
-function get_filters(fcontainername){
-    var fbox = $(fcontainername).find("#currentfiltersbox").children();
+function get_filters(fcontainername, fboxname){
+    var fbox = $(fcontainername).find(fboxname).children();
     var filters = [];
     for (var fi = 0;fi<fbox.length;fi++){
         //console.log("loop");
@@ -135,7 +135,10 @@ function get_filter(mainbox){
             var filterval = mainbox.find('#datefilterval')[0].value;
         }
         rval = {}
-        rval[first+"__"+second+third]=filterval
+        if (third=="")
+            rval[first+"__"+second]=filterval;
+        else
+            rval[first+"__"+second+"__"+third]=filterval;
         return rval;
     }
     else {
@@ -144,7 +147,7 @@ function get_filter(mainbox){
         return rval;
     }
     rval = {}
-    rval[first+second]=filterval
+    rval[first+"__"+second]=filterval
     return rval;
 }
 
@@ -154,13 +157,20 @@ $('#tagfilterbox').change(tagfilterbox_changed);
 
 
 function new_filter(event){
+    new_filter_action('#currentfiltersbox');
+}
+function new_exclude(event){
+    new_filter_action('#currentexcludesbox');
+}
+
+function new_filter_action(foe){
     console.log("new filter");
     console.log($('#filterproto'));
     var newfilter = $('#filterproto').clone(true);
     newfilter.find('#postfilterbox').change();
     newfilter[0].id="afilter";
     newfilter.show();
-    $('#currentfiltersbox').append(newfilter);
+    $(foe).append(newfilter);
 }
 function new_filter_from_json(jin){
     console.log("new filter");
@@ -175,4 +185,5 @@ function new_filter_from_json(jin){
     $('#currentfiltersbox').append(newfilter);
 }
 $('#newfilterbutton').click(new_filter);
+$('#newexcludebutton').click(new_exclude);
 $('#filterproto').hide();
