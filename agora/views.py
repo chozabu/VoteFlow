@@ -349,7 +349,8 @@ def group_member_setlevel_submit(request, group_id):
 	# if this is a POST request we need to process the form data
 	if not request.user.is_authenticated():
 		print "noauth in newgroup"
-		return HttpResponseRedirect("/agora/login")
+
+		return HttpResponseRedirect("/agora/login/")
 	if request.method == 'POST':
 		group = DGroup.objects.get(pk=group_id)
 		print request.POST
@@ -898,6 +899,7 @@ def subscribe_topic(request, parent_topic_id):
 
 
 def login_user(request):
+	print dir(request)
 	if request.method == "POST":
 		form = AuthenticationForm(data = request.POST)
 		if form.is_valid():
@@ -908,6 +910,7 @@ def login_user(request):
 			if user is not None:
 				if user.is_active:
 					login(request, user)
+					return HttpResponseRedirect(request.POST['nexturl'])
 					# Redirect to a success page.
 				else:
 					# Return a 'disabled account' error message
@@ -922,10 +925,22 @@ def login_user(request):
 			#return render(request, 'agora/index.html', {"user":u})
 			return HttpResponseRedirect("/agora/")#, {"user":user})
 			#redirect('edit_user', user_id = u.id)
-	else:
-		form = AuthenticationForm()
+	'''
+	/agora/login/ :{;{ request.path }}
+	/agora/login/?next=asd: {;{ request.get_full_path }}
+	http://lc.lan:8000/agora/: {;{ request.META.HTTP_REFERER }}
+	lc.lan:8000: {;{ request.META.HTTP_HOST }}
+	asd: {;{ request.GET.next }}
+	'''
+	print request.META
+	next= request.META['HTTP_HOST']+request.get_full_path()
+	if 'HTTP_REFERER' in request.META:
+		if request.META['HTTP_REFERER'][7:].startswith(request.META['HTTP_HOST']):
+			next = request.META['HTTP_REFERER']
+
+	form = AuthenticationForm()
 	import requests
-	context = {'form': form}
+	context = {'form': form, 'next':next}
 	'''if request.user.is_authenticated():
 		user = request.user
 		social = user.social_auth.get(provider='google-oauth2')
