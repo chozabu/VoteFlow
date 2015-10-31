@@ -124,6 +124,10 @@ function postfilterbox_changed(event){
         parentbox.trigger('change');
         //console.log("done parent change")
     }
+    var rootbox = getfilteritem($(this)).parent().parent();
+    var psf = rootbox.find('#presetfilters');
+    var rules = get_rules(rootbox);
+    psf[0].value=JSON.stringify(rules);
 }
 function tagfilterbox_changed(event){
     //console.log("TFT")
@@ -202,6 +206,18 @@ function groupfilterbox_changed(event){
         strbox.hide();
     }
 }
+
+function presetfilters_changed(event){
+    console.log("presit filter changing");
+    console.log($(this));
+    var newfilterstr = $(this)[0].value;
+    console.log("["+newfilterstr+"]");
+    console.log(JSON.parse("["+newfilterstr+"]"));
+    var mainbox = getfilteritem($(this));
+    console.log(mainbox);
+    set_filter_from_json(JSON.parse("["+newfilterstr+"]")[0], mainbox);
+    //set_filter_from_json
+}
 function parentfilterbox_changed(event){
     //console.log("TFT")
     //floatbox.hide();
@@ -226,6 +242,7 @@ function parentfilterbox_changed(event){
         datebox.show();
         strbox.hide();
     }
+
 }
 function setout(val){
     //console.log(val);
@@ -546,6 +563,7 @@ $('#tagfilterbox').change(tagfilterbox_changed);
 $('#topicfilterbox').change(topicfilterbox_changed);
 $('#groupfilterbox').change(groupfilterbox_changed);
 $('#parentfilterbox').change(parentfilterbox_changed);
+$('#presetfilters').change(presetfilters_changed);
 
 
 function new_filter(event){
@@ -597,8 +615,6 @@ function new_exclude_from_json(jin){
     new_filter_from_json(jin, "#currentexcludesbox")
 }
 function new_filter_from_json(jin, foe){
-    //console.log("new filter");
-    //console.log($('#filterproto'));
     if (foe==undefined)foe = '#currentfiltersbox';
     newfilter = new_filter_action(foe);
     //get the key and value object
@@ -611,6 +627,21 @@ function new_filter_from_json(jin, foe){
         query=k;
         val=jin[k];
         if (first==false) a=new_rule_on(newfilter);
+        set_filter(a, query, val);
+        first = false;
+    }
+    //split key by __s?
+    //same structure as getfilter, but setting values
+}
+function set_filter_from_json(jin, filterbox){
+    var query = "";
+    var val = "";
+    filterbox.find('#postfilterpair').remove()
+    var first = true;
+    for (k in jin){
+        query=k;
+        val=jin[k];
+        a=new_rule_on(filterbox);
         set_filter(a, query, val);
         first = false;
     }

@@ -17,13 +17,8 @@
 	<option value="-liquid_heat">Direct Heat</option>
 	<option value="-direct_value">Direct Rating</option>
 	<option value="-direct_sum">Direct Top</option>
+	<option value="-tag__liquid_value">Direct Top</option>
 </select>
-	{% if not hidecompleted %}
-	<button id="completed_toggle" type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false"
-			autocomplete="off">
-		Completed
-	</button>
-	{% endif %}
 	<button id="gobutton" type="button" class="btn btn-info">
 		Go
 	</button>
@@ -106,10 +101,9 @@
 		{% else %}
 			datain['template'] = pbox.data('template');
 		{% endif %}
+
 		var filter = [];//[pbox.data('filter')];
 		var exclude = [];
-
-
             customfilters = get_filters("#mainpostlist", "#currentfiltersbox");
             console.log("customfilters: ", customfilters);
             for (f in customfilters){
@@ -143,16 +137,6 @@
 			console.log("EXCLUDE");
 			console.log(exclude)
 		}
-	{% endif %}
-	{% if filtertopic %}
-			tfil = {}
-			tfil['topic'] = {{ filtertopic.id }};
-			filter.push(tfil)
-	{% endif %}
-	{% if parentpost %}
-			pfil = {}
-			pfil['parent'] = "{{ parentpost.id }}";
-			filter.push(pfil)
 	{% endif %}
 	*/
 

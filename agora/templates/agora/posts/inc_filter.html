@@ -4,6 +4,15 @@
 </button>
 <div id="{{ filterdivid }}" class="">
 <div id="filterproto" class="filteritem ilb">
+    <select name="presetfilters" id="presetfilters">
+        <option value='{"name__icontains":""}'>Name Contains ...</option>
+        <option value='{"topic__id":"{{ current_topic.id }}"}'>This Topic</option>
+        <option value='{"group__id":"{{ group.id }}"}'>This Group</option>
+        <option value='{"name__icontains":""}'>Name Contains ...</option>
+        <option value='{"tag__name":"completed", "tag__liquid_value__gte": 0}'>Marked Completed</option>
+        <option value='{"tag__name":"completed", "tag__liquid_value__lt": 0}'>un-Marked Completed</option>
+        <option value='{"author__id":{{ user.id }}}'>by Me</option>
+    </select>
     <button id="removefilter" >X</button><br>
     <div id="postfilterrules" >
     <div id="postfilterpair" class="ruleitem" >
@@ -78,14 +87,14 @@
         <input type="datetime-local" id="datefilterval" />
     </span>
 
-    <div>
+    <!--<div>
         <button id="check" >check</button>
         <span id="outbox" ></span>
 
+    </div>-->
     </div>
     </div>
-    </div>
-    <button id="checkall" >check all</button>
+    <!--<button id="checkall" >check all</button>-->
     <span id="outboxall" ></span>
     <button id="removerule" >-</button>
     <button id="addrule" >+</button>
@@ -123,7 +132,9 @@
         new_filter_from_json({"parent":null});
 	    console.log("*********");
 	{% endif %}
+	{% if not showcompleted %}
+	new_exclude_from_json({"tag__name":"completed", "tag__liquid_value__gte": 0});
+	{% endif %}
 
-    new_exclude_from_json({"tag__liquid_value__gte": -.1, "tag__name":"completed"});
      </script>
 </div>
