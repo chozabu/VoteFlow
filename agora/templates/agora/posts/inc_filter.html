@@ -1,4 +1,8 @@
-<div id="{{ filterdivid }}">
+<button title="toggle showing filters" type="button" class="btn btn-info" data-toggle="collapse"
+        data-target="#{{ filterdivid }}">
+    Filters
+</button>
+<div id="{{ filterdivid }}" class="collapse">
 <div id="filterproto" class="filteritem ilb">
     <select name="postfilterbox" id="postfilterbox">
         <option value="name">Name</option>
