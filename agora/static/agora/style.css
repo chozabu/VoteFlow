@@ -395,3 +395,18 @@ a:hover {
 .popover{
     max-width: 100%; /* Max Width of the popover (depending on the container!) */
 }
+
+.filterouterbox {
+	background-color: rgba(133, 255, 133, 0.12);
+	border: 2px solid rgba(177, 255, 177, 0.22);
+	border-radius: 10px;
+	padding: 2px;
+	margin: 2px;
+}
+.excludeouterbox {
+	background-color: rgba(255, 133, 133, 0.12);
+	border: 2px solid rgba(255, 177, 177, 0.22);
+	border-radius: 10px;
+	padding: 2px;
+	margin: 2px;
+}
