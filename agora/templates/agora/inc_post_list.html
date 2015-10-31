@@ -2,9 +2,11 @@
 {"parent":null }
 -->
     {% load staticfiles %}
-<div id="{{ divid }}" class="postlistintopics" data-table="Post" data-rtype="html"
+<div id="pl-{{ divid }}" class="postlistintopics" data-table="Post" data-rtype="html"
 		data-sortby="-liquid_sum" data-startat="0" data-template="api_post_list"
 		data-filter='{{ postfilter }}'>
+
+{% include 'agora/posts/inc_filter.html' with filterdivid=divid %}
 
 	Sorting <select name="SortMethods" id="sortbox">
 	<option value="-liquid_heat">Heat</option>
@@ -90,7 +92,7 @@
 	//console.log($(this));
 	function load_page(pbox) {
 		var datain = {}
-		datain['table'] = pbox.data('table');
+		datain['table'] = "Post";
 		console.log(pbox);
 		datain['sortby'] = pbox.find("#sortbox")[0].value;
 		console.log("---sortby---");
@@ -104,9 +106,22 @@
 		{% else %}
 			datain['template'] = pbox.data('template');
 		{% endif %}
-		var filter = [pbox.data('filter')];
+		var filter = [];//[pbox.data('filter')];
 		var exclude = [];
 
+
+            customfilters = get_filters("#mainpostlist", "#currentfiltersbox");
+            console.log("customfilters: ", customfilters);
+            for (f in customfilters){
+                filter.push(customfilters[f]);
+            }
+
+            customexcludes = get_filters("#mainpostlist", "#currentexcludesbox");
+            for (e in customexcludes){
+                exclude.push(customexcludes[e]);
+            }
+
+	/*
 	{% if not hidecompleted %}
 		cbox = pbox.find("#completed_toggle")[0]
 		console.log(cbox)
@@ -139,11 +154,14 @@
 			pfil['parent'] = "{{ parentpost.id }}";
 			filter.push(pfil)
 	{% endif %}
+	*/
 
 		console.log("FILTER");
 		console.log(filter);
 
-		datain['filter'] = JSON.stringify(filter);
+            datain['filter'] = JSON.stringify(filter);
+            datain['exclude'] = JSON.stringify(exclude);
+		//datain['filter'] = JSON.stringify(filter);
 		console.log(datain['filter']);
 		$.ajax({
 			url: "/agora/basic_api/"
@@ -196,7 +214,7 @@
 	$('#prevbutton').click(prev_page);
 	$('#gobutton').click(go_page);
 	{% if not items %}
-		var pbox = $('#{{ divid }}');
+		var pbox = $('#pl-{{ divid }}');
 		pbox.data('startat', 0);
 		load_page(pbox)
 	{% endif%}

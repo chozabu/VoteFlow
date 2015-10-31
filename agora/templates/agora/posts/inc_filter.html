@@ -3,15 +3,16 @@
     <select name="postfilterbox" id="postfilterbox">
         <option value="name">Name</option>
         <option value="text">Text</option>
-        <option value="text">author</option>
+        <option value="author">author</option>
         <option value="liquid_value">Rating</option>
         <option value="liquid_sum">Sum</option>
         <option value="created_at">Date</option>
         <option value="direct_value">Direct Rating</option>
         <option value="direct_sum">Direct Sum</option>
         <option value="tag">Tags ...</option>
-        <!--<option value="group">Group ...</option>
-        <option value="topic">Topic ...</option>-->
+        <option value="group">Group ...</option>
+        <option value="topic">Topic ...</option>
+        <option value="parent">Parent ...</option>
     </select>
 
     <select name="tagfilterbox" id="tagfilterbox">
@@ -21,6 +22,21 @@
         <option value="created_at">Date</option>
         <option value="direct_value">Direct Rating</option>
         <option value="direct_sum">Direct Sum</option>
+    </select>
+
+    <select name="topicfilterbox" id="topicfilterbox">
+        <option value="name">Name</option>
+        <option value="id">ID</option>
+    </select>
+
+    <select name="groupfilterbox" id="groupfilterbox">
+        <option value="name">Name</option>
+        <option value="id">ID</option>
+    </select>
+
+    <select name="parentfilterbox" id="parentfilterbox">
+        <option value="name">Name</option>
+        <option value="id">ID</option>
     </select>
 
     <span id="strfiltercontainer">
@@ -70,9 +86,26 @@
 </div>
 {% load staticfiles %}
     <script src="{% static 'agora/js/filtering.js' %}"></script>
-    {% if searchtext %}
     <script>
+    {% if searchtext %}
         new_filter_from_json({"name__icontains":"{{ searchtext }}"});
-     </script>
     {% endif %}
+	{% if filtertopic %}
+        new_filter_from_json({"topic__id":"{{ filtertopic.id }}"});
+	{% endif %}
+	{% if current_topic %}
+        new_filter_from_json({"topic__id":"{{ current_topic.id }}"});
+	{% endif %}
+	{% if group %}
+        new_filter_from_json({"group__id":"{{ group.id }}"});
+	{% endif %}
+	{% if parentpost %}
+        new_filter_from_json({"parent__id":"{{ parentpost.id }}"});
+	{% endif %}
+	{% if postfilter %}
+	    console.log("*********");
+        new_filter_from_json({"parent":null});
+	    console.log("*********");
+	{% endif %}
+     </script>
 </div>
