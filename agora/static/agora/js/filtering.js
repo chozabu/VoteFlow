@@ -1,4 +1,13 @@
 function getfilteritem(achild){
+    var mainbox = $(this).parentsUntil(".ruleitem");
+    if (mainbox.length == 0){
+        //console.log(achild.parent());
+        return achild.parent();
+        }
+    //console.log(mainbox.parent());
+    return mainbox.parent();
+
+}function getrealfilteritem(achild){
     var mainbox = $(this).parentsUntil(".filteritem");
     if (mainbox.length == 0){
         //console.log(achild.parent());
@@ -229,7 +238,7 @@ function get_filters(fcontainername, fboxname){
         ////console.log("loop");
         ////console.log(fbox[fi]);
         ////console.log($(fbox[fi]));
-        filters.push(get_filter($(fbox[fi])));
+        filters.push(get_rules($(fbox[fi])));
     }
     ////console.log(filters);
     return filters;
@@ -239,11 +248,44 @@ function remove_filter(event){
     $(this).parent().remove();
 }
 function print_filter(event){
+    console.log("printing filter")
     var mainbox = $(this).parent().parent()
+    console.log(mainbox);
     filter = get_filter(mainbox);
-    //console.log(filter);
+    console.log(filter);
     mainbox.find('#outbox')[0].textContent=JSON.stringify(filter);
 }
+function print_filters(event){
+    console.log("printing filter")
+    var mainbox = $(this).parent();
+    filters = get_rules(mainbox);
+    console.log(filters)
+}
+function get_rules(mainbox){
+    filters = []
+    //console.log(mainbox);
+    var rulesdiv = mainbox.find('#postfilterrules');
+    console.log("--*****************-")
+    //console.log(rulesdiv);
+    //console.log(rulesdiv.children());
+    console.log("--*****************-")
+    rulesdiv.children().each(function() {
+      console.log($( this ));
+      console.log(get_filter($( this )))
+      filters.push(get_filter($( this )))
+    })
+    rules = {}
+    for (f in filters){
+        fi = filters[f]
+        for (fin in fi){
+        rules[fin]=fi[fin];
+        }
+    }
+    return rules;
+
+}
+
+
 function get_filter(mainbox){
     //console.log("mainbox");
     //console.log(mainbox);
@@ -496,6 +538,7 @@ function set_filter(mainbox, items, value){
 }
 
 $('#check').click(print_filter);
+$('#checkall').click(print_filters);
 $('#removefilter').click(remove_filter);
 $('#postfilterbox').change(postfilterbox_changed);
 $('#tagfilterbox').change(tagfilterbox_changed);
@@ -511,6 +554,33 @@ function new_exclude(event){
     new_filter_action('#currentexcludesbox');
 }
 
+
+function new_rule(event){
+    var filter = $(this).parent();
+    new_rule_on(filter);
+}
+
+function new_rule_on(filter){
+    console.log("new rule");
+    var rules = filter.find('#postfilterrules');
+    console.log($('#postfilterpair'));
+    var newrule = $('#postfilterpair').clone(true);
+    rules.append(newrule);
+    newrule.find('#postfilterbox').trigger('change');
+    return newrule;
+}
+function new_rule_action(ruleitem){
+    //console.log("new filter");
+    //console.log($('#filterproto'));
+    var newfilter = $('#filterproto').clone(true);
+    newfilter.find('#postfilterbox').change();
+    newfilter[0].id="afilter";
+    newfilter.show();
+    $(foe).append(newfilter);
+    $('#newrulebutton').click(new_rule);
+    return newfilter;
+}
+
 function new_filter_action(foe){
     //console.log("new filter");
     //console.log($('#filterproto'));
@@ -519,6 +589,7 @@ function new_filter_action(foe){
     newfilter[0].id="afilter";
     newfilter.show();
     $(foe).append(newfilter);
+    $('#newrulebutton').click(new_rule);
     return newfilter;
 }
 function new_filter_from_json(jin, foe){
@@ -539,5 +610,6 @@ function new_filter_from_json(jin, foe){
     //same structure as getfilter, but setting values
 }
 $('#newfilterbutton').click(new_filter);
+$('#addrule').click(new_rule);
 $('#newexcludebutton').click(new_exclude);
 $('#filterproto').hide();

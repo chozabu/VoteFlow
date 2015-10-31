@@ -2,8 +2,11 @@
         data-target="#{{ filterdivid }}">
     Filters
 </button>
-<div id="{{ filterdivid }}" class="collapse">
+<div id="{{ filterdivid }}" class="">
 <div id="filterproto" class="filteritem ilb">
+    <button id="removefilter" >X</button><br>
+    <div id="postfilterrules" >
+    <div id="postfilterpair" class="ruleitem" >
     <select name="postfilterbox" id="postfilterbox">
         <option value="name">Name</option>
         <option value="text">Text</option>
@@ -71,12 +74,17 @@
         <input type="datetime-local" id="datefilterval" />
     </span>
 
-    <!--<div>
+    <div>
         <button id="check" >check</button>
         <span id="outbox" ></span>
 
-    </div>-->
-    <button id="removefilter" >X</button>
+    </div>
+    </div>
+    </div>
+    <button id="checkall" >check all</button>
+    <span id="outboxall" ></span>
+    <button id="removerule" >-</button>
+    <button id="addrule" >+</button>
 </div>
 
 
@@ -111,5 +119,7 @@
         new_filter_from_json({"parent":null});
 	    console.log("*********");
 	{% endif %}
+
+    new_filter_from_json({"tag__liquid_value__gte": -.1, "tag__name":"completed"});
      </script>
 </div>
