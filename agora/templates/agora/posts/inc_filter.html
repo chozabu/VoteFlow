@@ -59,6 +59,8 @@
     <select name="floatfilterbox" id="floatfilterbox">
         <option value="gt">greater than</option>
         <option value="lt">less than</option>
+        <option value="gte">equal or greater than</option>
+        <option value="lte">equal or less than</option>
         <option value="">is</option>
     </select>
         <input type="number" id="floatfilterval" />
@@ -70,6 +72,8 @@
         <option value="">is</option>
         <option value="gt">greater than</option>
         <option value="lt">less than</option>
+        <option value="gte">equal or greater than</option>
+        <option value="lte">equal or less than</option>
     </select>
         <input type="datetime-local" id="datefilterval" />
     </span>
@@ -120,6 +124,6 @@
 	    console.log("*********");
 	{% endif %}
 
-    new_filter_from_json({"tag__liquid_value__gte": -.1, "tag__name":"completed"});
+    new_exclude_from_json({"tag__liquid_value__gte": -.1, "tag__name":"completed"});
      </script>
 </div>

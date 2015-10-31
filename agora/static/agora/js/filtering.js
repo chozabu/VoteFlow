@@ -412,7 +412,8 @@ function get_filter(mainbox){
     rval[first+"__"+second]=filterval
     return rval;
 }
-function set_filter(mainbox, items, value){
+function set_filter(mainbox, query, value){
+    var items = query.split("__");
     //console.log("##########DEBUG LVAL#######");
     //console.log("mainbox");
     //console.log(mainbox);
@@ -592,21 +593,28 @@ function new_filter_action(foe){
     $('#newrulebutton').click(new_rule);
     return newfilter;
 }
+function new_exclude_from_json(jin){
+    new_filter_from_json(jin, "#currentexcludesbox")
+}
 function new_filter_from_json(jin, foe){
     //console.log("new filter");
     //console.log($('#filterproto'));
-    foe = '#currentfiltersbox';
+    if (foe==undefined)foe = '#currentfiltersbox';
     newfilter = new_filter_action(foe);
     //get the key and value object
+
     var query = "";
     var val = "";
+    a=newfilter.find('#postfilterpair')
+    var first = true;
     for (k in jin){
         query=k;
         val=jin[k];
+        if (first==false) a=new_rule_on(newfilter);
+        set_filter(a, query, val);
+        first = false;
     }
     //split key by __s?
-    var qparts = query.split("__");
-    set_filter(newfilter, qparts, val);
     //same structure as getfilter, but setting values
 }
 $('#newfilterbutton').click(new_filter);
