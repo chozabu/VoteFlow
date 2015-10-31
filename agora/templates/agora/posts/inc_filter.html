@@ -7,10 +7,11 @@
     <select name="presetfilters" id="presetfilters">
         <option value='{"name__icontains":""}'>Name Contains ...</option>
         <option value='{"topic__id":"{{ current_topic.id }}"}'>This Topic</option>
+        <option value='{"parent__id":null}'>No Parent</option>
         <option value='{"group__id":"{{ group.id }}"}'>This Group</option>
         <option value='{"name__icontains":""}'>Name Contains ...</option>
-        <option value='{"tag__name":"completed", "tag__liquid_value__gte": 0}'>Marked Completed</option>
-        <option value='{"tag__name":"completed", "tag__liquid_value__lt": 0}'>un-Marked Completed</option>
+        <option value='{"tag__name":"completed","tag__liquid_value__gte":0}'>Marked Completed</option>
+        <option value='{"tag__name":"completed","tag__liquid_value__lt":0}'>un-Marked Completed</option>
         <option value='{"author__id":{{ user.id }}}'>by Me</option>
     </select>
     <button id="removefilter" >X</button><br>

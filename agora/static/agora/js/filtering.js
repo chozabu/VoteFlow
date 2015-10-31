@@ -124,10 +124,6 @@ function postfilterbox_changed(event){
         parentbox.trigger('change');
         //console.log("done parent change")
     }
-    var rootbox = getfilteritem($(this)).parent().parent();
-    var psf = rootbox.find('#presetfilters');
-    var rules = get_rules(rootbox);
-    psf[0].value=JSON.stringify(rules);
 }
 function tagfilterbox_changed(event){
     //console.log("TFT")
@@ -208,15 +204,9 @@ function groupfilterbox_changed(event){
 }
 
 function presetfilters_changed(event){
-    console.log("presit filter changing");
-    console.log($(this));
     var newfilterstr = $(this)[0].value;
-    console.log("["+newfilterstr+"]");
-    console.log(JSON.parse("["+newfilterstr+"]"));
     var mainbox = getfilteritem($(this));
-    console.log(mainbox);
-    set_filter_from_json(JSON.parse("["+newfilterstr+"]")[0], mainbox);
-    //set_filter_from_json
+    set_filter_from_json(JSON.parse(newfilterstr), mainbox);
 }
 function parentfilterbox_changed(event){
     //console.log("TFT")
@@ -226,7 +216,6 @@ function parentfilterbox_changed(event){
     var floatbox = mainbox.find('#floatfiltercontainer');
     var datebox = mainbox.find('#datefiltercontainer');
     var strbox = mainbox.find('#strfiltercontainer');
-    console.log(newval);
     if( $.inArray( newval, [ "id", "", null ] ) != -1){
         floatbox.show();
         datebox.hide();
@@ -282,13 +271,9 @@ function get_rules(mainbox){
     filters = []
     //console.log(mainbox);
     var rulesdiv = mainbox.find('#postfilterrules');
-    console.log("--*****************-")
     //console.log(rulesdiv);
     //console.log(rulesdiv.children());
-    console.log("--*****************-")
     rulesdiv.children().each(function() {
-      console.log($( this ));
-      console.log(get_filter($( this )))
       filters.push(get_filter($( this )))
     })
     rules = {}
@@ -298,6 +283,7 @@ function get_rules(mainbox){
         rules[fin]=fi[fin];
         }
     }
+    console.log("rules:",JSON.stringify(rules))
     return rules;
 
 }
@@ -525,9 +511,6 @@ function set_filter(mainbox, query, value){
         }
     }
     else if( $.inArray( first, [ "parent" ] ) != -1){
-        console.log("second: ",second);
-        console.log("second: ",second=="");
-        console.log("second: ",second==null);
         mainbox.find('#parentfilterbox')[0].value = second;
         mainbox.find('#parentfilterbox').trigger('change');
         //mainbox.find('#datefilterval')[0].value;
@@ -580,9 +563,7 @@ function new_rule(event){
 }
 
 function new_rule_on(filter){
-    console.log("new rule");
     var rules = filter.find('#postfilterrules');
-    console.log($('#postfilterpair'));
     var newrule = $('#postfilterpair').clone(true);
     rules.append(newrule);
     newrule.find('#postfilterbox').trigger('change');
@@ -632,6 +613,12 @@ function new_filter_from_json(jin, foe){
     }
     //split key by __s?
     //same structure as getfilter, but setting values
+
+    var rootbox = $(foe);
+    var psf = rootbox.find('#presetfilters');
+    console.log("SETTING FILTER",JSON.stringify(jin))
+    psf[0].value=JSON.stringify(jin);
+
 }
 function set_filter_from_json(jin, filterbox){
     var query = "";
