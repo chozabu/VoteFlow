@@ -17,3 +17,16 @@ function castvote(item){
 		location.reload();
 	});
 }
+
+
+
+function link_as_post_reload(event){
+    $.post( $(this)[0].getAttribute("plink"), {
+        }, function( data ) {
+      location.reload();
+    });
+}
+
+jQuery(document).ready(function () {
+	$('.link_as_post_reload').click(link_as_post_reload);
+});

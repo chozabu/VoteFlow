@@ -890,6 +890,7 @@ def confirm_rep(request, parent_topic_id,rep_id):
 def subscribe_topic(request, parent_topic_id):
 	if not request.user.is_authenticated():
 		return HttpResponseRedirect("/agora/login")
+	if request.method != "POST": return HttpResponse("this method should be POST")
 	sub = Subscription.objects.filter(topic=parent_topic_id, author=request.user).first()
 	if sub:
 		Subscription.objects.filter(topic=parent_topic_id, author=request.user).delete()

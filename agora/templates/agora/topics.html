@@ -14,9 +14,9 @@
 
     {% if user.is_authenticated %}
         {% if sub %}
-            <p>Subscribed! (<a href="/agora/topics/{{ current_topic.id }}/subs/">unsub</a>) </p>
+            <p>Subscribed! (<a class="link_as_post_reload" href="#" plink="/agora/topics/{{ current_topic.id }}/subs/">unsub</a>) </p>
         {% else %}
-            <p><a id="subscribeblink" href="/agora/topics/{{ current_topic.id }}/subs/"><button class="btn btn-info">Subscribe</button></a> </p>
+            <p><a id="subscribeblink" class="link_as_post_reload" href="#" plink="/agora/topics/{{ current_topic.id }}/subs/"><button class="btn btn-info">Subscribe</button></a> </p>
         {% endif %}
 
         {% if rep %}
