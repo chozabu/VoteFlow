@@ -602,6 +602,8 @@ def new_topic(request, parent_topic_id=None):
 			data = form.cleaned_data
 			newtopic = Topic(name=data['topic_name'],parent=data['topic_parent_id'],author=request.user)
 			newtopic.save()
+			subs = Subscription(topic=newtopic, author=request.user)
+			subs.save()
 			# process the data in form.cleaned_data as required
 			# ...
 			# redirect to a new URL:
