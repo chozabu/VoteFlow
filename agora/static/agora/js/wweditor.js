@@ -35,8 +35,13 @@ var markdownize = function (content) {
     }).join("\n");
     //next line for chrome...
     html = html.replace(/\<div\>/g, "<br>").replace(/\<\/div\>/g, "");
-    //console.log(html)
     return toMarkdown(html);
+    /*md= toMarkdown(html);
+    md = md.replace(/\&lt\;/g, "<");
+    md = md.replace(/\&gt\;/g, ">");
+    md = md.replace(/\&nbsp\;/g, "\ \ \n");
+    md = md.replace(/\n/g, "\ \ \n");
+    return md;*/
 };
 
 
