@@ -118,7 +118,11 @@
         <h4>Tags:</h4>
         <div id="tagcontainer">
             {% for tag in post.tag_set.all %}
-                <span class="tagspan"><a href="/agora/tags/{{ tag.id }}/">{{ tag.name }}</a></span>
+            <div class="ilb tagspan">
+                <span class="tagspan">
+            {% include "agora/inc_stars.html" with percent=tag.liquid_value_percent %}<br>
+                    <a href="/agora/tags/{{ tag.id }}/">{{ tag.name }}</a></span>
+                </div>
             {% endfor %}
         </div>
         <a href="/agora/posts/{{ post.id }}/newtag/">
