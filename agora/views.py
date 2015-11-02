@@ -822,7 +822,7 @@ def new_tag(request, post_id, topic_id=None):
 		if form.is_valid():
 			data = form.cleaned_data
 			post = get_object_or_404(Post, pk=data['post_parent_id'].id)
-			print data['tag_name'], post.pk, request.user, post.topic.pk
+			print data['tag_name'], post.pk, request.user
 			existing_tag = Tag.objects.filter(name=data['tag_name'],parent=post)
 			if existing_tag:
 				print "tag already found, should auto-vote on it?"#TODO
