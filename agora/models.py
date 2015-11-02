@@ -299,6 +299,7 @@ class Voteable(models.Model):
 		print "heat: ", heat
 		self.save()
 	def get_liquid_voters_links(self):
+		if self.topic == None: return []
 		votes = PostVote.objects.filter(parent=self.id).all()
 		result=[]
 		voted={}

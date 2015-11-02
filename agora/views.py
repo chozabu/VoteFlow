@@ -164,7 +164,6 @@ def search(request):
 def post_sankey(request, post_id):
 	#needs nodes - ordered list of users
 	#needs links - 2xuser index and vote value
-	post=Post.objects.get(pk=post_id)
 	#foos = Foo.objects.all()
 	#data = serializers.serialize('json', foos)
 	#raw_topic_list = Topic.objects.all()#filter(parent=topic_id)
@@ -184,6 +183,8 @@ def post_sankey(request, post_id):
 
 	liquidvoted = {}
 
+	post=Post.objects.get(pk=post_id)
+	print "POST:", post
 	raw_link_list = post.get_liquid_voters_links()
 	for r in raw_link_list:
 		print r
@@ -212,20 +213,29 @@ def post_sankey(request, post_id):
 			})
 			uindex+=1
 		liquidvoted[v.author] = True
-	for v in raw_direct_votes:
-		rep_list.append({
-			"source": ulookup[v.author.pk],
-			"target": ulookup[vals[int((v.value*.5+.5)*2.9999)]],
-			"value": post.topic.getRepVotes(v.author,dict(liquidvoted))+1
-		})
-	for r in raw_link_list:
-		if r.author not in liquidvoted:#ulookup[r.author.pk] != ulookup[r.rep.pk]:
+
+	if post.topic:
+		for v in raw_direct_votes:
 			rep_list.append({
-				"source": ulookup[r.author.pk],
-				"target": ulookup[r.rep.pk],
-				"value": post.topic.getRepVotes(r.author,dict(liquidvoted))+1
+				"source": ulookup[v.author.pk],
+				"target": ulookup[vals[int((v.value*.5+.5)*2.9999)]],
+				"value": post.topic.getRepVotes(v.author,dict(liquidvoted))+1
 			})
-			#print(rep_list[-1]["value"])
+		for r in raw_link_list:
+			if r.author not in liquidvoted:#ulookup[r.author.pk] != ulookup[r.rep.pk]:
+				rep_list.append({
+					"source": ulookup[r.author.pk],
+					"target": ulookup[r.rep.pk],
+					"value": post.topic.getRepVotes(r.author,dict(liquidvoted))+1
+				})
+				#print(rep_list[-1]["value"])
+	else:
+		for v in raw_direct_votes:
+			rep_list.append({
+				"source": ulookup[v.author.pk],
+				"target": ulookup[vals[int((v.value*.5+.5)*2.9999)]],
+				"value": 1
+			})
 
 
 
