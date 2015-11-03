@@ -65,7 +65,7 @@
     <h4>Posts</h4>
     <ul class="miniul">
         {% for child_post in selected_user.post_set.all %}
-            <li>{% include "agora/inc_post_mini.html" with  post=child_post %}</li>
+            <li>{% include "agora/inc_post_mini.html" with  post=child_post showpath=1 %}</li>
         {% endfor %}
     </ul>
     <br>

@@ -1,4 +1,9 @@
 {% load cmarkdown %}
+{% if showpath %}
+
+            {% include "agora/posts/autopath.html" %}
+<br><br>
+{% endif %}
 {% if post.name %}
 <a class="postminititle" href="/agora/posts/{{ post.id }}/">
     {{ post.name }}
@@ -6,6 +11,7 @@
 <br>
 {% endif %}
 <div class="postminicontent">
+
     {% include "agora/inc_user_micro.html" with user=post.author %}
     @ {{ post.created_at }}, with:
     <a href="/agora/posts/{{ post.id }}/">
