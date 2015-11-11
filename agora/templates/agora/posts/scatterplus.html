@@ -1,0 +1,92 @@
+{% extends 'agora/base_template.html' %}
+
+{% block title %}
+    Wall of Ideas
+{% endblock %}
+
+
+{% block head_block %}
+
+<!-- load D3js -->
+<script src="http://www.d3plus.org/js/d3.js"></script>
+
+<!-- load D3plus after D3js -->
+<script src="http://www.d3plus.org/js/d3plus.js"></script>
+
+{% endblock %}
+
+{% block body_block %}
+
+{% include 'agora/posts/inc_filter.html' with filterdivid="woithing" %}
+
+<!-- create container element for visualization -->
+<div style="height:500px;" id="viz"></div>
+
+<button onclick="testit()">pressme</button>
+
+<script>
+function sanitizeString(str){
+    str = str.replace(/[^a-z0-9áéíóúñü \.,_-]/gim,"");
+    return str.trim();
+}
+
+  // sample data array
+  var sample_data = [
+    {"x": 100, "y": .45, "name": "click 'pressme'"}
+  ]
+  // instantiate d3plus
+  var visualization = d3plus.viz()
+    .container("#viz")  // container DIV to hold the visualization
+    .data(sample_data)  // data to use with the visualization
+    .type("scatter")    // visualization type
+    .id("name")         // key for which our data is unique on
+    .x("x")         // key for x-axis
+    .y("y")        // key for y-axis
+    .draw()             // finally, draw the visualization!
+  //setTimeout(tweak_data, 5000);
+    function testit(){
+
+
+
+          var filter = [];
+          var exclude = [];
+            customfilters = get_filters("#woithing", "#currentfiltersbox");
+            console.log("customfilters: ", customfilters);
+            for (f in customfilters){
+                filter.push(customfilters[f]);
+            }
+
+            customexcludes = get_filters("#woithing", "#currentexcludesbox");
+            for (e in customexcludes){
+                exclude.push(customexcludes[e]);
+            }
+
+            var datain = {"length":50};
+            datain['filter'] = JSON.stringify(filter);
+            datain['exclude'] = JSON.stringify(exclude);
+
+    		$.ajax({
+			url: "/agora/woi_query/"
+			, data: datain,
+			//, context: pbox,
+			error: function (result) {
+				console.log(result)
+				$('body')[0].textContent = result.responseText;
+			},
+			success: function (result) {
+			    data = result.data
+				console.log(data)
+				for (r in data){
+				data[r].name = sanitizeString(data[r].name);//.substr(0,10)
+				}
+				console.log(data)
+		visualization
+			.data(data)  // data to use with the visualization
+			.draw()             // finally, draw the visualization!*/
+			}
+		});
+		}
+		
+</script>
+{% endblock %}
+

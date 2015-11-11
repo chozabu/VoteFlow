@@ -4,7 +4,9 @@ from django.conf.urls import url
 from . import views
 
 urlpatterns = [
-    url(r'^filtertest/$', views.filtertest, name='newpost'),
+    url(r'^woi_query/$', views.woi_query, name='woi_query'),
+    url(r'^woi/$', views.woi, name='woi'),
+    url(r'^filtertest/$', views.filtertest, name='filtertest'),
     # ex: /agora/
     url(r'^$', views.index, name='index'),
     # ex: /agora/basic_api/

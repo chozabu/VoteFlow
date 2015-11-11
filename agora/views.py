@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404, render, render_to_response
-from django.http import HttpResponse, HttpResponseRedirect, Http404
+from django.http import HttpResponse, HttpResponseRedirect, Http404, JsonResponse
 from django.template import RequestContext, loader
 from django.core.urlresolvers import reverse
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
@@ -50,6 +50,108 @@ def root(request):
 
 def filtertest(request):
 	return render(request, 'agora/posts/filtering.html')
+
+def woi(request):
+	context = {}
+	context['postfilter']='{"parent":null }'
+	return render(request, 'agora/posts/scatterplus.html', context=context)
+
+
+#WOI API
+#/agora/woi_api/?table=Post&template=api_post_list&rtype=html&sortby=-liquid_sum&startat=39
+def woi_query(request):
+	#r_get = request.POST
+	r_get = request.GET
+	print "==woiquery=="
+	print r_get
+
+	objs =Post.objects.filter()
+
+	filters=r_get.get("filter", '[]')
+	if not filters:filters="[]"
+	filters=json.loads(filters)
+	print filters
+	for vfilter in filters:
+		if not vfilter:continue
+		print "@filter"
+		print vfilter
+		objs = objs.filter(**vfilter)
+
+	excludes=r_get.get("exclude", '[]')
+	if not excludes:excludes="[]"
+	excludes=json.loads(excludes)
+	print excludes
+	for vexclude in excludes:
+		if not vexclude:continue
+		print "@exclude"
+		print vexclude
+		objs = objs.exclude(**vexclude)
+
+	sortby=r_get.get("sortby")
+	if sortby:
+		print "@sortby"
+		presort = objs
+		objs = objs.order_by(sortby)
+		try:
+			print objs
+		except:
+			objs=presort
+
+
+	print "@len"
+	startat=int(r_get.get("startat", 0))
+	length=int(r_get.get("length", 10))
+	print startat, length
+
+
+
+	xval=r_get.get("xval", "liquid_value")
+	xlist = xval.split("__")
+	if xlist[0]=="tag":
+		objs.filter(tag__name = xlist[1] )
+	
+	#yval=r_get.get("xval", "tag__precise__rating")
+	yval=r_get.get("yval", "liquid_sum")
+	ylist = yval.split("__")
+	if ylist[0]=="tag":
+		objs.filter(tag__name=ylist[1])
+
+
+	o_count = objs.count()
+	print 1
+	print o_count
+	objs = objs[startat:startat+length]
+	print 4
+	print objs
+	print 5
+	r_count = objs.count()
+	print 3
+
+	retr = []
+	print "returning json"
+	for i in objs:
+		ret_obj = {"name":i.name}
+		if xlist[0]=="tag":
+			tag=i.tags.filter(name=xlist[1])[0]
+			ret_obj["x"] = getattr(tag, xlist[2])
+		else:
+			if hasattr(i, xlist[0]):
+				ret_obj["x"] = getattr(i, xlist[0])
+			else:
+				print "no ", xlist[0]
+				continue
+		if ylist[0]=="tag":
+			tag=i.tags.filter(name=ylist[1])[0]
+			ret_obj["y"] = getattr(tag, ylist[2])
+		else:
+			if hasattr(i, ylist[0]):
+				ret_obj["y"] = getattr(i, ylist[0])
+			else:
+				print "no ", ylist[0]
+				continue
+		retr.append(ret_obj)
+	print retr
+	return JsonResponse({"data":retr})
 
 #basic API
 #/agora/basic_api/?table=Post&template=api_post_list&rtype=html&sortby=-liquid_sum&startat=39
