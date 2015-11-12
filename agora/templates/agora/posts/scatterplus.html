@@ -93,9 +93,9 @@ function sanitizeString(str){
 			success: function (result) {
 			    data = result.data
 				console.log(data)
-				for (r in data){
+				/*for (r in data){
 				data[r].name = sanitizeString(data[r].name);//.substr(0,10)
-				}
+				}*/
 				console.log(data)
 		visualization
 			.data(data)  // data to use with the visualization
