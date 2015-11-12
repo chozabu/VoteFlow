@@ -61,9 +61,12 @@ function sanitizeString(str){
     //.zoom({click:true})
     .draw()             // finally, draw the visualization!
   setTimeout(testit, 2000);
+    function setLabels(){
+		$('#d3plus_graph_ylabel')[0].textContent="Score (sum of votes)";
+		$('#d3plus_graph_xlabel')[0].textContent="Rating (average of votes)";
+
+    }
     function testit(){
-
-
 
           var filter = [];
           var exclude = [];
@@ -100,6 +103,9 @@ function sanitizeString(str){
 		visualization
 			.data(data)  // data to use with the visualization
 			.draw()             // finally, draw the visualization!*/
+		$('#d3plus_graph_ylabel')[0].textContent="Score (sum of votes)";
+		$('#d3plus_graph_xlabel')[0].textContent="Rating (average of votes)";
+  setTimeout(setLabels, 1000);
 			}
 		});
 		}
