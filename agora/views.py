@@ -105,16 +105,17 @@ def woi_query(request):
 
 
 
+	#xval=r_get.get("xval", "tag__completed__liquid_sum")
 	xval=r_get.get("xval", "liquid_value")
 	xlist = xval.split("__")
 	if xlist[0]=="tag":
-		objs.filter(tag__name = xlist[1] )
+		objs = objs.filter(tag__name = xlist[1] )
 	
 	#yval=r_get.get("xval", "tag__precise__rating")
 	yval=r_get.get("yval", "liquid_sum")
 	ylist = yval.split("__")
 	if ylist[0]=="tag":
-		objs.filter(tag__name=ylist[1])
+		objs = objs.filter(tag__name=ylist[1])
 
 
 	o_count = objs.count()
@@ -132,7 +133,7 @@ def woi_query(request):
 	for i in objs:
 		ret_obj = {"name":i.name, "id":i.id}
 		if xlist[0]=="tag":
-			tag=i.tags.filter(name=xlist[1])[0]
+			tag=i.tag_set.filter(name=xlist[1])[0]
 			ret_obj["x"] = getattr(tag, xlist[2])
 		else:
 			if hasattr(i, xlist[0]):
@@ -141,7 +142,7 @@ def woi_query(request):
 				print "no ", xlist[0]
 				continue
 		if ylist[0]=="tag":
-			tag=i.tags.filter(name=ylist[1])[0]
+			tag=i.tag_set.filter(name=ylist[1])[0]
 			ret_obj["y"] = getattr(tag, ylist[2])
 		else:
 			if hasattr(i, ylist[0]):
