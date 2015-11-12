@@ -19,10 +19,10 @@
 
 {% include 'agora/posts/inc_filter.html' with filterdivid="woithing" %}
 
+<button onclick="testit()">Update</button>
 <!-- create container element for visualization -->
 <div style="height:500px;" id="viz"></div>
 
-<button onclick="testit()">pressme</button>
 
 <script>
 function sanitizeString(str){
@@ -32,7 +32,7 @@ function sanitizeString(str){
 
   // sample data array
   var sample_data = [
-    {"x": 100, "y": .45, "name": "click 'pressme'", "id":1}
+    {"x": 100, "y": .45, "name": "Loading...", "id":100}
   ]
     function testhcb(a, b){
         return "ASDASD";
@@ -60,7 +60,7 @@ function sanitizeString(str){
     //.tooltip(test_html)
     //.zoom({click:true})
     .draw()             // finally, draw the visualization!
-  //setTimeout(tweak_data, 5000);
+  setTimeout(testit, 2000);
     function testit(){
 
 
@@ -103,6 +103,7 @@ function sanitizeString(str){
 			}
 		});
 		}
+  setTimeout(testit, 1000);
 		
 </script>
 {% endblock %}
