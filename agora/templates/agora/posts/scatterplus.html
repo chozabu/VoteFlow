@@ -32,16 +32,33 @@ function sanitizeString(str){
 
   // sample data array
   var sample_data = [
-    {"x": 100, "y": .45, "name": "click 'pressme'"}
+    {"x": 100, "y": .45, "name": "click 'pressme'", "id":1}
   ]
+    function testhcb(a, b){
+        return "ASDASD";
+    }
+
+    var test_html = function (item) {
+    //alert(item);
+    window.location.href = "/agora/posts/"+item;
+    return "Tooltip";
+}
+
+  var htmlButton = "<a id='google' href='http://www.google.com' target='_blank'>Click here to go to Google</a>"
   // instantiate d3plus
   var visualization = d3plus.viz()
     .container("#viz")  // container DIV to hold the visualization
     .data(sample_data)  // data to use with the visualization
     .type("scatter")    // visualization type
-    .id("name")         // key for which our data is unique on
+    .id("id")         // key for which our data is unique on
+    //.tooltip({"html": testhcb()})
+    //.labels({"text":"name"})
+    .text("name")
     .x("x")         // key for x-axis
     .y("y")        // key for y-axis
+    .tooltip({"html": test_html})
+    //.tooltip(test_html)
+    //.zoom({click:true})
     .draw()             // finally, draw the visualization!
   //setTimeout(tweak_data, 5000);
     function testit(){

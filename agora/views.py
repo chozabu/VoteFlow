@@ -130,7 +130,7 @@ def woi_query(request):
 	retr = []
 	print "returning json"
 	for i in objs:
-		ret_obj = {"name":i.name}
+		ret_obj = {"name":i.name, "id":i.id}
 		if xlist[0]=="tag":
 			tag=i.tags.filter(name=xlist[1])[0]
 			ret_obj["x"] = getattr(tag, xlist[2])
