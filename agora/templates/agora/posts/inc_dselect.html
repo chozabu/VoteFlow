@@ -1,0 +1,52 @@
+<div id="{{ dselectdivid }}">
+<div id="dselectproto" class="dselectitem ilb">
+    <div id="postdselectrules" >
+    <div id="postdselectpair" class="ruleitem" >
+    <select name="postdselectbox" id="postdselectbox">
+        <!--<option value="name">Name</option>
+        <option value="text">Text</option>
+        <option value="author">author</option>-->
+        <option value="liquid_value">Rating (vote average)</option>
+        <option value="liquid_sum">Sum (vote count)</option>
+        <option value="created_at">Date (posted at)</option>
+        <option value="direct_value">Direct Rating</option>
+        <option value="direct_sum">Direct Sum</option>
+        <option value="tag">Tags ...</option>
+    </select>
+
+    <span id="tagselectcontainer">
+        <input type="text" id="tagnamebox" />
+    <select name="tagdselectbox" id="tagdselectbox">
+        <!--<option value="name">Name</option>-->
+        <option value="liquid_value">Rating (vote average)</option>
+        <option value="liquid_sum">Sum (vote count)</option>
+        <option value="created_at">Date (posted at)</option>
+        <option value="direct_value">Direct Rating</option>
+        <option value="direct_sum">Direct Sum</option>
+    </select>
+        </span>
+
+<!--
+    <span id="strdselectcontainer">
+    <select name="strdselectbox" id="strdselectbox">
+        <option value="icontains">contains</option>
+        <option value="">is</option>
+    </select>
+        <input type="text" id="strdselectval" />
+    </span>-->
+
+
+    </div>
+    </div>
+    <!--<button id="checkall" >check</button>
+    <span id="outbox" ></span>-->
+</div>
+    
+{% load staticfiles %}
+    <script src="{% static 'agora/js/dselect.js' %}"></script>
+    <script>
+    $({{ dselectdivid }}).find('#postdselectbox').change(postdselectbox_changed);
+    $({{ dselectdivid }}).find('#checkall').click(print_dselect);
+
+     </script>
+</div>

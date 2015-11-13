@@ -17,6 +17,9 @@
 
 {% block body_block %}
 
+X-Axis: {% include 'agora/posts/inc_dselect.html' with dselectdivid="xaxis" %}<br>
+Y-Axis: {% include 'agora/posts/inc_dselect.html' with dselectdivid="yaxis" %}<br>
+
 {% include 'agora/posts/inc_filter.html' with filterdivid="woithing" %}
 
 <button onclick="testit()">Update</button>
@@ -25,6 +28,11 @@
 
 
 <script>
+$( document ).ready(function() {
+    $('#yaxis').find('#postdselectbox')[0].value = "liquid_sum";
+    $('#xaxis').find('#postdselectbox').trigger('change');
+    $('#yaxis').find('#postdselectbox').trigger('change');
+});
 function sanitizeString(str){
     str = str.replace(/[^a-z0-9áéíóúñü \.,_-]/gim,"");
     return str.trim();
@@ -67,7 +75,6 @@ function sanitizeString(str){
 
     }
     function testit(){
-
           var filter = [];
           var exclude = [];
             customfilters = get_filters("#woithing", "#currentfiltersbox");
@@ -80,10 +87,16 @@ function sanitizeString(str){
             for (e in customexcludes){
                 exclude.push(customexcludes[e]);
             }
+            
+            
+            var customdselects = get_dselects("#xaxis");
+            console.log("customdselects: ", customdselects);
 
             var datain = {"length":50};
             datain['filter'] = JSON.stringify(filter);
             datain['exclude'] = JSON.stringify(exclude);
+            datain['xval'] = get_dselects("#xaxis");
+            datain['yval'] = get_dselects("#yaxis");
 
     		$.ajax({
 			url: "/agora/woi_query/"
@@ -103,10 +116,11 @@ function sanitizeString(str){
 		visualization
 			.data(data)  // data to use with the visualization
 			.draw()             // finally, draw the visualization!*/
-		$('#d3plus_graph_ylabel')[0].textContent="Score (sum of votes)";
+		/*$('#d3plus_graph_ylabel')[0].textContent="Score (sum of votes)";
 		$('#d3plus_graph_xlabel')[0].textContent="Rating (average of votes)";
-  setTimeout(setLabels, 1000);
-			}
+        setTimeout(setLabels, 1000);
+		*/
+				}
 		});
 		}
   setTimeout(testit, 1000);
