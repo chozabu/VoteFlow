@@ -109,9 +109,14 @@ function sanitizeString(str){
 			success: function (result) {
 			    data = result.data
 				console.log(data)
-				/*for (r in data){
-				data[r].name = sanitizeString(data[r].name);//.substr(0,10)
-				}*/
+				if (typeof data[0].x == 'string'){
+				for (r in data){
+				data[r].x = new Date(data[r].x)
+				}}
+				if (typeof data[0].y == 'string'){
+				for (r in data){
+				data[r].y = new Date(data[r].y)
+				}}
 				console.log(data)
 		visualization
 			.data(data)  // data to use with the visualization
