@@ -62,7 +62,7 @@ function read_from_url(){
 }
 read_from_url();
 $( document ).ready(function() {
-    if(xain == null){
+    if(getHashValue("xaxis") == null){
     $('#yaxis').find('#postdselectbox')[0].value = "liquid_sum";
     $('#xaxis').find('#postdselectbox').trigger('change');
     $('#yaxis').find('#postdselectbox').trigger('change');
