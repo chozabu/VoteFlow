@@ -17,6 +17,24 @@
 
 {% block body_block %}
 
+<h1>Wall Of Ideas</h1>
+
+<p>This is a sytem to let you graph posts in voteflow - much like on the physical "wall of ideas"<br>
+Though, rather than being limited to 2 fixed axies, you can customise! <br>
+    Have a look at a graph of <a href="/agora/woi/#xaxis=liquid_sum&yaxis=tag__challenging__liquid_sum"
+            onclick="read_from_url();testit();">
+        Posts popularity and how challenging they are
+    </a> <br>
+    Or <a href="/agora/woi/#xaxis=direct_value&yaxis=liquid_value"
+            onclick="read_from_url();testit();">
+        The difference representation makes
+    </a> <br>
+    Perhaps <a href="/agora/woi/#xaxis=created_at&yaxis=liquid_sum"
+            onclick="read_from_url();testit();">
+        Time Posted, and rating
+    </a>
+</p>
+
 X-Axis: {% include 'agora/posts/inc_dselect.html' with dselectdivid="xaxis" %}<br>
 Y-Axis: {% include 'agora/posts/inc_dselect.html' with dselectdivid="yaxis" %}<br>
 
@@ -34,12 +52,15 @@ function getHashValue(key) {
   var matches = location.hash.match(new RegExp(key+'=([^&]*)'));
   return matches ? matches[1] : null;
 }
+function read_from_url(){
             var xain = getHashValue("xaxis");
             var yain = getHashValue("yaxis");
             if(xain)set_dselects("#xaxis", xain);
             if(yain)set_dselects("#yaxis", yain);
             console.log(xain, yain);
             console.log("\n\n\n");
+}
+read_from_url();
 $( document ).ready(function() {
     if(xain == null){
     $('#yaxis').find('#postdselectbox')[0].value = "liquid_sum";
