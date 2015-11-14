@@ -28,10 +28,22 @@ Y-Axis: {% include 'agora/posts/inc_dselect.html' with dselectdivid="yaxis" %}<b
 
 
 <script>
+function getHashValue(key) {
+  var matches = location.hash.match(new RegExp(key+'=([^&]*)'));
+  return matches ? matches[1] : null;
+}
+            var xain = getHashValue("xaxis");
+            var yain = getHashValue("yaxis");
+            if(xain)set_dselects("#xaxis", xain);
+            if(yain)set_dselects("#yaxis", yain);
+            console.log(xain, yain);
+            console.log("\n\n\n");
 $( document ).ready(function() {
+    if(xain == null){
     $('#yaxis').find('#postdselectbox')[0].value = "liquid_sum";
     $('#xaxis').find('#postdselectbox').trigger('change');
     $('#yaxis').find('#postdselectbox').trigger('change');
+    }
 });
 function sanitizeString(str){
     str = str.replace(/[^a-z0-9áéíóúñü \.,_-]/gim,"");
@@ -87,16 +99,15 @@ function sanitizeString(str){
             for (e in customexcludes){
                 exclude.push(customexcludes[e]);
             }
-            
-            
-            var customdselects = get_dselects("#xaxis");
-            console.log("customdselects: ", customdselects);
+
+
 
             var datain = {"length":50};
             datain['filter'] = JSON.stringify(filter);
             datain['exclude'] = JSON.stringify(exclude);
             datain['xval'] = get_dselects("#xaxis");
             datain['yval'] = get_dselects("#yaxis");
+            console.log("data sending: ", JSON.stringify(datain));
 
     		$.ajax({
 			url: "/agora/woi_query/"
@@ -129,7 +140,7 @@ function sanitizeString(str){
 		});
 		}
   setTimeout(testit, 1000);
-		
+
 </script>
 {% endblock %}
 

@@ -84,9 +84,15 @@ function set_dselect(mainbox, query){
 
     mainbox.find('#postdselectbox')[0].value = first;
     mainbox.find('#postdselectbox').trigger('change');
+        console.log("first!!!!!:")
+        console.log(first)
     if( $.inArray( first, [ "tag" ] ) != -1){
-        mainbox.find('#tagdselectbox')[0].value = second;
-        mainbox.find('#tagdselectbox').trigger('change');
+        console.log("tagnamebox:")
+        console.log(mainbox.find('#tagnamebox')[0])
+        mainbox.find('#tagnamebox')[0].value = second;
+        mainbox.find('#tagdselectbox')[0].value = third;
+        //mainbox.find('#tagdselectbox')[0].value = second;
+        //mainbox.find('#tagdselectbox').trigger('change');
     }
 }
 
