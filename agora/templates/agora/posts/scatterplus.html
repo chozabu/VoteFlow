@@ -82,8 +82,10 @@ function sanitizeString(str){
     .draw()             // finally, draw the visualization!
   setTimeout(testit, 2000);
     function setLabels(){
-		$('#d3plus_graph_ylabel')[0].textContent="Score (sum of votes)";
-		$('#d3plus_graph_xlabel')[0].textContent="Rating (average of votes)";
+		$('#d3plus_graph_ylabel')[0].textContent=
+		 "Y: " + dselect_rdict[$('#yaxis').find('#postdselectbox')[0].value];
+		$('#d3plus_graph_xlabel')[0].textContent=
+		"X: " + dselect_rdict[$('#xaxis').find('#postdselectbox')[0].value];
 
     }
     function testit(){
@@ -132,10 +134,9 @@ function sanitizeString(str){
 		visualization
 			.data(data)  // data to use with the visualization
 			.draw()             // finally, draw the visualization!*/
-		/*$('#d3plus_graph_ylabel')[0].textContent="Score (sum of votes)";
-		$('#d3plus_graph_xlabel')[0].textContent="Rating (average of votes)";
+		setLabels();
         setTimeout(setLabels, 1000);
-		*/
+
 				}
 		});
 		}

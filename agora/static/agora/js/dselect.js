@@ -1,3 +1,11 @@
+var dselect_rdict = {
+        "liquid_value":"Rating (Vote Average)",
+        "liquid_sum":"Sum (Vote Count)",
+        "created_at":"Date",
+        "direct_value":"Direct Rating",
+        "direct_sum":"Direct Sum",
+        "tag":"Tag ..."
+}
 function getdselectitem(achild){
     var mainbox = $(this).parentsUntil(".ruleitem");
     if (mainbox.length == 0){
