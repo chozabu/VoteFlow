@@ -26,6 +26,8 @@ Y-Axis: {% include 'agora/posts/inc_dselect.html' with dselectdivid="yaxis" %}<b
 <!-- create container element for visualization -->
 <div style="height:500px;" id="viz"></div>
 
+<div id="woisharediv">Shareable Link: <a id="woisharelink"></a> <br>
+Filters not yet included in Link</div>
 
 <script>
 function getHashValue(key) {
@@ -110,6 +112,9 @@ function sanitizeString(str){
             datain['xval'] = get_dselects("#xaxis");
             datain['yval'] = get_dselects("#yaxis");
             console.log("data sending: ", JSON.stringify(datain));
+            $('#woisharelink')[0].href = "/agora/woi/#xaxis=" +datain['xval'] +
+                "&yaxis=" +datain['yval']
+            $('#woisharelink')[0].textContent = $('#woisharelink')[0].href;
 
     		$.ajax({
 			url: "/agora/woi_query/"
