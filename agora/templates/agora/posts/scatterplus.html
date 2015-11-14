@@ -48,6 +48,15 @@ Y-Axis: {% include 'agora/posts/inc_dselect.html' with dselectdivid="yaxis" %}<b
 Filters not yet included in Link</div>
 
 <script>
+var keys = {};
+    window.onkeydown = keydown;
+    window.onkeyup = keyup;
+    function keydown(e){
+        keys[e.keyCode] = true;
+        }
+    function keyup(e){
+        keys[e.keyCode] = false;
+        }
 function getHashValue(key) {
   var matches = location.hash.match(new RegExp(key+'=([^&]*)'));
   return matches ? matches[1] : null;
@@ -83,7 +92,13 @@ function sanitizeString(str){
 
     var test_html = function (item) {
     //alert(item);
-    window.location.href = "/agora/posts/"+item;
+    console.log("17, ",keys[17]);
+    if (keys[17]){
+        window.open("/agora/posts/"+item, '_blank');;
+    }else{
+        window.location.href = "/agora/posts/"+item;
+        //window.open("/agora/posts/"+item);
+    }
     return "Tooltip";
 }
 
