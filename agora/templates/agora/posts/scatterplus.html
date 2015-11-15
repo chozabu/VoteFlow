@@ -91,16 +91,16 @@ function sanitizeString(str){
     }
 
     var test_html = function (item) {
-    //alert(item);
-    console.log("17, ",keys[17]);
-    if (keys[17]){
-        window.open("/agora/posts/"+item, '_blank');;
-    }else{
-        window.location.href = "/agora/posts/"+item;
-        //window.open("/agora/posts/"+item);
+        //alert(item);
+        console.log("17, ",keys[17]);
+        if (keys[17]){
+            window.open("/agora/posts/"+item, '_blank');;
+        }else{
+            window.location.href = "/agora/posts/"+item;
+            //window.open("/agora/posts/"+item);
+        }
+        return "Tooltip";
     }
-    return "Tooltip";
-}
 
   var htmlButton = "<a id='google' href='http://www.google.com' target='_blank'>Click here to go to Google</a>"
   // instantiate d3plus
