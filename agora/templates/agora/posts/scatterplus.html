@@ -45,7 +45,7 @@ Y-Axis: {% include 'agora/posts/inc_dselect.html' with dselectdivid="yaxis" %}<b
 <div style="height:500px;" id="viz"></div>
 
 <div id="woisharediv">Shareable Link: <a id="woisharelink"></a> <br>
-Filters not yet included in Link</div>
+This should take someone to the page you are looking at *now*</div>
 
 <script>
 var keys = {};
@@ -59,15 +59,17 @@ var keys = {};
         }
 function getHashValue(key) {
   var matches = location.hash.match(new RegExp(key+'=([^&]*)'));
-  return matches ? matches[1] : null;
+  return matches ? decodeURI(matches[1]) : null;
 }
 function read_from_url(){
             var xain = getHashValue("xaxis");
             var yain = getHashValue("yaxis");
             if(xain)set_dselects("#xaxis", xain);
             if(yain)set_dselects("#yaxis", yain);
-            console.log(xain, yain);
-            console.log("\n\n\n");
+            var filters = getHashValue("filters");
+            var excludes = getHashValue("excludes");
+            if(filters)set_filters_from_json(filters);
+            if(excludes)set_excludes_from_json(excludes);
 }
 read_from_url();
 $( document ).ready(function() {
@@ -149,7 +151,10 @@ function sanitizeString(str){
             datain['yval'] = get_dselects("#yaxis");
             console.log("data sending: ", JSON.stringify(datain));
             $('#woisharelink')[0].href = "/agora/woi/#xaxis=" +datain['xval'] +
-                "&yaxis=" +datain['yval']
+                "&yaxis=" +datain['yval'] +
+                "&filters=" +datain['filter'] +
+                "&excludes=" +datain['exclude']
+
             $('#woisharelink')[0].textContent = $('#woisharelink')[0].href;
 
     		$.ajax({

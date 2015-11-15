@@ -237,6 +237,10 @@ function setout(val){
     //console.log(val);
     $('#outbox')[0].textContent=val;
 }
+function clear_filters(fcontainername, fboxname){
+    var fbox = $(fcontainername).find(fboxname).children();
+    fbox.remove();
+}
 function get_filters(fcontainername, fboxname){
     var fbox = $(fcontainername).find(fboxname).children();
     var filters = [];
@@ -591,6 +595,22 @@ function new_filter_action(foe){
     $(foe).append(newfilter);
     $('#newrulebutton').click(new_rule);
     return newfilter;
+}
+function set_filters_from_json(jin){
+    $("#currentfiltersbox").children().remove();
+    var filters = JSON.parse(jin);
+    console.log("FILTERS!!!!!!!\n\n")
+    console.log(filters, "\n\n")
+    for (var j in filters){
+        new_filter_from_json(filters[j], "#currentfiltersbox")
+    }
+}
+function set_excludes_from_json(jin){
+    $("#currentexcludesbox").children().remove();
+    var filters = JSON.parse(jin);
+    for (var j in filters){
+        new_filter_from_json(filters[j], "#currentexcludesbox")
+    }
 }
 function new_exclude_from_json(jin){
     new_filter_from_json(jin, "#currentexcludesbox")
