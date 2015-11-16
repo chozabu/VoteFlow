@@ -1,4 +1,6 @@
 {
+  "MEDIA_ROOT":"/MeshDemoc/public/media/",
+  "MEDIA_URL":"/media/",
   "secret_key":"adjangosecretkeyadjangosecretkeyadjangosecretkeya",
   "SOCIAL_AUTH_FACEBOOK_KEY":"fbk",
   "SOCIAL_AUTH_FACEBOOK_SECRET":"fbs",
