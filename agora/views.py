@@ -49,6 +49,9 @@ def root(request):
 	return render(request, 'agora/root.html')
 
 def filtertest(request):
+	from django.core.mail import EmailMessage
+	email = EmailMessage('Hello', 'World', to=['chozabu@gmail.com'])
+	email.send()
 	return render(request, 'agora/posts/filtering.html')
 
 def woi(request):
