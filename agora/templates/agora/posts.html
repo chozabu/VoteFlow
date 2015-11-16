@@ -120,7 +120,10 @@
             {% for tag in post.tag_set.all %}
             <div class="ilb tagspan">
                 <span class="tagspan">
-            {% include "agora/inc_stars.html" with percent=tag.liquid_value_percent %}<br>
+
+            <span id="votelink" data-postid="{{ tag.id }}">
+            {% include "agora/inc_stars.html" with percent=tag.liquid_value_percent %}
+                    <a class="quickvotelink">Vote</a></span><br>
                     <a href="/agora/tags/{{ tag.id }}/">{{ tag.name }}</a></span>
                 </div>
             {% endfor %}
