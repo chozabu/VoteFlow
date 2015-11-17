@@ -52,7 +52,7 @@ def filtertest(request):
 	import html2text
 	from django.core.mail import send_mail
 	html_message = "testing <b> a message <br> with <i>HTML</i></b>"
-	send_mail('Subject', html2text.html2text(html_message), "voteflow@gmail.com", ['chozabu@gmail.com'], fail_silently=False)
+	send_mail('Subject', html2text.html2text(html_message), "voteflow@gmail.com", ['chozabu@gmail.com'], fail_silently=False, html_message=html_message)
 	return render(request, 'agora/posts/filtering.html')
 
 def woi(request):
