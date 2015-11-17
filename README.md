@@ -51,6 +51,7 @@ dependencies:
     pip install python-social-auth
     pip install oauthlib
     pip install pillow
+    pip install html2text
 
 install
 
