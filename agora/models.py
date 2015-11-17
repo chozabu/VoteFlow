@@ -15,6 +15,7 @@ from django.utils.html import escape
 class UserExtra(models.Model):
 	user = models.OneToOneField(User)
 	photo = models.ImageField(null=True, blank=True)
+	email_notifications = models.BooleanField(default=True)
 	def image_url(self):
 		"""
 		Returns the URL of the image associated with this Object.
